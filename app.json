@@ -4,19 +4,42 @@
     "slug": "khezana",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "khezana",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/transparent.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#00000000"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleLocalizations": [
+          "en",
+          "fr",
+          "ar"
+        ],
+        "ExpoLocalization_supportsRTL": true
+      }
     },
     "android": {
+      "package": "com.khaznz",
+      "useNextNotificationsApi": true,
+      "allowBackgroundFetch": true,
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#65382C"
       },
-      "edgeToEdgeEnabled": true
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -28,13 +51,52 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#00000000",
+          "image": "./assets/transparent.png",
+          "dark": {
+            "image": "./assets/transparent.png",
+            "backgroundColor": "#00000000"
+          }
         }
-      ]
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Somar_Black.ttf",
+            "./assets/fonts/Somar_Bold.ttf",
+            "./assets/fonts/Somar_Light.ttf",
+            "./assets/fonts/Somar_Medium.ttf",
+            "./assets/fonts/Somar_Thin.ttf",
+            "./assets/fonts/Somar_Regular.ttf"
+          ]
+        }
+      ],
+      "expo-localization"
     ],
+    "extra": {
+      "supportsRTL": true,
+      "plugins": [
+        "expo-localization",
+        "expo-localization"
+      ],
+      "eas": {
+        "projectId": "a12a100b-b246-4853-a054-3e895141c70c"
+      },
+      "router": {}
+    },
     "experiments": {
       "typedRoutes": true
     }
