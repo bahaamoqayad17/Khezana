@@ -4,7 +4,20 @@ module.exports = {
   content: ["./App.tsx", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        SomarBold: ["SomarBold"],
+        SomarRegular: ["SomarRegular"],
+        SomarMedium: ["SomarMedium"],
+        SomarLight: ["SomarLight"],
+        SomarThin: ["SomarThin"],
+        SomarBlack: ["SomarBlack"],
+      },
+      colors: {
+        primary: "#65382C",
+        secondary: "#CE9664",
+      },
+    },
   },
   plugins: [],
 };

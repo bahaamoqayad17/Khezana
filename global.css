@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* apply my font for all text */
+
+@layer base {
+  body {
+    @apply font-SomarBold;
+  }
+}
+
+.bg-primary {
+  background-color: #65382c !important;
+}
+
+.bg-secondary {
+  background-color: #ce9664 !important;
+}
+
+.arrow-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #ce9664;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10%;
+  right: 40%;
+  z-index: 1000;
+}
+.skip-button {
+  border: 1px solid #767676;
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  border-radius: 4px;
+  right: 30px;
+  top: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.line {
+  width: 40px;
+  height: 4px;
+  margin-left: 10px;
+  background-color: #65382c;
+  border-radius: 10px;
+}
+.line2 {
+  width: 20px;
+  height: 4px;
+  background-color: #e6e6e6;
+  border-radius: 10px;
+}

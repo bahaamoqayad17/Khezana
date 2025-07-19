@@ -1,4 +1,14 @@
 {
     "welcome": "Welcome to the eBook app!",
-    "open_book": "Open Book"
+    "open_book": "Open Book",
+    "skip": "Skip",
+    "choose_language": "Choose Language",
+    "arabic": "Arabic",
+    "english": "English",
+    "french": "French",
+    "welcome_1": "Enjoy a vast library of read and listen books in various fields",
+    "welcome_2": "Nothing can stop your passion for reading , Download books and read them offline",
+    "welcome_3": "Share your articles and writings in the app's forum, and get real interaction from readers",
+    "welcome_4": "Enjoy a vast library of read and listen books in various fields",
+    "login": "Login"
 }

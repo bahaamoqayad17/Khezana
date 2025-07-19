@@ -1,4 +1,14 @@
 {
     "welcome": "Bienvenue dans l'application eBook!",
-    "open_book": "Ouvrir le livre"
+    "open_book": "Ouvrir le livre",
+    "skip": "Passer",
+    "choose_language": "Choisir la langue",
+    "arabic": "Arabe",
+    "english": "Anglais",
+    "french": "Français",
+    "welcome_1": "Profitez d'une vaste bibliothèque de livres lus et écoutés dans divers domaines",
+    "welcome_2": "Rien ne peut arrêter votre passion pour la lecture, téléchargez les livres et lisez-les hors ligne",
+    "welcome_3": "Partagez vos articles et écrits dans le forum de l'application, et obtenez un véritable interaction des lecteurs",
+    "welcome_4": "Profitez d'une vaste bibliothèque de livres lus et écoutés dans divers domaines",
+    "login": "Connexion"
 }
