@@ -1,6 +1,8 @@
+import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import OAuth from "../OAuth";
 
 const OnBoarding5 = () => {
   const { t } = useTranslation();
@@ -17,11 +19,28 @@ const OnBoarding5 = () => {
         {t("welcome_4")}
       </Text>
 
-      <TouchableOpacity className="bg-secondary rounded-xl p-4 w-full mt-10">
+      <TouchableOpacity
+        onPress={() => router.replace("/login")}
+        className="bg-secondary rounded-xl p-4 w-full mt-10"
+      >
         <Text className="text-white font-SomarBlack text-center">
           {t("login")}
         </Text>
       </TouchableOpacity>
+
+      <OAuth />
+
+      <View className="flex-row justify-center items-center mt-10">
+        <Text className="font-SomarRegular text-center text-secondary">
+          {t("dont_have_account")}
+          {"   "}
+        </Text>
+        <TouchableOpacity onPress={() => router.replace("/register")}>
+          <Text className="text-primary font-SomarRegular text-center">
+            {t("register")}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -26,7 +26,7 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 10%;
+  bottom: 7%;
   right: 40%;
   z-index: 1000;
 }
@@ -42,6 +42,10 @@
   align-items: center;
 }
 
+.continue-externally {
+  width: 100px;
+}
+
 .line {
   width: 40px;
   height: 4px;
@@ -53,5 +57,62 @@
   width: 20px;
   height: 4px;
   background-color: #e6e6e6;
+  border-radius: 10px;
+}
+
+.or-line {
+  width: 45%;
+  height: 1px;
+  background-color: #ce9664;
+  border-radius: 10px;
+}
+
+/* Split Input Design Styles */
+.text-primary {
+  color: #65382c !important;
+}
+
+.text-secondary {
+  color: #ce9664 !important;
+}
+
+.border-primary {
+  border-color: #65382c !important;
+}
+
+.border-secondary {
+  border-color: #ce9664 !important;
+}
+
+/* Input field split design */
+.input-split-container {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.input-icon-area {
+  background-color: #f9fafb;
+  border-right: 1px solid #d1d5db;
+  width: 50px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-field-area {
+  flex: 1;
+  background-color: transparent;
+}
+
+.active-tab-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #ce9664;
   border-radius: 10px;
 }

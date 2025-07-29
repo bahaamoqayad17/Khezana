@@ -1,9 +1,11 @@
+import ReceivingNotifications from "@/components/ReceivingNotifications";
 import "@/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import ar from "@/locales/ar.json";
 import en from "@/locales/en.json";
 import fr from "@/locales/fr.json";
 import i18n from "@/locales/i18";
+import { store } from "@/store";
 import {
   DarkTheme,
   DefaultTheme,
@@ -17,6 +19,7 @@ import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
 import { I18nManager, Image, StyleSheet, View } from "react-native";
 import "react-native-reanimated";
+import { Provider } from "react-redux";
 
 // Prevent auto-hide and make the splash screen transparent
 SplashScreen.preventAutoHideAsync();
@@ -102,13 +105,16 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ReceivingNotifications />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </Provider>
   );
 }
 
