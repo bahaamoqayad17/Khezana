@@ -4,6 +4,7 @@ import BookSlice from "./BookSlice";
 import CategorySlice from "./CategorySlice";
 import NotificationSlice from "./NotificationSlice";
 import SubscriptionSlice from "./SubscriptionSlice";
+import UserSlice from "./UserSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     subscriptions: SubscriptionSlice,
     notifications: NotificationSlice,
     books: BookSlice,
+    user: UserSlice,
   },
 });
 

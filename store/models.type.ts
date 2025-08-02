@@ -86,11 +86,30 @@ export interface Slider {
   updated_at: string;
 }
 
+export interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  user: string;
+  date: string | null;
+}
+
 export interface Book {
   id: number;
   title: string;
-  price: string;
   image: string;
+  rating: number;
+  number_of_ratings: number;
+  reviews: Review[];
+  relatedBooks: Book[];
+  language: string;
+  pages: number;
+  reads_count: number;
+  price: number;
+  category: string;
+  publisher: string;
+  author: string;
+  description: string;
   created_at: string;
   updated_at: string;
 }

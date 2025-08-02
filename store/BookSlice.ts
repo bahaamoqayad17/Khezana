@@ -14,6 +14,7 @@ interface BookState {
   home: HomePage;
   loading: boolean;
   error: string | null;
+  book: Book;
 }
 
 const initialState: BookState = {
@@ -25,6 +26,7 @@ const initialState: BookState = {
   },
   loading: false,
   error: null,
+  book: {} as Book,
 };
 
 // Async thunk to fetch posts
@@ -33,9 +35,18 @@ export const fetchHomePage = createAsyncThunk(
   async () => {
     const response = await axios.get("/homepage");
 
-    console.log(response.data);
-
     return response.data as HomePage;
+  }
+);
+
+export const fetchBook = createAsyncThunk(
+  "books/fetchBook",
+  async (id: string) => {
+    console.log("id", id);
+    const response = await axios.get(`/book/details/${id}`);
+    console.log("response.data", response.data);
+
+    return response.data as Book;
   }
 );
 
@@ -64,6 +75,16 @@ const BookSlice = createSlice({
       .addCase(fetchHomePage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch posts";
+      });
+
+    builder
+      .addCase(fetchBook.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBook.fulfilled, (state, action) => {
+        state.loading = false;
+        state.book = action.payload;
       });
   },
 });

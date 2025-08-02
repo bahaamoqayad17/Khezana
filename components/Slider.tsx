@@ -11,8 +11,8 @@ import {
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function SliderCarousel({ sliders }) {
-  const scrollViewRef = useRef(null);
+export default function SliderCarousel({ sliders }: { sliders: Slider[] }) {
+  const scrollViewRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isActive, setIsActive] = useState(true);
 
@@ -27,7 +27,7 @@ export default function SliderCarousel({ sliders }) {
   }, []);
 
   useEffect(() => {
-    let interval;
+    let interval: any;
     if (isActive && sliders?.length > 0) {
       interval = setInterval(() => {
         setCurrentIndex((prevIndex) => {
@@ -51,8 +51,6 @@ export default function SliderCarousel({ sliders }) {
     };
   }, [isActive, sliders?.length]);
 
-  console.log(sliders);
-
   return (
     <View style={styles.card}>
       <ScrollView
@@ -67,7 +65,7 @@ export default function SliderCarousel({ sliders }) {
           <View key={item?.id} style={styles.slide}>
             <ImageBackground
               source={{
-                uri: `${process.env.EXPO_PUBLIC_API_URL}${item?.image}`,
+                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${item?.image}`,
               }}
               style={styles.imageBackground}
               imageStyle={styles.image}

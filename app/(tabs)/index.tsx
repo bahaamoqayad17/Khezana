@@ -24,7 +24,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 pb-10">
       <Header title="" />
       <ScrollView className="flex-1" style={{ marginHorizontal: 20 }}>
         <SliderCarousel sliders={home?.slides} />
@@ -62,7 +62,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="flex-row gap-2"
+            className="flex-row gap-4"
           >
             {home.top_viewed.map((item, index) => (
               <BookHome book={item} key={index} />

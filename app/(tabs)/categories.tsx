@@ -107,7 +107,9 @@ export default function Categories() {
                   activeOpacity={0.7}
                 >
                   <View className="items-center">
-                    {/* Category Image */}
+                    {console.log(
+                      `${process.env.EXPO_PUBLIC_API_URL}${category.category_image_url}`
+                    )}
                     <View className="w-16 h-16 mb-3 rounded-2xl overflow-hidden bg-gray-100">
                       <Image
                         source={{

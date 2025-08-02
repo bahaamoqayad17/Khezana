@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   Text,
@@ -63,6 +64,11 @@ export default function Subscriptions() {
                   style={{ padding: 20 }}
                   activeOpacity={0.7}
                 >
+                  <Image
+                    source={require("@/assets/star.png")}
+                    className="absolute top-0 right-0"
+                  />
+
                   <View className="flex-row items-center justify-between">
                     <View className="rounded-full bg-secondary p-4">
                       <CrownIcon />
@@ -99,7 +105,7 @@ export default function Subscriptions() {
                         {subscription.duration === "6" &&
                           t("in") + " " + t("6_months")}
                         {subscription.duration === "12" &&
-                          t("in") + " " + t("yearly")}
+                          t("in") + " " + t("year")}
                       </Text>
                     </View>
                   </View>
