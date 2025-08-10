@@ -121,3 +121,27 @@
   border: 1px solid #e7e7e7;
   border-radius: 8px;
 }
+
+.book-details-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3efef;
+  border-radius: 10px;
+  border-style: solid;
+  border-left: 4px solid #65382c;
+  padding: 10px;
+  width: 100px;
+}
+
+.book-details-card:first-child {
+  border-left: 4px solid #65382c;
+}
+
+.vertical-line {
+  width: 1px;
+  height: 28px;
+  background-color: #e7e7e7;
+  border-radius: 10px;
+}

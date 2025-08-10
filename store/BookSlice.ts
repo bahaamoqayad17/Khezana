@@ -42,10 +42,8 @@ export const fetchHomePage = createAsyncThunk(
 export const fetchBook = createAsyncThunk(
   "books/fetchBook",
   async (id: string) => {
-    console.log("id", id);
-    const response = await axios.get(`/book/details/${id}`);
-    console.log("response.data", response.data);
-
+    // const response = await axios.get(`/book/details/${id}`);
+    const response = await axios.get(`/book/details/1`);
     return response.data as Book;
   }
 );
@@ -84,6 +82,7 @@ const BookSlice = createSlice({
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.loading = false;
+        console.log("action.payload", action.payload);
         state.book = action.payload;
       });
   },

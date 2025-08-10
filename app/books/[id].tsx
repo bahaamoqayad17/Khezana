@@ -1,28 +1,477 @@
+import BookPageSkeleton from "@/components/skeletons/BookPageSkeleton";
+import AddReviewIcon from "@/icons/AddReview";
+import AuthorIcon from "@/icons/Author";
+import CategoryIcon from "@/icons/Category";
+import ListenIcon from "@/icons/Listen";
+import PublisherIcon from "@/icons/Publisher";
+import ReadIcon from "@/icons/Read";
+import ReviewIcon from "@/icons/Review";
+import SaveIcon from "@/icons/Save";
+import ShareIcon from "@/icons/Share";
 import { fetchBook } from "@/store/BookSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function BookDetails() {
+  const { t } = useTranslation();
   const params = useLocalSearchParams();
   const id = params.id as string;
   const { book, loading } = useAppSelector((state) => state.books);
   const dispatch = useAppDispatch();
+  const [activeTab, setActiveTab] = useState<"reviews" | "about">("about");
+  const [userRating, setUserRating] = useState(0);
+
+  // Mock data for related books and reviews
+  const relatedBooks = [
+    { id: 1, title: "أليس في بلاد العجائب", image: "alice.jpg" },
+    { id: 2, title: "الأسود الصغير", image: "lion.jpg" },
+  ];
+
+  const reviews = [
+    {
+      id: 1,
+      user: "محمد",
+      rating: 2,
+      comment: "",
+      date: "منذ يومين",
+      avatar: "م",
+      avatarColor: "bg-orange-100",
+      textColor: "text-orange-600",
+    },
+    {
+      id: 2,
+      user: "عيسى",
+      rating: 5,
+      comment:
+        "تطبيق ممتاز يحتوي على مكتبة ضخمة من الكتب باللغة العربية والانجليزية، وسهولة الاستخدام جعل أحبني، خيار القراءة بدون إنترنت أحبه به مئة لكل محب القراءة",
+      date: "منذ أسبوع",
+      avatar: "E",
+      avatarColor: "bg-blue-500",
+      textColor: "text-white",
+    },
+    {
+      id: 3,
+      user: "إبتسام",
+      rating: 5,
+      comment:
+        "التطبيق رائع من حيث التنوع وسرعة التحميل لكن أتمنى إضافة خاصية تميز الصفحات المهمة أو إضافة ملاحظات داخل الكتب. شكراً للمطورين",
+      date: "منذ شهر",
+      avatar: "E",
+      avatarColor: "bg-blue-500",
+      textColor: "text-white",
+    },
+  ];
 
   useEffect(() => {
-    if (id && id !== "undefined") {
-      dispatch(fetchBook(id));
-    }
+    dispatch(fetchBook(id));
   }, [id, dispatch]);
 
   if (loading) {
-    return <ActivityIndicator />;
+    return <BookPageSkeleton />;
+  }
+
+  if (!book) {
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-50">
+        <Text className="text-lg font-SomarBold text-gray-600">
+          {t("book_not_found")}
+        </Text>
+      </View>
+    );
   }
 
   return (
-    <View>
-      <Text>{book?.title || "Book not found"}</Text>
-    </View>
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Header */}
+      <View
+        className={`flex-row items-center justify-between gap-2 px-5 pt-20 pb-10`}
+      >
+        {/* Title Text */}
+
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-forward" size={26} color="#65382C" />
+        </TouchableOpacity>
+
+        <View className="flex-1 items-center justify-center">
+          <Text className={`text-lg font-SomarBold text-primary text-center`}>
+            {book.title}
+          </Text>
+        </View>
+
+        <View className="flex-row gap-2">
+          <TouchableOpacity onPress={() => {}}>
+            <ShareIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {}}>
+            <SaveIcon isSaved={true} />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <ScrollView className="flex-1">
+        {/* Book Cover and Info */}
+        <View className="px-4 py-6">
+          <View className="items-center">
+            <Image
+              source={{
+                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.image}`,
+              }}
+              className="rounded-lg shadow-lg"
+              style={{ width: 150, height: 200 }}
+              resizeMode="cover"
+            />
+
+            <Text className="text-lg font-SomarBold text-primary mt-4 text-center">
+              {book.title}
+            </Text>
+
+            {/* Book Stats */}
+            <View className="flex-row justify-between w-full mt-10 px-4">
+              <View className="items-center">
+                <Text className="text-sm text-primary font-SomarRegular">
+                  {t("rating")}
+                </Text>
+                <View className="flex-row items-center">
+                  <ReviewIcon />
+                  <Text className="text-lg font-SomarRegular text-gray-200">
+                    {book.rating}
+                  </Text>
+                </View>
+              </View>
+
+              <View className="items-center">
+                <Text className="text-sm text-primary font-SomarRegular">
+                  {t("language")}
+                </Text>
+                <Text className="text-lg font-SomarRegular text-gray-200">
+                  {book.language}
+                </Text>
+              </View>
+
+              <View className="items-center">
+                <Text className="text-sm text-primary font-SomarRegular">
+                  {t("pages")}
+                </Text>
+                <Text className="text-lg font-SomarRegular text-gray-200">
+                  {book.pages}
+                </Text>
+              </View>
+
+              <View className="items-center">
+                <Text className="text-sm text-primary font-SomarRegular">
+                  {t("number_of_reads")}
+                </Text>
+                <Text className="text-lg font-SomarRegular text-gray-200">
+                  {book.reads_count}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Tabs */}
+        <View className="px-4 mb-4 mt-4">
+          <View className="flex-row justify-center">
+            {/* General Categories Tab */}
+            <TouchableOpacity
+              className="flex-1 items-center py-3 relative"
+              onPress={() => setActiveTab("about")}
+            >
+              <Text
+                className={`text-base font-SomarBold ${
+                  activeTab === "about" ? "text-primary" : "text-secondary"
+                }`}
+              >
+                {t("about_book")}
+              </Text>
+              {/* Active Tab Underline */}
+              {activeTab === "about" && (
+                <View className="active-tab-underline" />
+              )}
+            </TouchableOpacity>
+
+            {/* Educational Categories Tab */}
+            <TouchableOpacity
+              className="flex-1 items-center py-3 relative"
+              onPress={() => setActiveTab("reviews")}
+            >
+              <Text
+                className={`text-base font-SomarBold ${
+                  activeTab === "reviews" ? "text-primary" : "text-secondary"
+                }`}
+              >
+                {t("reviews")}
+              </Text>
+              {/* Active Tab Underline */}
+              {activeTab === "reviews" && (
+                <View className="active-tab-underline" />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Tab Content */}
+        {activeTab === "reviews" ? (
+          <View className="mx-4">
+            {/* Overall Rating */}
+            <View className="rounded-xl p-4 mb-4 flex-row items-center justify-between gap-2">
+              <Text className="text-sm font-SomarMedium text-gray-600">
+                {t("reviews")}
+              </Text>
+              <View className="items-center">
+                <Text className="text-3xl font-SomarBold text-gray-800 mb-1">
+                  3.5
+                </Text>
+                <View className="bg-orange-100 px-3 py-1 rounded-full mb-2">
+                  <Text className="text-orange-600 text-sm font-SomarMedium">
+                    +65 تقييم
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* Reviews List */}
+            <View className="space-y-4">
+              {/* Add Comment Section */}
+              <View className="bg-white rounded-xl p-4 mb-4 flex-row gap-2">
+                {/* User Header with Stars */}
+
+                {/* Input Section */}
+                <View className="items-center justify-center gap-2">
+                  <TouchableOpacity className="bg-blue-500 w-12 h-12 rounded-full items-center justify-center">
+                    <Text className="text-white font-SomarBold text-sm">
+                      أنت
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View className="flex-1">
+                  <View className="flex-row items-center justify-between mb-3">
+                    <View className="flex-row items-center">
+                      <Text className="font-SomarBold text-gray-800 text-right mr-3">
+                        محمد
+                      </Text>
+                    </View>
+                    <View className="flex-row">
+                      {[...Array(5)].map((_, i) => (
+                        <TouchableOpacity
+                          key={i}
+                          onPress={() => setUserRating(i + 1)}
+                        >
+                          <Ionicons
+                            name="star"
+                            size={16}
+                            color={i < userRating ? "#F4A261" : "#E5E5E5"}
+                            style={{ marginLeft: 2 }}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+
+                  <TextInput
+                    placeholder={t("add_comment")}
+                    placeholderTextColor="#9CA3AF"
+                    className="bg-gray-50 rounded-lg p-4 pr-16 font-SomarMedium relative flex-1"
+                    multiline
+                    numberOfLines={5}
+                    textAlign="right"
+                    style={{
+                      borderColor: "#E5E5E5",
+                      borderWidth: 1,
+                      minHeight: 80,
+                    }}
+                  />
+                  <TouchableOpacity
+                    className="absolute bottom-4 right-4"
+                    style={{
+                      right: 10,
+                      bottom: 10,
+                    }}
+                    onPress={() => {
+                      console.log("add review");
+                    }}
+                  >
+                    <AddReviewIcon />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {reviews.map((review) => (
+                <View key={review.id} className="bg-white rounded-xl p-4">
+                  <View className="flex-row items-start justify-between mb-3">
+                    <View className="flex-row items-center">
+                      <View
+                        className={`w-10 h-10 ${review.avatarColor} rounded-full items-center justify-center mr-3`}
+                      >
+                        <Text className={`${review.textColor} font-SomarBold`}>
+                          {review.avatar}
+                        </Text>
+                      </View>
+                      <Text className="font-SomarBold text-gray-800 text-right">
+                        {review.user}
+                      </Text>
+                    </View>
+                    <View className="flex-row">
+                      {[...Array(5)].map((_, i) => (
+                        <Ionicons
+                          key={i}
+                          name="star"
+                          size={14}
+                          color={i < review.rating ? "#F4A261" : "#E5E5E5"}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                  {review.comment ? (
+                    <Text className="text-gray-600 text-sm leading-6 text-right">
+                      {review.comment}
+                    </Text>
+                  ) : (
+                    <View className="bg-gray-50 rounded-lg p-3 mb-2">
+                      <Text className="text-gray-400 text-sm text-right">
+                        أكتب تعليقا .....
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ))}
+            </View>
+          </View>
+        ) : (
+          <View className="mx-4">
+            {/* About Book Cards */}
+
+            <View
+              className="bg-white rounded-xl p-4 mb-4 m-4"
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 5, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 1,
+                borderWidth: 1,
+                borderColor: "#e7e7e7",
+              }}
+            >
+              <View className="flex-row justify-around mb-4 gap-2">
+                {/* Author Card */}
+
+                {/* Publisher Card */}
+                <TouchableOpacity
+                  className="book-details-card"
+                  onPress={() =>
+                    router.push(`/publishers/${book.publisher.id}`)
+                  }
+                >
+                  <View className="w-12 h-12 bg-amber-600 rounded-xl items-center justify-center mb-3">
+                    <PublisherIcon />
+                  </View>
+                  <Text className="text-sm font-SomarBold text-amber-800 mb-1">
+                    {t("publisher")}
+                  </Text>
+                  <Text className="text-xs font-SomarMedium text-amber-700 text-center">
+                    {book.publisher}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Category Card */}
+                <TouchableOpacity
+                  className="book-details-card"
+                  onPress={() => router.push(`/categories/${book.category.id}`)}
+                >
+                  <View className="w-12 h-12 bg-amber-600 rounded-xl items-center justify-center mb-3">
+                    <CategoryIcon />
+                  </View>
+                  <Text className="text-sm font-SomarBold text-amber-800 mb-1">
+                    {t("category")}
+                  </Text>
+                  <Text className="text-xs font-SomarMedium text-amber-700 text-center">
+                    {book.category}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  className="book-details-card"
+                  onPress={() => router.push(`/authors/${book.author.id}`)}
+                >
+                  <View className="w-12 h-12 bg-amber-800 rounded-full items-center justify-center mb-3">
+                    <AuthorIcon />
+                  </View>
+                  <Text className="text-sm font-SomarBold text-amber-800 mb-1">
+                    {t("author_name")}
+                  </Text>
+                  <Text className="text-xs font-SomarMedium text-amber-700 text-center">
+                    {book.author}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View className="">
+                <Text className="text-gray-600 font-SomarBold leading-7">
+                  {book.description}
+                </Text>
+              </View>
+            </View>
+
+            {/* Book Description */}
+
+            {/* Related Books */}
+            <View className="bg-white rounded-xl p-4 mb-4">
+              <Text className="text-lg font-SomarBold text-gray-800 mb-3">
+                {t("related_books")}
+              </Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {relatedBooks.map((relatedBook) => (
+                  <TouchableOpacity
+                    key={relatedBook.id}
+                    className="mr-4 items-center"
+                    style={{ width: 100 }}
+                  >
+                    <Image
+                      source={{
+                        uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${relatedBook.image}`,
+                      }}
+                      className="rounded-lg"
+                      style={{ width: 80, height: 120 }}
+                      resizeMode="cover"
+                    />
+                    <Text className="text-sm font-SomarMedium text-gray-700 mt-2 text-center">
+                      {relatedBook.title}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        )}
+
+        {/* Bottom Action Buttons */}
+        <View className="bg-white px-4 py-3 mb-10">
+          <View className="flex-row gap-2">
+            <TouchableOpacity className="flex-1 flex-row gap-2 justify-center bg-secondary py-3 rounded-lg items-center">
+              <Text className="text-white font-SomarBold">{t("read")}</Text>
+              <ReadIcon />
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-1 flex-row gap-2 justify-center bg-primary py-3 rounded-lg items-center">
+              <Text className="text-white font-SomarBold">{t("listen")}</Text>
+              <ListenIcon />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

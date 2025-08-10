@@ -109,7 +109,44 @@ export interface Book {
   category: string;
   publisher: string;
   author: string;
+  // category: Category;
+  // publisher: Publisher;
+  // author: Author;
   description: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Publisher {
+  publisher_id: number;
+  publisher_name: string;
+  image: string;
+  description: string;
+  social_links: {
+    facebook: string;
+    youtube: string;
+    telegram: string;
+    whatsapp: string;
+    instagram: string;
+  };
+  book_count: number;
+  total_reads: number;
+  books: Book[];
+}
+
+export interface Author {
+  author_id: number;
+  author_name: string;
+  image: string;
+  description: string;
+  social_links: {
+    facebook: string;
+    youtube: string;
+    telegram: string;
+    whatsapp: string;
+    instagram: string;
+  };
+  book_count: number;
+  total_reads: number;
+  books: Book[];
 }

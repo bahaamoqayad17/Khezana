@@ -19,6 +19,7 @@ module.exports = {
         tertiary: "#65382C",
         gray: "#525B63",
         lightPrimary: "#FBF7F1",
+        lightSecondary: "#F3EFEF",
       },
     },
   },

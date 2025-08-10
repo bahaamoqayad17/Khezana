@@ -33,7 +33,7 @@ export const fetchPostComments = createAsyncThunk(
 
     const response = await axios.get(`/posts/${postId}/comments`);
 
-    return response.data as Post[];
+    return response.data as Comment[];
   }
 );
 

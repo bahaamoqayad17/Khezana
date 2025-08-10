@@ -1,16 +1,20 @@
 import axios from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { User } from "./models.type";
+import { Author, Publisher, User } from "./models.type";
 
 // Define the state
 interface UserState {
-  user: User;
+  user: User | null;
+  publisher: Publisher | null;
+  author: Author | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
   user: {} as User,
+  publisher: null,
+  author: null,
   loading: false,
   error: null,
 };
@@ -21,6 +25,24 @@ export const fetchUserProfile = createAsyncThunk(
   async (userId: number) => {
     const response = await axios.get(`/users/${userId}/profile`);
     return response.data as User;
+  }
+);
+
+export const fetchPublisher = createAsyncThunk(
+  "user/fetchPublisher",
+  async (publisherId: number) => {
+    // const response = await axios.get(`/publisher/${publisherId}`);
+    const response = await axios.get(`/publisher/1`);
+    return response.data as Publisher;
+  }
+);
+
+export const fetchAuthor = createAsyncThunk(
+  "user/fetchAuthor",
+  async (authorId: number) => {
+    // const response = await axios.get(`/author/${authorId}`);
+    const response = await axios.get(`/author/1`);
+    return response.data as Author;
   }
 );
 
@@ -49,6 +71,29 @@ const UserSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch posts";
+      });
+    builder
+      .addCase(fetchPublisher.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPublisher.fulfilled, (state, action) => {
+        state.loading = false;
+        state.publisher = action.payload;
+      })
+      .addCase(fetchPublisher.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch publisher";
+      });
+
+    builder
+      .addCase(fetchAuthor.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAuthor.fulfilled, (state, action) => {
+        state.loading = false;
+        state.author = action.payload;
       });
   },
 });

@@ -23,8 +23,8 @@ export default function TabLayout() {
           fontFamily: "SomarMedium",
         },
         tabBarStyle: {
-          paddingBottom: 20,
-          height: 70,
+          paddingBottom: 70,
+          height: 100,
         },
       }}
     >
