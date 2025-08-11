@@ -27,6 +27,28 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     console.log("Search:", text);
   };
 
+  const handleFilterPress = () => {
+    // Navigate to search page with current search query
+    router.push({
+      pathname: "/search",
+      params: {
+        q: searchValue,
+      },
+    });
+  };
+
+  const handleSearchSubmit = () => {
+    // Navigate to search page when user submits search
+    if (searchValue.trim()) {
+      router.push({
+        pathname: "/search",
+        params: {
+          q: searchValue.trim(),
+        },
+      });
+    }
+  };
+
   return (
     <View className="px-5 pt-20 pb-10">
       {/* Top Row - Title and Icons */}
@@ -64,12 +86,25 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       </View>
 
       {/* Search Bar */}
-      <FieldWrap firstSuffix={<FilterIcon />} lastSuffix={<SearchIcon />}>
+      <FieldWrap
+        firstSuffix={
+          <TouchableOpacity onPress={handleFilterPress}>
+            <FilterIcon />
+          </TouchableOpacity>
+        }
+        lastSuffix={
+          <TouchableOpacity onPress={handleSearchSubmit}>
+            <SearchIcon />
+          </TouchableOpacity>
+        }
+      >
         <Input
           name="search"
           value={searchValue}
           onChangeText={handleSearchChange}
           placeholder={t("search_placeholder")}
+          onSubmitEditing={handleSearchSubmit}
+          returnKeyType="search"
         />
       </FieldWrap>
     </View>

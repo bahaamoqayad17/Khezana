@@ -18,35 +18,38 @@ import { FieldWrap, Input, Validation } from "@/components/form";
 import OAuth from "@/components/OAuth";
 import LockIcon from "@/icons/Lock";
 import MailIcon from "@/icons/Mail";
+import NameIcon from "@/icons/Name";
 
 // Validation schema
-const LoginSchema = Yup.object().shape({
+const RegisterSchema = Yup.object().shape({
+  name: Yup.string().required("name_required"),
   email: Yup.string().email("email_invalid").required("email_required"),
   password: Yup.string().min(6, "password_min").required("password_required"),
+  confirmPassword: Yup.string()
+    .required("confirm_password_required")
+    .oneOf([Yup.ref("password")], "passwords_must_match"),
 });
 
-interface LoginFormValues {
+interface RegisterFormValues {
+  name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-const Login = () => {
+const Register = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleLogin = async (values: LoginFormValues) => {
+  const handleRegister = async (values: RegisterFormValues) => {
     try {
-      console.log("Login values:", values);
-      router.replace("/(tabs)");
-      // TODO: Implement login logic
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
+      console.log("Register values:", values);
 
-  const handleForgotPassword = () => {
-    console.log("Forgot password pressed");
-    // TODO: Navigate to forgot password screen
+      router.replace("/interests");
+    } catch (error) {
+      console.error("Register error:", error);
+    }
   };
 
   return (
@@ -76,15 +79,20 @@ const Login = () => {
             {/* Title */}
             <View className="items-center">
               <Text className="text-4xl font-SomarBold text-primary text-center">
-                {t("login")}
+                {t("register")}
               </Text>
             </View>
 
-            {/* Login Form */}
+            {/* Register Form */}
             <Formik
-              initialValues={{ email: "", password: "" }}
-              validationSchema={LoginSchema}
-              onSubmit={handleLogin}
+              initialValues={{
+                name: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+              }}
+              validationSchema={RegisterSchema}
+              onSubmit={handleRegister}
             >
               {({
                 handleChange,
@@ -95,7 +103,34 @@ const Login = () => {
                 touched,
               }) => (
                 <View className="space-y-6 mt-10">
-                  {/* Email Field */}
+                  {/* Name Field */}
+                  <View className="mt-10">
+                    <FieldWrap
+                      firstSuffix={<NameIcon />}
+                      isValid={!errors.name}
+                      isTouched={touched.name}
+                      className=""
+                      invalidFeedback={errors.name ? t(errors.name) : undefined}
+                    >
+                      <Input
+                        name="name"
+                        value={values.name}
+                        onChangeText={handleChange("name")}
+                        onBlur={handleBlur("name")}
+                        placeholder={t("name")}
+                        keyboardType="default"
+                        autoCapitalize="none"
+                        autoComplete="name"
+                      />
+                    </FieldWrap>
+                    <Validation
+                      isValid={!errors.name}
+                      isTouched={touched.name}
+                      invalidFeedback={errors.name ? t(errors.name) : undefined}
+                    >
+                      {errors.name && touched.name ? t(errors.name) : ""}
+                    </Validation>
+                  </View>
                   <View className="mt-10">
                     <FieldWrap
                       firstSuffix={<MailIcon />}
@@ -139,7 +174,7 @@ const Login = () => {
                         >
                           <Ionicons
                             name={
-                              !showPassword ? "eye-outline" : "eye-off-outline"
+                              showPassword ? "eye-off-outline" : "eye-outline"
                             }
                             size={20}
                             color="#888888"
@@ -174,23 +209,68 @@ const Login = () => {
                     </Validation>
                   </View>
 
-                  {/* Forgot Password */}
-                  <View className="mt-2">
-                    <TouchableOpacity onPress={() => router.replace("/")}>
-                      <Text className="text-gray-600 font-SomarRegular text-sm">
-                        {t("forgot_password")}
-                      </Text>
-                    </TouchableOpacity>
+                  {/* Confirm Password Field */}
+                  <View className="mt-10">
+                    <FieldWrap
+                      firstSuffix={<LockIcon />}
+                      lastSuffix={
+                        <TouchableOpacity
+                          onPress={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="p-1"
+                        >
+                          <Ionicons
+                            name={
+                              showConfirmPassword
+                                ? "eye-off-outline"
+                                : "eye-outline"
+                            }
+                            size={20}
+                            color="#888888"
+                          />
+                        </TouchableOpacity>
+                      }
+                      isValid={!errors.confirmPassword}
+                      isTouched={touched.confirmPassword}
+                      invalidFeedback={
+                        errors.confirmPassword
+                          ? t(errors.confirmPassword)
+                          : undefined
+                      }
+                    >
+                      <Input
+                        name="confirmPassword"
+                        value={values.confirmPassword}
+                        onChangeText={handleChange("confirmPassword")}
+                        onBlur={handleBlur("confirmPassword")}
+                        placeholder={t("confirm_password")}
+                        secureTextEntry={!showConfirmPassword}
+                      />
+                    </FieldWrap>
+                    <Validation
+                      isValid={!errors.confirmPassword}
+                      isTouched={touched.confirmPassword}
+                      invalidFeedback={
+                        errors.confirmPassword
+                          ? t(errors.confirmPassword)
+                          : undefined
+                      }
+                    >
+                      {errors.confirmPassword && touched.confirmPassword
+                        ? t(errors.confirmPassword)
+                        : ""}
+                    </Validation>
                   </View>
 
-                  {/* Login Button */}
+                  {/* Register Button */}
                   <View className="mt-8">
                     <TouchableOpacity
                       onPress={() => handleSubmit()}
                       className="bg-secondary rounded-xl p-4 w-full mt-10"
                     >
                       <Text className="text-white font-SomarBlack text-center">
-                        {t("login")}
+                        {t("register")}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -204,12 +284,12 @@ const Login = () => {
               style={{ marginTop: 16 }}
             >
               <Text className="font-SomarRegular text-center text-secondary">
-                {t("dont_have_account")}
+                {t("already_have_account")}
                 {"   "}
               </Text>
-              <TouchableOpacity onPress={() => router.replace("/register")}>
+              <TouchableOpacity onPress={() => router.replace("/auth/login")}>
                 <Text className="text-primary font-SomarBlack text-center">
-                  {t("register")}
+                  {t("login")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -251,4 +331,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

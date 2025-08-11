@@ -20,7 +20,7 @@ const OnBoarding5 = () => {
       </Text>
 
       <TouchableOpacity
-        onPress={() => router.replace("/login")}
+        onPress={() => router.replace("/auth/login")}
         className="bg-secondary rounded-xl p-4 w-full mt-10"
       >
         <Text className="text-white font-SomarBlack text-center">
@@ -35,7 +35,7 @@ const OnBoarding5 = () => {
           {t("dont_have_account")}
           {"   "}
         </Text>
-        <TouchableOpacity onPress={() => router.replace("/register")}>
+        <TouchableOpacity onPress={() => router.replace("/auth/register")}>
           <Text className="text-primary font-SomarRegular text-center">
             {t("register")}
           </Text>

@@ -1,4 +1,6 @@
 import ReceivingNotifications from "@/components/ReceivingNotifications";
+import SplashScreenComponent from "@/components/SplashScreen";
+import UpdateGuard from "@/components/UpdateGuard";
 import "@/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import ar from "@/locales/ar.json";
@@ -13,7 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
-import { I18nManager, Image, StyleSheet, View } from "react-native";
+import { I18nManager } from "react-native";
 import "react-native-reanimated";
 import { Provider } from "react-redux";
 
@@ -93,11 +95,7 @@ export default function RootLayout() {
   }
 
   if (!isAppReady) {
-    return (
-      <View style={styles.splashContainer}>
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
-      </View>
-    );
+    return <SplashScreenComponent />;
   }
 
   return (
@@ -105,26 +103,16 @@ export default function RootLayout() {
       {/* <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}> */}
       <ThemeProvider value={DefaultTheme}>
         <ReceivingNotifications />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        {/* <ConnectionGuard> */}
+        <UpdateGuard>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          {/* </ConnectionGuard> */}
+        </UpdateGuard>
         <StatusBar style="auto" />
       </ThemeProvider>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  splashContainer: {
-    flex: 1,
-    backgroundColor: "#65382C",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    width: 300,
-    height: 300,
-    resizeMode: "contain",
-  },
-});
