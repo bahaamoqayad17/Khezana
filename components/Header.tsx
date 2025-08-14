@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <View className="flex-row items-center justify-between mb-4">
         {/* Notification Icon */}
         <TouchableOpacity
-          onPress={() => router.push("/subscriptions")}
+          onPress={() => router.push("/epub-reader")}
           className="p-2"
         >
           <View className="flex-row items-center gap-2">
