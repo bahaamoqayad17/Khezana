@@ -10,12 +10,12 @@ export default function BookHome({ book }: { book: Book }) {
     <TouchableOpacity onPress={() => router.push(`/books/${book.id}`)}>
       <View
         className="bg-white rounded-xl shadow-md overflow-hidden p-4 mt-10"
-        style={{ maxWidth: 185, width: "100%" }}
+        style={{ width: 185 }}
       >
         {/* Book Image */}
         <Image
           source={{
-            uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.image}`,
+            uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.cover_image}`,
           }}
           className="w-full rounded-md"
           style={{ height: 200 }}

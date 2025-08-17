@@ -122,10 +122,10 @@ export default function UserProfile() {
         <View className="bg-lightPrimary rounded-2xl mb-6 p-4 items-center borderize">
           <View className="relative">
             <View className="w-24 h-24 rounded-full bg-gray-200 border-4 border-white shadow-sm overflow-hidden">
-              {user.profile_image ? (
+              {user?.profile_image ? (
                 <Image
                   source={{
-                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user.profile_image}`,
+                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`,
                   }}
                   className="w-full h-full"
                   resizeMode="cover"

@@ -269,5 +269,17 @@
     "withdrawal_processing_time": "Les demandes de retrait sont traitées dans un délai de 3 à 5 jours ouvrables.",
     "minimum_withdrawal": "Le montant minimum de retrait est de 100 EGP.",
     "no_withdrawal_fees": "Il n'y a pas de frais pour les retraits.",
-    "track_request_status": "Vous pouvez suivre le statut de votre demande via la page des transactions."
+    "track_request_status": "Vous pouvez suivre le statut de votre demande via la page des transactions.",
+    "profile": "Profil",
+    "readings_count": "Nombre de Lectures",
+    "books_count": "Nombre de Livres",
+    "user_information": "Informations de l'Utilisateur",
+    "join_date": "Date d'Inscription",
+    "books_read_count": "Nombre de Livres Lus",
+    "user_level": "Niveau de l'Utilisateur",
+    "number_bought_books": "Nombre de Livres Achetés",
+    "gifted_books": "Nombre de Livres Donnés",
+    "user_stats": "Statistiques de l'Utilisateur",
+    "professional_reader": "Lecteur Professionnel",
+    "my_interests": "Mes Intérêts"
 }

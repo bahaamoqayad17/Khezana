@@ -1,17 +1,17 @@
 import BookComponent from "@/components/Book";
-import PublisherPageSkeleton from "@/components/skeletons/PublisherPageSkeleton";
+import AuthorVerifiedIcon from "@/icons/AuthorVerified";
 import FollowIcon from "@/icons/Follow";
 import InstagramIcon from "@/icons/Instagram";
+import PublisherVerifiedIcon from "@/icons/PublisherVerified";
 import ShareIcon from "@/icons/Share";
 import TelegramIcon from "@/icons/Telegram";
 import UserFacebookIcon from "@/icons/UserFacebook";
 import WhatsappIcon from "@/icons/Whatsapp";
 import YoutubeIcon from "@/icons/Youtube";
-import { fetchPublisher } from "@/store/UserSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { User } from "@/store/models.type";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router } from "expo-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -23,23 +23,14 @@ import {
   View,
 } from "react-native";
 
-export default function PublisherDetails() {
+export default function PublicPublisherProfile({ user }: { user: User }) {
   const { t } = useTranslation();
-  const params = useLocalSearchParams();
-  const id = params.id as string;
-  const { publisher, loading } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<"brief" | "contact">("brief");
+  const isAuthor = user.type === "author";
 
-  useEffect(() => {
-    dispatch(fetchPublisher(Number(id)));
-  }, [id, dispatch]);
+  const userData = isAuthor ? user?.author : user?.publisher;
 
-  if (loading) {
-    return <PublisherPageSkeleton />;
-  }
-
-  if (!publisher) {
+  if (!userData) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
         <Text className="text-lg font-SomarBold text-gray-600">
@@ -59,7 +50,7 @@ export default function PublisherDetails() {
 
         <View className="flex-1 items-center justify-center">
           <Text className="text-lg font-SomarBold text-primary text-center">
-            {t("publisher")}
+            {isAuthor ? t("author") : t("publisher")}
           </Text>
         </View>
 
@@ -77,7 +68,7 @@ export default function PublisherDetails() {
             {/* Publisher Image */}
             <Image
               source={{
-                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${publisher.image}`,
+                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${userData?.image}`,
               }}
               className="rounded-full shadow-lg"
               style={{ width: 120, height: 120 }}
@@ -85,9 +76,14 @@ export default function PublisherDetails() {
             />
 
             {/* Publisher Name */}
-            <Text className="text-xl font-SomarBold text-primary mt-4 text-center">
-              {publisher.publisher_name}
-            </Text>
+            <View className="mt-4 text-center flex-row items-center justify-center gap-2">
+              <Text className="text-xl font-SomarBold text-primary">
+                {userData?.publisher_name || userData?.author_name}
+              </Text>
+
+              {userData?.is_verified &&
+                (isAuthor ? <AuthorVerifiedIcon /> : <PublisherVerifiedIcon />)}
+            </View>
 
             {/* Publisher Stats */}
             <View className="flex-row justify-center items-center mt-4">
@@ -200,7 +196,7 @@ export default function PublisherDetails() {
                 {t("brief")}
               </Text>
               <Text className="text-gray-600 font-SomarMedium leading-6">
-                {publisher.description}
+                {userData?.desc}
               </Text>
             </View>
 
@@ -209,8 +205,8 @@ export default function PublisherDetails() {
               <Text className="text-lg font-SomarBold text-gray-800 mb-3">
                 {t("books")}
               </Text>
-              {publisher.books && publisher.books.length > 0 ? (
-                publisher.books.map((book) => (
+              {userData?.books && userData.books.length > 0 ? (
+                userData.books.map((book) => (
                   <BookComponent key={book.id} book={book} />
                 ))
               ) : (
@@ -225,76 +221,64 @@ export default function PublisherDetails() {
         ) : (
           <View className="mx-4">
             {/* Contact - Social Media */}
-            {publisher.social_links && (
-              <View
-                className="bg-white rounded-xl p-4 mb-4 mt-4"
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#E7E7E7",
-                }}
-              >
-                <View className="flex-row justify-center gap-4">
-                  {publisher.social_links.facebook && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL(publisher.social_links.facebook)
-                      }
-                      className="w-12 h-12 rounded-full items-center justify-center"
-                    >
-                      <UserFacebookIcon />
-                    </TouchableOpacity>
-                  )}
-                  {publisher.social_links.instagram && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL(publisher.social_links.instagram)
-                      }
-                      className="w-12 h-12 rounded-full items-center justify-center"
-                    >
-                      <InstagramIcon />
-                    </TouchableOpacity>
-                  )}
-                  {publisher.social_links.whatsapp && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL(publisher.social_links.whatsapp)
-                      }
-                      className="w-12 h-12 rounded-full items-center justify-center"
-                    >
-                      <WhatsappIcon />
-                    </TouchableOpacity>
-                  )}
-                  {publisher.social_links.telegram && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL(publisher.social_links.telegram)
-                      }
-                      className="w-12 h-12 rounded-full items-center justify-center"
-                    >
-                      <TelegramIcon />
-                    </TouchableOpacity>
-                  )}
-                  {publisher.social_links.youtube && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL(publisher.social_links.youtube)
-                      }
-                      className="w-12 h-12 rounded-full items-center justify-center"
-                    >
-                      <YoutubeIcon />
-                    </TouchableOpacity>
-                  )}
-                </View>
+            <View
+              className="bg-white rounded-xl p-4 mb-4 mt-4"
+              style={{
+                borderWidth: 1,
+                borderColor: "#E7E7E7",
+              }}
+            >
+              <View className="flex-row justify-center gap-4">
+                {userData?.fb && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(userData.fb)}
+                    className="w-12 h-12 rounded-full items-center justify-center"
+                  >
+                    <UserFacebookIcon />
+                  </TouchableOpacity>
+                )}
+                {userData?.instagram && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(userData.instagram)}
+                    className="w-12 h-12 rounded-full items-center justify-center"
+                  >
+                    <InstagramIcon />
+                  </TouchableOpacity>
+                )}
+                {userData?.whatsapp && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(userData.whatsapp)}
+                    className="w-12 h-12 rounded-full items-center justify-center"
+                  >
+                    <WhatsappIcon />
+                  </TouchableOpacity>
+                )}
+                {userData?.telegram && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(userData.telegram)}
+                    className="w-12 h-12 rounded-full items-center justify-center"
+                  >
+                    <TelegramIcon />
+                  </TouchableOpacity>
+                )}
+                {userData?.yt && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(userData.yt)}
+                    className="w-12 h-12 rounded-full items-center justify-center"
+                  >
+                    <YoutubeIcon />
+                  </TouchableOpacity>
+                )}
               </View>
-            )}
+            </View>
 
             {/* Publisher Books in Contact Tab too */}
             <View className="space-y-4">
               <Text className="text-lg font-SomarBold text-gray-800 mb-3">
                 {t("books")}
               </Text>
-              {publisher.books && publisher.books.length > 0 ? (
-                publisher.books.map((book) => (
+              {userData?.books && userData.books.length > 0 ? (
+                userData.books.map((book) => (
                   <BookComponent key={book.id} book={book} />
                 ))
               ) : (

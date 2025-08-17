@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ScrollView,
@@ -11,10 +10,6 @@ import {
 export default function Profits() {
   const { t } = useTranslation();
   const maxAmount = 7506;
-
-  useEffect(() => {
-    console.log("Profits");
-  }, []);
 
   return (
     <ScrollView className="flex-1 bg-gray-100 p-4">

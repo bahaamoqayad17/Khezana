@@ -186,9 +186,8 @@ export default function CommentModal({ visible, onClose }: CommentModalProps) {
                       value={newComment}
                       onChangeText={setNewComment}
                       placeholder={t("add_comment", "Add a comment...")}
-                      placeholderClassName="font-SomarBold"
                       multiline
-                      className="flex-1 text-sm max-h-24"
+                      className="flex-1 text-sm max-h-24 font-SomarBold"
                       placeholderTextColor="#9CA3AF"
                     />
                     <TouchableOpacity

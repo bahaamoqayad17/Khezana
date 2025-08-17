@@ -40,6 +40,7 @@ export interface User {
   email: string;
   profile_image: string | null;
   country: string | null;
+  bio: string | null;
   gender: string | null;
   email_verified_at: string | null;
   device_token: string | null;
@@ -50,6 +51,10 @@ export interface User {
   created_at: string | null;
   updated_at: string;
   is_user_subscribed: boolean;
+  type: string;
+  author: Author | null;
+  publisher: Publisher | null;
+  interests?: { [key: string]: string } | null;
 }
 
 export interface Post {
@@ -97,7 +102,8 @@ export interface Review {
 export interface Book {
   id: number;
   title: string;
-  image: string;
+  image?: string;
+  cover_image?: string;
   rating: number;
   number_of_ratings: number;
   reviews: Review[];
@@ -106,47 +112,44 @@ export interface Book {
   pages: number;
   reads_count: number;
   price: number;
-  category: string;
-  publisher: string;
-  author: string;
-  // category: Category;
-  // publisher: Publisher;
-  // author: Author;
+  category: Category | null;
+  publisher: Publisher | null;
+  author: Author | null;
   description: string;
   created_at: string;
   updated_at: string;
 }
 
 export interface Publisher {
-  publisher_id: number;
+  id: number;
   publisher_name: string;
   image: string;
-  description: string;
-  social_links: {
-    facebook: string;
-    youtube: string;
-    telegram: string;
-    whatsapp: string;
-    instagram: string;
-  };
+  desc: string;
+  fb: string;
+  yt: string;
+  telegram: string;
+  whatsapp: string;
+  instagram: string;
   book_count: number;
   total_reads: number;
+  user_id: number;
   books: Book[];
+  is_verified: boolean;
 }
 
 export interface Author {
-  author_id: number;
+  id: number;
   author_name: string;
   image: string;
-  description: string;
-  social_links: {
-    facebook: string;
-    youtube: string;
-    telegram: string;
-    whatsapp: string;
-    instagram: string;
-  };
+  desc: string;
+  fb: string;
+  yt: string;
+  telegram: string;
+  whatsapp: string;
+  instagram: string;
+  user_id: number;
   book_count: number;
   total_reads: number;
+  is_verified: boolean;
   books: Book[];
 }

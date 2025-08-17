@@ -277,5 +277,17 @@
     "withdrawal_processing_time": "يتم معالجة طلبات السحب خلال 3 إلى 5 أيام عمل.",
     "minimum_withdrawal": "الحد الأدنى للسحب هو 100 جنيه.",
     "no_withdrawal_fees": "لا يوجد رسوم على عمليات السحب.",
-    "track_request_status": "يمكنك تتبع حالة طلبك من خلال صفحة المعاملات."
+    "track_request_status": "يمكنك تتبع حالة طلبك من خلال صفحة المعاملات.",
+    "profile": "الملف الشخصي",
+    "readings_count": "عدد القراءات",
+    "books_count": "عدد الكتب",
+    "user_information": "معلومات المستخدم",
+    "join_date": "تاريخ الانضمام",
+    "books_read_count": "عدد الكتب المقروءة",
+    "user_level": "مستوى المستخدم",
+    "number_bought_books": "عدد الكتب المشتراه",
+    "gifted_books": "عدد الكتب المهداة",
+    "user_stats": "إحصائيات المستخدم",
+    "professional_reader": "قارئ محترف",
+    "my_interests": "اهتماماتي"
 }

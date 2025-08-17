@@ -5,9 +5,8 @@ import { Book, Category, Slider } from "./models.type";
 // Define the state
 interface HomePage {
   slides: Slider[];
+  categories_with: any[];
   categories: Category[];
-  top_viewed: Book[];
-  for_you: Book[];
 }
 
 interface BookState {
@@ -21,8 +20,7 @@ const initialState: BookState = {
   home: {
     slides: [],
     categories: [],
-    top_viewed: [],
-    for_you: [],
+    categories_with: [],
   },
   loading: false,
   error: null,
@@ -43,7 +41,8 @@ export const fetchBook = createAsyncThunk(
   "books/fetchBook",
   async (id: string) => {
     // const response = await axios.get(`/book/details/${id}`);
-    const response = await axios.get(`/book/details/1`);
+    const response = await axios.get(`/book/details/${id}`);
+
     return response.data as Book;
   }
 );

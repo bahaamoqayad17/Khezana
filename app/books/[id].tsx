@@ -373,7 +373,7 @@ export default function BookDetails() {
                 <TouchableOpacity
                   className="book-details-card"
                   onPress={() =>
-                    router.push(`/publishers/${book.publisher.id}`)
+                    router.push(`/user/${book.publisher?.user_id}`)
                   }
                 >
                   <View className="w-12 h-12 bg-amber-600 rounded-xl items-center justify-center mb-3">
@@ -383,14 +383,16 @@ export default function BookDetails() {
                     {t("publisher")}
                   </Text>
                   <Text className="text-xs font-SomarMedium text-amber-700 text-center">
-                    {book.publisher}
+                    {book.publisher?.publisher_name}
                   </Text>
                 </TouchableOpacity>
 
                 {/* Category Card */}
                 <TouchableOpacity
                   className="book-details-card"
-                  onPress={() => router.push(`/categories/${book.category.id}`)}
+                  onPress={() =>
+                    router.push(`/categories/${book.category?.id}`)
+                  }
                 >
                   <View className="w-12 h-12 bg-amber-600 rounded-xl items-center justify-center mb-3">
                     <CategoryIcon />
@@ -399,13 +401,13 @@ export default function BookDetails() {
                     {t("category")}
                   </Text>
                   <Text className="text-xs font-SomarMedium text-amber-700 text-center">
-                    {book.category}
+                    {book.category?.category_name}
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   className="book-details-card"
-                  onPress={() => router.push(`/authors/${book.author.id}`)}
+                  onPress={() => router.push(`/user/${book.author?.user_id}`)}
                 >
                   <View className="w-12 h-12 bg-amber-800 rounded-full items-center justify-center mb-3">
                     <AuthorIcon />
@@ -414,7 +416,7 @@ export default function BookDetails() {
                     {t("author_name")}
                   </Text>
                   <Text className="text-xs font-SomarMedium text-amber-700 text-center">
-                    {book.author}
+                    {book.author?.author_name}
                   </Text>
                 </TouchableOpacity>
               </View>

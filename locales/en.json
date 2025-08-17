@@ -284,5 +284,17 @@
     "withdrawal_processing_time": "Withdrawal requests are processed within 3 to 5 business days.",
     "minimum_withdrawal": "Minimum withdrawal amount is 100 EGP.",
     "no_withdrawal_fees": "There are no fees for withdrawals.",
-    "track_request_status": "You can track your request status through the transactions page."
+    "track_request_status": "You can track your request status through the transactions page.",
+    "profile": "Profile",
+    "readings_count": "Readings Count",
+    "books_count": "Books Count",
+    "user_information": "User Information",
+    "join_date": "Join Date",
+    "books_read_count": "Books Read Count",
+    "user_level": "User Level",
+    "number_bought_books": "Number Bought Books",
+    "gifted_books": "Gifted Books",
+    "user_stats": "User Stats",
+    "professional_reader": "Professional Reader",
+    "my_interests": "My Interests"
 }
