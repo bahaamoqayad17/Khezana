@@ -1,3 +1,4 @@
+import PlainTitle from "@/components/PlainTitle";
 import { useTranslation } from "react-i18next";
 import {
   ScrollView,
@@ -12,145 +13,183 @@ export default function Profits() {
   const maxAmount = 7506;
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 p-4">
+    <ScrollView className="flex-1 bg-gray-100 p-4 mb-10">
       {/* Header */}
-      <View className={`flex-row justify-between items-center mb-5`}>
-        <Text className={`text-lg font-bold text-gray-800`}>
-          {t("authors_profits")}
-        </Text>
-        <Text className="text-lg text-gray-800">→</Text>
-      </View>
+      <PlainTitle title={t("authors_profits")} />
 
       {/* Main Profits Card */}
-      <View className="bg-orange-600 rounded-xl p-5 mb-5">
-        <View className={`items-start`}>
-          <Text className="text-3xl font-bold text-white mb-1">15000</Text>
-          <Text className="text-base text-white mb-4">
-            {t("total_profits")}
-          </Text>
-          <Text className="text-lg font-bold text-white mb-1">{maxAmount}</Text>
-          <Text className="text-sm text-white mb-2">
+      <View className="bg-secondary rounded-2xl p-6 mb-4 gap-4">
+        <View className="flex-row items-center justify-between mb-4">
+          <Text className="text-2xl font-SomarBold">{t("total_profits")}</Text>
+          <Text className="text-4xl font-SomarBold text-white">15000</Text>
+        </View>
+
+        <View className="flex-row items-center justify-between">
+          <Text className="text-2xl font-SomarBold text-white">
             {t("available_balance")}
           </Text>
-          <Text className="text-xs text-white/80">
-            {t("last_update_today")}
-          </Text>
+          <Text className="text-2xl font-SomarBold">{maxAmount}</Text>
         </View>
       </View>
 
       {/* Withdrawal Request Section */}
-      <View className="bg-white rounded-xl p-5 mb-5">
-        <Text className={`text-lg font-bold text-gray-800 mb-4`}>
+      <View
+        className="bg-white rounded-2xl p-6 mb-4"
+        style={{
+          elevation: 1,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        }}
+      >
+        <Text className="text-xl font-SomarBold text-gray-800 mb-10">
           {t("new_withdrawal_request")}
         </Text>
-        <Text className={`text-sm text-gray-600 mb-2`}>
-          {t("withdrawal_amount")}
-        </Text>
 
-        <TextInput
-          className={`border border-gray-300 rounded-lg p-3 mb-4 text-base`}
-          placeholder={t("enter_amount_placeholder", { max: maxAmount })}
-          placeholderTextColor="#999"
-        />
-
-        <Text className={`text-sm text-gray-600 mb-2`}>
-          {t("payment_method")}
-        </Text>
-        <View className="flex-row justify-between items-center border border-gray-300 rounded-lg p-3 mb-4">
-          <Text className="text-base text-gray-400">
-            {t("select_payment_method")}
+        {/* Amount Section */}
+        <View className="mb-6">
+          <Text className="font-SomarBold text-gray-800 mb-3">
+            {t("withdrawal_amount")}
           </Text>
-          <Text className="text-base text-gray-400">⌄</Text>
+          <View className="border border-gray-200 rounded-xl p-4 bg-gray-50">
+            <TextInput
+              className="text-lg font-SomarRegular text-gray-600"
+              placeholder="1"
+              placeholderTextColor="#999"
+            />
+          </View>
+          <Text className="text-sm font-SomarRegular text-gray-500 mt-2">
+            {t("minimum_withdrawal")}
+          </Text>
         </View>
 
-        <Text className={`text-sm text-gray-600 mb-2`}>
-          {t("account_number")}
-        </Text>
-        <TextInput
-          className={`border border-gray-300 rounded-lg p-3 mb-5 text-base`}
-          placeholder={t("enter_account_number")}
-          placeholderTextColor="#999"
-        />
+        {/* Payment Method Section */}
+        <View className="mb-6">
+          <Text className="font-SomarBold text-gray-800 mb-3">
+            {t("payment_method")}
+          </Text>
+          <TouchableOpacity className="border border-gray-200 rounded-xl p-4 bg-gray-50 flex-row items-center justify-between">
+            <Text className="text-lg">⌄</Text>
+            <Text className="font-SomarRegular text-gray-500">
+              {t("choose_payment_method")}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity className="bg-orange-600 rounded-lg p-4 items-center">
-          <Text className="text-white text-base font-bold">
-            {t("submit_withdrawal_request")}
+        {/* Account Number Section */}
+        <View className="mb-8">
+          <Text className="font-SomarBold text-gray-800 mb-3">
+            {t("account_number")}
+          </Text>
+          <View className="border border-gray-200 rounded-xl bg-gray-50">
+            <TextInput
+              className="text-lg font-SomarRegular text-gray-600"
+              placeholder={t("enter_account_number")}
+              placeholderTextColor="#999"
+            />
+          </View>
+        </View>
+
+        {/* Submit Button */}
+        <TouchableOpacity className="bg-secondary rounded-xl p-4 items-center">
+          <Text className="text-white text-lg font-SomarBold">
+            {t("send_withdrawal_request")}
           </Text>
         </TouchableOpacity>
       </View>
 
       {/* Transactions History */}
-      <View className="bg-white rounded-xl p-5 mb-5">
-        <Text className={`text-lg font-bold text-gray-800 mb-4`}>
+      <View
+        className="bg-white rounded-2xl p-6 mb-4"
+        style={{
+          elevation: 1,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        }}
+      >
+        <Text className="text-xl font-SomarBold text-gray-800 mb-6">
           {t("recent_transactions")}
         </Text>
 
-        <View className="flex-row justify-between items-center py-4 border-b border-gray-100">
-          <View className="items-start">
-            <Text className="text-base font-bold text-gray-800 mb-1">
-              3500 ج
-            </Text>
-            <Text className="text-xs text-gray-400">2024-01-15</Text>
-          </View>
-          <View className={`items-start`}>
-            <Text className="text-sm text-gray-800 mb-1">
-              {t("bank_of_algeria")}
-            </Text>
-            <View className="bg-green-100 px-2 py-1 rounded">
-              <Text className="text-xs text-green-600">{t("completed")}</Text>
+        {/* Transaction 1 */}
+        <View className="flex-row items-center justify-between py-4">
+          <View className="flex-1 items-start">
+            <View
+              className="px-3 py-1.5 rounded-full"
+              style={{ backgroundColor: "#E8F5E8" }}
+            >
+              <Text
+                className="text-sm font-SomarBold"
+                style={{ color: "#4CAF50" }}
+              >
+                مكتمل
+              </Text>
             </View>
           </View>
-        </View>
+          <View className="flex-1">
+            <Text className="text-base font-SomarBold text-gray-800 mb-2">
+              بنك الجزائر
+            </Text>
+          </View>
 
-        <View className="flex-row justify-between items-center py-4 border-b border-gray-100">
-          <View className="items-start">
-            <Text className="text-base font-bold text-gray-800 mb-1">
-              3500 ج
+          <View className="flex-1">
+            <Text className="text-lg font-SomarBold text-gray-800 mb-1">
+              500 د.ج
             </Text>
-            <Text className="text-xs text-gray-400">2024-01-15</Text>
-          </View>
-          <View className={`items-start`}>
-            <Text className="text-sm text-gray-800 mb-1">
-              {t("bank_of_algeria")}
+            <Text className="text-sm font-SomarRegular text-gray-500">
+              2024-01-15
             </Text>
-            <View className="bg-yellow-100 px-2 py-1 rounded">
-              <Text className="text-xs text-yellow-700">{t("processing")}</Text>
-            </View>
-          </View>
-        </View>
-
-        <View className="flex-row justify-between items-center py-4">
-          <View className="items-start">
-            <Text className="text-base font-bold text-gray-800 mb-1">
-              3500 ج
-            </Text>
-            <Text className="text-xs text-gray-400">2024-01-15</Text>
-          </View>
-          <View className={`items-start`}>
-            <Text className="text-sm text-gray-800 mb-1">
-              {t("golden_card")}
-            </Text>
-            <View className="bg-green-100 px-2 py-1 rounded">
-              <Text className="text-xs text-green-600">{t("completed")}</Text>
-            </View>
           </View>
         </View>
       </View>
 
-      {/* Information Section */}
-      <View className="bg-white rounded-xl p-5 mb-5">
-        <Text className={`text-base font-bold text-gray-800 mb-2`}>
-          {t("important_info")}
+      {/* Important Information Section */}
+      <View
+        className="bg-white rounded-2xl p-6 mb-10"
+        style={{
+          elevation: 1,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        }}
+      >
+        <Text className="text-xl font-SomarBold text-gray-800 mb-6">
+          {t("important_information")}
         </Text>
-        <Text className={`text-sm text-gray-600 leading-6`}>
-          {t("withdrawal_processing_time")}
-          {"\n"}
-          {t("minimum_withdrawal")}
-          {"\n"}
-          {t("no_withdrawal_fees")}
-          {"\n"}
-          {t("track_request_status")}
-        </Text>
+
+        <View className="gap-4">
+          <View className="flex-row items-start gap-3">
+            <Text className="text-lg font-SomarBold text-gray-800">•</Text>
+            <Text className="flex-1 text-base font-SomarRegular text-gray-700 leading-6">
+              {t("withdrawal_processing_time")}
+            </Text>
+          </View>
+
+          <View className="flex-row items-start gap-3">
+            <Text className="text-lg font-SomarBold text-gray-800">•</Text>
+            <Text className="flex-1 text-base font-SomarRegular text-gray-700 leading-6">
+              {t("minimum_withdrawal")}
+            </Text>
+          </View>
+
+          <View className="flex-row items-start gap-3">
+            <Text className="text-lg font-SomarBold text-gray-800">•</Text>
+            <Text className="flex-1 text-base font-SomarRegular text-gray-700 leading-6">
+              {t("no_withdrawal_fees")}
+            </Text>
+          </View>
+
+          <View className="flex-row items-start gap-3">
+            <Text className="text-lg font-SomarBold text-gray-800">•</Text>
+            <Text className="flex-1 text-base font-SomarRegular text-gray-700 leading-6">
+              {t("track_request_status")}
+            </Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

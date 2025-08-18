@@ -34,17 +34,35 @@ export default function Contact() {
       <ScrollView className="flex-1">
         {/* Contact Info Section */}
         <View className="px-6 py-4">
-          <View className="bg-gray-50 rounded-xl p-6 mb-6">
+          <View
+            className="p-6 mb-6"
+            style={{
+              backgroundColor: "#FBF7F1",
+              borderColor: "#E7E7E7",
+              borderWidth: 1,
+              elevation: 1,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              borderRadius: 16,
+            }}
+          >
             {/* Phone */}
             <View className="flex-row items-center mb-4">
-              <View className="w-12 h-12 bg-primary rounded-full items-center justify-center mr-4">
+              <View className="w-12 h-12 bg-secondary rounded-full items-center justify-center mr-4">
                 <Ionicons name="call" size={20} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-sm text-gray-600 font-SomarMedium mb-1">
+                <Text
+                  className="text-lg text-gray-600 font-SomarMedium mb-1"
+                  style={{
+                    color: "#888888",
+                  }}
+                >
                   {t("phone")}
                 </Text>
-                <Text className="text-base font-SomarBold text-gray-800">
+                <Text className="text-base font-SomarMedium text-gray-800">
                   +970567865508
                 </Text>
               </View>
@@ -52,14 +70,19 @@ export default function Contact() {
 
             {/* Email */}
             <View className="flex-row items-center mb-4">
-              <View className="w-12 h-12 bg-primary rounded-full items-center justify-center mr-4">
+              <View className="w-12 h-12 bg-secondary rounded-full items-center justify-center mr-4">
                 <Ionicons name="mail" size={20} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-sm text-gray-600 font-SomarMedium mb-1">
+                <Text
+                  className="text-lg text-gray-600 font-SomarMedium mb-1"
+                  style={{
+                    color: "#888888",
+                  }}
+                >
                   {t("email")}
                 </Text>
-                <Text className="text-base font-SomarBold text-gray-800">
+                <Text className="text-base font-SomarMedium text-gray-800">
                   m.reyad.s@gmail.com
                 </Text>
               </View>
@@ -67,14 +90,19 @@ export default function Contact() {
 
             {/* Address */}
             <View className="flex-row items-center">
-              <View className="w-12 h-12 bg-primary rounded-full items-center justify-center mr-4">
+              <View className="w-12 h-12 bg-secondary rounded-full items-center justify-center mr-4">
                 <Ionicons name="location" size={20} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-sm text-gray-600 font-SomarMedium mb-1">
+                <Text
+                  className="text-lg text-gray-600 font-SomarMedium mb-1"
+                  style={{
+                    color: "#888888",
+                  }}
+                >
                   {t("address")}
                 </Text>
-                <Text className="text-base font-SomarBold text-gray-800">
+                <Text className="text-base font-SomarMedium text-gray-800">
                   {t("algeria")}
                 </Text>
               </View>
@@ -86,13 +114,23 @@ export default function Contact() {
         <View className="px-6">
           {/* Full Name */}
           <View className="mb-4">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("full_name")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_full_name")}
               placeholderTextColor="#9CA3AF"
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                backgroundColor: "#FFFBFB",
+              }}
               value={form.fullName}
               onChangeText={(text) => setForm({ ...form, fullName: text })}
               textAlign="right"
@@ -101,13 +139,23 @@ export default function Contact() {
 
           {/* Email */}
           <View className="mb-4">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("email")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_email")}
               placeholderTextColor="#9CA3AF"
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                backgroundColor: "#FFFBFB",
+              }}
               value={form.email}
               onChangeText={(text) => setForm({ ...form, email: text })}
               keyboardType="email-address"
@@ -117,14 +165,24 @@ export default function Contact() {
 
           {/* Phone */}
           <View className="mb-4">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("phone")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_phone")}
               placeholderTextColor="#9CA3AF"
               value={form.phone}
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                backgroundColor: "#FFFBFB",
+              }}
               onChangeText={(text) => setForm({ ...form, phone: text })}
               keyboardType="phone-pad"
               textAlign="right"
@@ -133,14 +191,24 @@ export default function Contact() {
 
           {/* Address */}
           <View className="mb-4">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("address")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_address")}
               placeholderTextColor="#9CA3AF"
               value={form.address}
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                backgroundColor: "#FFFBFB",
+              }}
               onChangeText={(text) => setForm({ ...form, address: text })}
               textAlign="right"
             />
@@ -148,14 +216,24 @@ export default function Contact() {
 
           {/* Subject */}
           <View className="mb-4">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("subject")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_subject")}
               placeholderTextColor="#9CA3AF"
               value={form.subject}
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                backgroundColor: "#FFFBFB",
+              }}
               onChangeText={(text) => setForm({ ...form, subject: text })}
               textAlign="right"
             />
@@ -163,20 +241,30 @@ export default function Contact() {
 
           {/* Message */}
           <View className="mb-6">
-            <Text className="text-base font-SomarMedium text-gray-700 mb-2 text-right">
+            <Text
+              className="text-base font-SomarBold mb-2"
+              style={{
+                color: "#767676",
+              }}
+            >
               {t("message")}
             </Text>
             <TextInput
-              className="border border-gray-200 rounded-lg px-4 py-3 font-SomarMedium text-right"
+              className="rounded-lg px-4 py-3 font-SomarMedium"
               placeholder={t("enter_message")}
               placeholderTextColor="#9CA3AF"
               value={form.message}
+              style={{
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+                minHeight: 100,
+                backgroundColor: "#FFFBFB",
+              }}
               onChangeText={(text) => setForm({ ...form, message: text })}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
               textAlign="right"
-              style={{ minHeight: 100 }}
             />
           </View>
 

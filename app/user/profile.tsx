@@ -114,14 +114,19 @@ export default function UserProfile() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <PlainTitle title={t("personal_information")} />
 
       <ScrollView className="flex-1 px-4 py-6">
         {/* Profile Avatar Section */}
         <View className="bg-lightPrimary rounded-2xl mb-6 p-4 items-center borderize">
           <View className="relative">
-            <View className="w-24 h-24 rounded-full bg-gray-200 border-4 border-white shadow-sm overflow-hidden">
+            <View
+              className="w-24 rounded-full bg-gray-200 border-4 border-white shadow-sm overflow-hidden"
+              style={{
+                height: 80,
+              }}
+            >
               {user?.profile_image ? (
                 <Image
                   source={{
@@ -150,7 +155,12 @@ export default function UserProfile() {
           {profileFields.map((field) => (
             <View
               key={field.id}
-              className="bg-lightPrimary rounded-2xl p-4 borderize mb-4"
+              className="rounded-xl p-4 mb-4"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
             >
               <View className="flex-row items-center justify-between">
                 <View className="flex-1">

@@ -281,5 +281,21 @@
     "gifted_books": "Nombre de Livres Donnés",
     "user_stats": "Statistiques de l'Utilisateur",
     "professional_reader": "Lecteur Professionnel",
-    "my_interests": "Mes Intérêts"
+    "my_interests": "Mes Intérêts",
+    "active": "Actif",
+    "keep_reading": "Garder la lecture",
+    "statistics": "Statistiques",
+    "challenges": "Défis",
+    "monthly_reading": "Objectif de Lecture Mensuel",
+    "weekly_challenge": "Défi Hebdomadaire",
+    "reading_hours": "Objectif d'Heures de Lecture",
+    "first_place": "Premier Place",
+    "second_place": "Deuxième Place",
+    "third_place": "Troisième Place",
+    "golden_reader": "Lecteur Doré",
+    "most_liked_articles": "Articles les plus aimés",
+    "choose_payment_method": "Choisir la Méthode de Paiement",
+    "send_withdrawal_request": "Envoyer la Demande de Retrait",
+    "important_information": "Informations Importantes",
+    "no_notifications": "Aucune notification"
 }

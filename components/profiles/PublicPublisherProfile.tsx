@@ -8,10 +8,10 @@ import TelegramIcon from "@/icons/Telegram";
 import UserFacebookIcon from "@/icons/UserFacebook";
 import WhatsappIcon from "@/icons/Whatsapp";
 import YoutubeIcon from "@/icons/Youtube";
-import { User } from "@/store/models.type";
+import { Author, Publisher, User } from "@/store/models.type";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -26,9 +26,13 @@ import {
 export default function PublicPublisherProfile({ user }: { user: User }) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<"brief" | "contact">("brief");
-  const isAuthor = user.type === "author";
 
-  const userData = isAuthor ? user?.author : user?.publisher;
+  const isAuthor = useMemo(() => user.type === "author", [user]);
+
+  const userData: Author | Publisher | null = useMemo(
+    () => (isAuthor ? user?.author : user?.publisher),
+    [user, isAuthor]
+  );
 
   if (!userData) {
     return (

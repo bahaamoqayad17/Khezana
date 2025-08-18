@@ -296,5 +296,21 @@
     "gifted_books": "Gifted Books",
     "user_stats": "User Stats",
     "professional_reader": "Professional Reader",
-    "my_interests": "My Interests"
+    "my_interests": "My Interests",
+    "active": "Active",
+    "keep_reading": "Keep Reading",
+    "statistics": "Statistics",
+    "challenges": "Challenges",
+    "monthly_reading": "Monthly Reading Goal",
+    "weekly_challenge": "Weekly Challenge",
+    "reading_hours": "Reading Hours Goal",
+    "first_place": "First Place",
+    "second_place": "Second Place",
+    "third_place": "Third Place",
+    "golden_reader": "Golden Reader",
+    "most_liked_articles": "Most Liked Articles",
+    "choose_payment_method": "Choose Payment Method",
+    "send_withdrawal_request": "Send Withdrawal Request",
+    "important_information": "Important Information",
+    "no_notifications": "No notifications"
 }

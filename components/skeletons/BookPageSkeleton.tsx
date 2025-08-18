@@ -28,7 +28,7 @@ export default function BookPageSkeleton() {
 
     animation.start();
     return () => animation.stop();
-  }, []);
+  }, [opacity]);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

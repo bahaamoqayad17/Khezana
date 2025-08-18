@@ -1,21 +1,33 @@
+import BooksIcon from "@/icons/Books";
+import FirstIcon from "@/icons/First";
+import Readers1Icon from "@/icons/Readers1";
+import Readers2Icon from "@/icons/Readers2";
+import Readers3Icon from "@/icons/Readers3";
+import Readers4Icon from "@/icons/Readers4";
+import SecondIcon from "@/icons/Second";
+import SmallFireIcon from "@/icons/SmallFire";
+import ThirdIcon from "@/icons/Third";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function ReadingStreak() {
   const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState<"current" | "weekly" | "monthly">(
+    "monthly"
+  );
 
   // Mock data for reading achievements
   const stats = [
-    { icon: "👥", value: "1,247", label: t("participants") },
-    { icon: "📚", value: "15,382", label: t("books_read") },
-    { icon: "📈", value: "98.5%", label: t("improvement_rate") },
-    { icon: "📅", value: "156", label: t("consecutive_days") },
+    { icon: <Readers1Icon />, value: "156", label: t("consecutive_days") },
+    { icon: <Readers2Icon />, value: "98.5%", label: t("improvement_rate") },
+    { icon: <Readers3Icon />, value: "15,382", label: t("books_read") },
+    { icon: <Readers4Icon />, value: "1,247", label: t("participants") },
   ];
 
   const achievements = [
     {
       title: t("top_reader"),
-      subtitle: t("advanced_level"),
       position: 1,
       user: t("mahmoud_alqasemi"),
       days: 47,
@@ -27,7 +39,6 @@ export default function ReadingStreak() {
     },
     {
       title: t("exceptional_reader"),
-      subtitle: t("professional_level"),
       position: 2,
       user: t("fatema_alzahra"),
       days: 42,
@@ -39,7 +50,6 @@ export default function ReadingStreak() {
     },
     {
       title: t("good_reader"),
-      subtitle: t("intermediate_level"),
       position: 3,
       user: t("nour_salem"),
       days: 38,
@@ -51,7 +61,6 @@ export default function ReadingStreak() {
     },
     {
       title: t("good_reader"),
-      subtitle: t("intermediate_level"),
       position: 4,
       user: t("tariq_hassan"),
       days: 35,
@@ -63,7 +72,6 @@ export default function ReadingStreak() {
     },
     {
       title: t("good_reader"),
-      subtitle: t("intermediate_level"),
       position: 5,
       user: t("nayel_qasemi"),
       days: 32,
@@ -75,7 +83,6 @@ export default function ReadingStreak() {
     },
     {
       title: t("good_reader"),
-      subtitle: t("intermediate_level"),
       position: 6,
       user: t("hadi_khalil"),
       days: 30,
@@ -90,13 +97,14 @@ export default function ReadingStreak() {
   return (
     <ScrollView className="flex-1 px-6">
       {/* Statistics Cards */}
-      <View className="flex-row flex-wrap justify-between mb-6">
+      <View className="flex-row mb-6 gap-4">
         {stats.map((stat, index) => (
           <View
             key={index}
-            className="w-[48%] bg-white rounded-xl p-4 mb-3 items-center border border-gray-200"
+            className="flex-1 bg-white rounded-xl p-4 mb-3 items-center gap-1"
+            style={{ borderWidth: 1, borderColor: "#E7E7E7" }}
           >
-            <Text className="text-2xl mb-2">{stat.icon}</Text>
+            {stat.icon}
             <Text className="text-xl font-SomarBold text-gray-800">
               {stat.value}
             </Text>
@@ -107,85 +115,203 @@ export default function ReadingStreak() {
         ))}
       </View>
 
-      {/* Achievement Buttons */}
-      <View className="flex-row justify-between mb-6">
-        <View className="bg-yellow-500 rounded-lg px-4 py-2 flex-1 mr-2">
-          <Text className="text-white font-SomarBold text-center text-sm">
-            {t("current_level")}
+      {/* Tabs */}
+      <View
+        className="flex-row gap-1 mb-6 p-1"
+        style={{ borderWidth: 1, borderColor: "#E7E7E7", borderRadius: 8 }}
+      >
+        <TouchableOpacity
+          className={`flex-1 py-3 rounded-lg items-center justify-center ${
+            activeTab === "monthly" ? "bg-secondary" : "bg-transparent"
+          }`}
+          onPress={() => setActiveTab("monthly")}
+        >
+          <Text
+            className={`font-SomarBold text-sm ${
+              activeTab === "monthly" ? "text-white" : "text-gray-600"
+            }`}
+          >
+            هذا الشهر
           </Text>
-        </View>
-        <View className="bg-gray-300 rounded-lg px-4 py-2 flex-1 ml-2">
-          <Text className="text-gray-700 font-SomarBold text-center text-sm">
-            {t("previous_level")}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className={`flex-1 py-3 rounded-lg items-center justify-center ${
+            activeTab === "weekly" ? "bg-secondary" : "bg-transparent"
+          }`}
+          onPress={() => setActiveTab("weekly")}
+        >
+          <Text
+            className={`font-SomarBold text-sm ${
+              activeTab === "weekly" ? "text-white" : "text-gray-600"
+            }`}
+          >
+            الأسبوع الماضي
           </Text>
-        </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className={`flex-1 py-3 rounded-lg items-center justify-center ${
+            activeTab === "current" ? "bg-secondary" : "bg-transparent"
+          }`}
+          onPress={() => setActiveTab("current")}
+        >
+          <Text
+            className={`font-SomarBold text-sm ${
+              activeTab === "current" ? "text-white" : "text-gray-600"
+            }`}
+          >
+            العام الحالي
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Leaderboard */}
-      <View className="space-y-3">
+      <View className="gap-4">
         {achievements.map((achievement, index) => (
           <View
             key={index}
-            className={`rounded-xl p-4 border-2 ${achievement.bgColor} ${achievement.borderColor}`}
+            className="bg-white rounded-2xl p-5 relative"
+            style={{
+              borderLeftWidth: 5,
+              elevation: 1,
+              borderLeftColor:
+                achievement.position === 1
+                  ? "#FFD700"
+                  : achievement.position === 2
+                    ? "#CE9664"
+                    : achievement.position === 3
+                      ? "#65382C"
+                      : "#888888",
+            }}
           >
-            <View className="flex-row items-center justify-between">
-              {/* Left Section */}
-              <View className="flex-row items-center flex-1">
-                {/* Position Badge */}
-                <View className="w-8 h-8 bg-primary rounded-full items-center justify-center mr-3">
-                  <Text className="text-white font-SomarBold text-sm">
-                    {achievement.position}
+            {/* Position Badge - Top Right */}
+
+            {/* Trophy Icon for Top 3 */}
+
+            {/* Main Content */}
+            <View className="flex-row items-center gap-1">
+              {achievement.position <= 3 ? (
+                <View>
+                  {achievement.position === 1 ? (
+                    <FirstIcon />
+                  ) : achievement.position === 2 ? (
+                    <SecondIcon />
+                  ) : achievement.position === 3 ? (
+                    <ThirdIcon />
+                  ) : null}
+                </View>
+              ) : (
+                <View
+                  className="bg-gray-100 rounded-full items-center justify-center"
+                  style={{
+                    width: 40,
+                    height: 40,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#888888",
+                      fontSize: 16,
+                    }}
+                    className="font-SomarBold"
+                  >
+                    {index + 1}
                   </Text>
                 </View>
-
-                {/* Avatar */}
-                <View className="w-12 h-12 bg-blue-500 rounded-full items-center justify-center mr-3">
-                  <Text className="text-white font-SomarBold text-lg">
+              )}
+              {/* Left Side - Avatar */}
+              <View className="mr-4">
+                <View className="w-16 h-16 bg-blue-500 rounded-full items-center justify-center">
+                  <Text className="text-white font-SomarBold text-xl">
                     {achievement.avatar}
                   </Text>
                 </View>
+              </View>
 
-                {/* User Info */}
-                <View className="flex-1">
-                  <Text className="text-base font-SomarBold text-gray-800">
+              {/* Center - User Info */}
+              <View className="flex-1">
+                <View className="flex-row items-center gap-2 mb-2">
+                  <Text className="text-lg font-SomarBold text-gray-800">
                     {achievement.user}
                   </Text>
-                  <Text className="text-sm font-SomarMedium text-gray-600">
-                    {achievement.title}
-                  </Text>
-                  <Text className="text-xs font-SomarMedium text-gray-500">
-                    {achievement.subtitle}
-                  </Text>
+                  {achievement.position <= 3 && (
+                    <View
+                      className="bg-gray-100 px-4 py-2 rounded-3xl"
+                      style={{
+                        backgroundColor: "#F5ECDF",
+                      }}
+                    >
+                      <Text className="text-sm font-SomarBlack">
+                        {achievement.position === 1
+                          ? t("first_place")
+                          : achievement.position === 2
+                            ? t("second_place")
+                            : achievement.position === 3
+                              ? t("third_place")
+                              : ""}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                {/* Stats Row */}
+                <View className="flex-row flex-wrap items-center gap-2 mb-3">
+                  <View className="flex-row items-center gap-1">
+                    <SmallFireIcon />
+                    <Text className="text-sm font-SomarRegular text-gray-600">
+                      {achievement.days} {t("consecutive_days")}
+                    </Text>
+                  </View>
+
+                  <View className="flex-row items-center gap-1">
+                    <BooksIcon color="gray" />
+                    <Text className="text-sm font-SomarRegular text-gray-600">
+                      {achievement.books} {t("book")}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Action Buttons */}
+                <View className="flex-row flex-wrap gap-2">
+                  <View
+                    className="bg-gray-100 px-3 py-1.5 rounded-lg"
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "#E7E7E7",
+                    }}
+                  >
+                    <Text className="text-xs font-SomarMedium text-gray-600">
+                      {t("golden_reader")}
+                    </Text>
+                  </View>
+
+                  <View
+                    className="bg-gray-100 px-3 py-1.5 rounded-lg"
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "#E7E7E7",
+                    }}
+                  >
+                    <Text className="text-xs font-SomarMedium text-gray-600">
+                      {t("exceptional_reader")}
+                    </Text>
+                  </View>
+
+                  <View
+                    className="bg-gray-100 px-3 py-1.5 rounded-lg"
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "#E7E7E7",
+                    }}
+                  >
+                    <Text className="text-xs font-SomarMedium text-gray-600">
+                      {t("professional_reader")}
+                    </Text>
+                  </View>
                 </View>
               </View>
-
-              {/* Right Section - Stats */}
-              <View className="items-end">
-                <Text className="text-sm font-SomarMedium text-gray-600">
-                  {achievement.days} {t("day")} • {achievement.books}{" "}
-                  {t("book")}
-                </Text>
-                <Text className="text-lg font-SomarBold text-primary">
-                  {achievement.points}
-                </Text>
-                <Text className="text-xs font-SomarMedium text-gray-500">
-                  {t("points")}
-                </Text>
-              </View>
             </View>
-
-            {/* Medal for top 3 */}
-            {achievement.position <= 3 && (
-              <View className="absolute top-2 right-2">
-                <Text className="text-lg">
-                  {achievement.position === 1
-                    ? "🥇"
-                    : achievement.position === 2
-                      ? "🥈"
-                      : "🥉"}
-                </Text>
-              </View>
-            )}
           </View>
         ))}
       </View>

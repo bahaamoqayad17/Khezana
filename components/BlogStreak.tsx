@@ -1,3 +1,8 @@
+import LikedIcon from "@/icons/Liked";
+import SteakBlog1 from "@/icons/SteakBlog1";
+import SteakBlog2 from "@/icons/SteakBlog2";
+import SteakBlog3 from "@/icons/SteakBlog3";
+import SteakBlog4 from "@/icons/SteakBlog4";
 import { useTranslation } from "react-i18next";
 import { ScrollView, Text, View } from "react-native";
 
@@ -11,7 +16,7 @@ export default function BlogStreak() {
       user: t("basem_amin"),
       count: 20468,
       type: "posts",
-      icon: "💬",
+      icon: <SteakBlog1 />,
       bgColor: "bg-blue-50",
       iconBg: "bg-blue-500",
     },
@@ -20,7 +25,7 @@ export default function BlogStreak() {
       user: t("basem_amin"),
       count: 2046,
       type: "likes",
-      icon: "❤️",
+      icon: <SteakBlog2 />,
       bgColor: "bg-red-50",
       iconBg: "bg-red-500",
     },
@@ -29,7 +34,7 @@ export default function BlogStreak() {
       user: t("basem_amin"),
       count: 5056,
       type: "members",
-      icon: "💰",
+      icon: <SteakBlog3 />,
       bgColor: "bg-yellow-50",
       iconBg: "bg-yellow-500",
     },
@@ -38,7 +43,7 @@ export default function BlogStreak() {
       user: t("basem_amin"),
       count: 1054,
       type: "articles",
-      icon: "📝",
+      icon: <SteakBlog4 />,
       bgColor: "bg-orange-50",
       iconBg: "bg-orange-500",
     },
@@ -48,86 +53,118 @@ export default function BlogStreak() {
     { user: t("basem_amin"), count: 254 },
     { user: t("basem_amin"), count: 254 },
     { user: t("basem_amin"), count: 254 },
+    { user: t("basem_amin"), count: 254 },
+    { user: t("basem_amin"), count: 254 },
+    { user: t("basem_amin"), count: 254 },
   ];
+
+  const AchievementCard = ({ achievement }: { achievement: any }) => (
+    <View className="w-[48%] bg-white rounded-xl p-4 shadow-sm mb-3">
+      <View className="flex-row items-center justify-between mb-3">
+        <View
+          className="w-10 h-10 rounded-full items-center justify-center"
+          style={{ backgroundColor: achievement.color + "20" }}
+        >
+          <Text className="text-xl">{achievement.icon}</Text>
+        </View>
+        <Text className="text-2xl font-SomarBlack">{achievement.count}</Text>
+      </View>
+      <Text className="text-lg font-SomarBold text-gray-700 mb-1">
+        {achievement.title}
+      </Text>
+    </View>
+  );
 
   return (
     <ScrollView className="flex-1 px-6">
-      {/* Achievement Cards */}
-      <View className="space-y-4 mb-6">
-        {achievements.map((achievement, index) => (
-          <View
-            key={index}
-            className={`rounded-xl p-4 ${achievement.bgColor} border border-gray-200`}
-          >
-            <View className="flex-row items-center justify-between">
-              {/* Left Section */}
-              <View className="flex-row items-center flex-1">
-                <View
-                  className={`w-12 h-12 ${achievement.iconBg} rounded-full items-center justify-center mr-4`}
-                >
-                  <Text className="text-xl">{achievement.icon}</Text>
-                </View>
-                <View className="flex-1">
-                  <Text className="text-lg font-SomarBold text-gray-800">
-                    {achievement.count}
-                  </Text>
-                  <Text className="text-sm font-SomarMedium text-gray-600">
-                    {achievement.title}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        ))}
+      {/* Achievement Cards - 2x2 Grid */}
+      <View className="mb-6 mt-4">
+        <View className="flex-row flex-wrap gap-3 justify-between">
+          {achievements.map((achievement) => (
+            <AchievementCard
+              key={achievement.title}
+              achievement={achievement}
+            />
+          ))}
+        </View>
       </View>
 
       {/* Electronic Comments Section */}
       <View className="mb-6">
         <Text className="text-lg font-SomarBold text-gray-800 mb-4">
-          {t("electronic_comments")}
+          {t("most_liked_articles")}
         </Text>
 
-        <View className="space-y-3">
+        <View className="gap-4">
           {electronicComments.map((comment, index) => (
             <View
               key={index}
-              className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200"
+              className="bg-white rounded-xl p-6 relative overflow-hidden"
+              style={{
+                borderLeftWidth: 5,
+                borderLeftColor: "#FFD700",
+                elevation: 1,
+              }}
             >
-              <View className="flex-row items-center justify-between">
-                {/* Left Section */}
-                <View className="flex-row items-center flex-1">
-                  <View className="w-12 h-12 bg-blue-500 rounded-full items-center justify-center mr-4">
-                    <Text className="text-white font-SomarBold text-lg">ب</Text>
-                  </View>
-                  <View className="flex-1">
-                    <Text className="text-base font-SomarBold text-gray-800">
-                      {comment.user}
-                    </Text>
-                    <Text className="text-sm font-SomarMedium text-gray-600">
-                      {t("comment_improvement_desc")}
-                    </Text>
+              {/* Main Content */}
+              <View className="flex-row items-center">
+                {/* Position Badge - Top Right */}
+                <View
+                  className="rounded-full items-center justify-center"
+                  style={{ width: 32, height: 32 }}
+                >
+                  <Text
+                    className="font-SomarBold text-lg"
+                    style={{ color: "#888888" }}
+                  >
+                    {index + 1}
+                  </Text>
+                </View>
+                {/* Left Side - Avatar */}
+                <View className="mr-4">
+                  <View className="w-16 h-16 bg-blue-500 rounded-full items-center justify-center">
+                    <Text className="text-white font-SomarBold text-xl">ا</Text>
                   </View>
                 </View>
 
-                {/* Right Section - Count */}
-                <View className="items-center">
-                  <View className="bg-blue-500 rounded-full px-3 py-1">
-                    <Text className="text-white font-SomarBold text-sm">
-                      {comment.count}
+                {/* Center - User Info */}
+                <View className="flex-1 flex-row items-center justify-between gap-2">
+                  <View className="flex-1">
+                    <View className="flex-row items-center justify-between mb-2">
+                      <Text className="text-lg font-SomarBold text-gray-800">
+                        ابتسام عيسى الشندويلي
+                      </Text>
+                    </View>
+
+                    {/* Description */}
+                    <Text className="text-sm font-SomarRegular text-gray-600 mb-3">
+                      نصائح لتحسين مهارات القراءة السريعة
                     </Text>
                   </View>
-                  <Text className="text-xs font-SomarMedium text-gray-500 mt-1">
-                    👍
-                  </Text>
+
+                  {/* Stats Row */}
+                  <View
+                    className="flex-row items-center gap-4"
+                    style={{
+                      backgroundColor: "#F5ECDF",
+                      borderRadius: 10,
+                      padding: 4,
+                      paddingHorizontal: 8,
+                    }}
+                  >
+                    <View className="flex-row items-center gap-2">
+                      <LikedIcon />
+                      <Text className="text-lg font-SomarBold text-blue-500">
+                        {comment.count}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
           ))}
         </View>
       </View>
-
-      {/* Bottom Navigation Placeholder */}
-      <View className="h-20" />
     </ScrollView>
   );
 }

@@ -62,6 +62,13 @@ export default function Notifications() {
             </View>
           ) : (
             <View className="space-y-4">
+              {notifications.length === 0 && (
+                <View className="flex-1 justify-center items-center py-20">
+                  <Text className="text-gray-500 text-3xl font-SomarRegular text-center">
+                    {t("no_notifications")}
+                  </Text>
+                </View>
+              )}
               {notifications.map((notification) => (
                 <TouchableOpacity
                   key={notification.id}

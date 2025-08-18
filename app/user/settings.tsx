@@ -86,7 +86,12 @@ export default function UserSettings() {
           {settingsFields.map((field) => (
             <View
               key={field.id}
-              className="bg-lightPrimary rounded-2xl p-4 borderize mb-4"
+              className="rounded-xl p-4 mb-4"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
             >
               <View className="flex-row items-center justify-between">
                 <View className="flex-1">
@@ -110,7 +115,10 @@ export default function UserSettings() {
         {/* Delete Account Button */}
         <TouchableOpacity
           onPress={() => setDeleteAccountModalVisible(true)}
-          className="bg-red-500 rounded-2xl p-4 items-center"
+          className="rounded-2xl p-4 items-center"
+          style={{
+            backgroundColor: "#ff0000",
+          }}
         >
           <Text className="text-white font-SomarBold text-lg">
             {t("delete_account")}

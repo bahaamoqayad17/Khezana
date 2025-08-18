@@ -26,9 +26,7 @@ export default function Profile() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user.id) {
-      dispatch(fetchUserProfile(1));
-    }
+    dispatch(fetchUserProfile(1));
   }, [dispatch]);
 
   if (loading) {
@@ -55,7 +53,7 @@ export default function Profile() {
       title: t("book_suggestion"),
       subtitle: t("book_suggestion_subtitle"),
       hasEdit: true,
-      onPress: () => router.push("/contact-us"),
+      onPress: () => router.push("/contact"),
     },
     {
       id: "subscription",
@@ -72,14 +70,15 @@ export default function Profile() {
     {
       id: "terms",
       title: t("terms_of_use"),
+      onPress: () => router.push("/terms"),
       subtitle: "",
       hasEdit: false,
     },
   ];
 
   const handleShare = () => {
-    const url = `${process.env.EXPO_PUBLIC_API_URL}storage/${user.profile_image}`;
-    const message = t("share_message") + " " + user.name;
+    const url = `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`;
+    const message = t("share_message") + " " + user?.name;
     const title = t("share_title");
 
     Share.share({
@@ -104,10 +103,10 @@ export default function Profile() {
           {/* Avatar */}
           <View className="items-center mb-4">
             <View className="w-24 h-24 rounded-full bg-gray-200 border-4 p-4 border-white shadow-sm overflow-hidden">
-              {user.profile_image ? (
+              {user?.profile_image ? (
                 <Image
                   source={{
-                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user.profile_image}`,
+                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`,
                   }}
                   // className="w-full h-full"
                   resizeMode="cover"
@@ -124,7 +123,7 @@ export default function Profile() {
           <View className="items-center mb-6">
             <View className="flex-row items-center mb-2">
               <Text className="text-3xl font-SomarBold text-black">
-                {user.name}
+                {user?.name}
               </Text>
               {/* <SmallFireIcon />
               <Text className="text-md font-SomarRegular text-gray">
@@ -150,10 +149,16 @@ export default function Profile() {
           </View>
 
           {/* Action Buttons */}
-          <View className="flex-row justify-center space-x-6 px-8 gap-8 border-1 border-gray rounded-2xl">
+          <View className="flex-row justify-center space-x-6 px-8 gap-2 border-1 border-gray rounded-2xl">
             <TouchableOpacity
-              //   onPress={() => onMenuItemPress?.("conversations")}
-              className="items-center"
+              onPress={() => router.push("/user/achievements")}
+              // onPress={() => router.push("/user/profits")}
+              className="items-center rounded-3xl p-2"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
             >
               <View className="w-24 h-24 bg-lightPrimary rounded-4xl items-center justify-center gap-2 mb-2">
                 <AchievementsIcon />
@@ -166,7 +171,12 @@ export default function Profile() {
 
             <TouchableOpacity
               //   onPress={() => onMenuItemPress?.("notifications")}
-              className="items-center"
+              className="items-center rounded-3xl p-2"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
             >
               <View className="w-24 h-24 bg-lightPrimary rounded-4xl items-center justify-center gap-2 mb-2">
                 <QuotesIcon />
@@ -178,8 +188,13 @@ export default function Profile() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              //   onPress={() => onMenuItemPress?.("awards")}
-              className="items-center"
+              onPress={() => router.push("/leaderboard")}
+              className="items-center rounded-3xl p-2"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
             >
               <View className="w-24 h-24 bg-lightPrimary rounded-4xl items-center justify-center gap-2 mb-2">
                 <TrophyIcon />
@@ -197,8 +212,13 @@ export default function Profile() {
           {menuItems.map((item) => (
             <TouchableOpacity
               key={item.id}
-              onPress={item.onPress || (() => {})}
-              className="bg-lightPrimary rounded-2xl p-4 mb-4"
+              className="rounded-xl p-4 mb-4"
+              style={{
+                backgroundColor: "#FBF7F1",
+                borderColor: "#E7E7E7",
+                borderWidth: 1,
+              }}
+              onPress={item.onPress}
             >
               <View className="flex-row items-center justify-between">
                 <View className="flex-1">
@@ -212,7 +232,7 @@ export default function Profile() {
                   ) : null}
                 </View>
                 {item.hasEdit && (
-                  <TouchableOpacity className="p-2 ml-2">
+                  <TouchableOpacity className="p-2 ml-2" onPress={item.onPress}>
                     <EditIcon />
                   </TouchableOpacity>
                 )}

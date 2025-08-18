@@ -23,7 +23,7 @@ export default function TextEditor() {
           actions.insertLink,
         ]}
         style={{
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#fff",
           borderRadius: 10,
           marginBottom: 10,
         }}
@@ -41,8 +41,8 @@ export default function TextEditor() {
 
       {/* Publish Button */}
       <TouchableOpacity
-        className="bg-secondary p-2 rounded-md mt-2"
-        style={{ width: "50%", alignSelf: "flex-end" }}
+        className="bg-secondary p-2 rounded-md mt-2 self-end"
+        style={{ width: "50%" }}
         onPress={() => {
           richText.current?.getContentHtml().then((content) => {
             console.log(content);

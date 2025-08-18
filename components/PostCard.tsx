@@ -19,7 +19,13 @@ export default function PostCard({ post }: PostCardProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <View className="bg-white mx-4 my-2 p-4 rounded-xl shadow-sm border border-gray">
+    <View
+      className="bg-white mx-4 my-2 p-4 rounded-xl shadow-sm"
+      style={{
+        borderColor: "#E7E7E7",
+        borderWidth: 1,
+      }}
+    >
       {/* Header with user info */}
       <View className={`flex-row items-center mb-3`}>
         <View className="w-10 h-10 rounded-full bg-purple-500 items-center justify-center mr-3">
@@ -61,7 +67,12 @@ export default function PostCard({ post }: PostCardProps) {
         <Text className={`text-gray-700 text-sm leading-5`}>{post.body}</Text>
       </View>
 
-      <View className="h-0.5 bg-gray my-2 w-full" />
+      <View
+        className="h-0.5 my-2 w-full"
+        style={{
+          backgroundColor: "#E7E7E7",
+        }}
+      />
 
       {/* Interaction buttons */}
       <View
