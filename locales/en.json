@@ -312,5 +312,9 @@
     "choose_payment_method": "Choose Payment Method",
     "send_withdrawal_request": "Send Withdrawal Request",
     "important_information": "Important Information",
-    "no_notifications": "No notifications"
+    "no_notifications": "No notifications",
+    "login_success": "Login successful",
+    "register_success": "Register successful",
+    "login_error": "Invalid email or password",
+    "register_error": "This account already exists"
 }

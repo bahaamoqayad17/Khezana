@@ -1,4 +1,12 @@
+import { FieldWrap, Input, Validation } from "@/components/form";
+import OAuth from "@/components/OAuth";
+import LockIcon from "@/icons/Lock";
+import MailIcon from "@/icons/Mail";
+import axios from "@/utils/axios";
+import getPushToken from "@/utils/PushToken";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { Formik } from "formik";
 import React, { useState } from "react";
@@ -14,11 +22,6 @@ import {
 } from "react-native";
 import * as Yup from "yup";
 
-import { FieldWrap, Input, Validation } from "@/components/form";
-import OAuth from "@/components/OAuth";
-import LockIcon from "@/icons/Lock";
-import MailIcon from "@/icons/Mail";
-
 // Validation schema
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("email_invalid").required("email_required"),
@@ -33,14 +36,38 @@ interface LoginFormValues {
 const Login = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (values: LoginFormValues) => {
+    setIsLoading(true);
     try {
-      console.log("Login values:", values);
-      router.replace("/(tabs)");
-      // TODO: Implement login logic
+      const expo_push_token = await getPushToken();
+
+      const response = await axios.post("/login", {
+        ...values,
+        expo_push_token,
+      });
+
+      await AsyncStorage.setItem("token", response.data.access_token);
+      await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
+
+      showSuccessToast({
+        title: t("login_success"),
+        duration: 3000,
+      });
+
+      setTimeout(() => {
+        router.replace("/(tabs)");
+      }, 1000);
     } catch (error) {
-      console.error("Login error:", error);
+      showErrorToast({
+        title: t("login_error"),
+        duration: 3000,
+      });
+
+      console.error("Login error:", JSON.stringify(error));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -183,9 +210,10 @@ const Login = () => {
                     <TouchableOpacity
                       onPress={() => handleSubmit()}
                       className="bg-secondary rounded-xl p-4 w-full mt-10"
+                      disabled={isLoading}
                     >
                       <Text className="text-white font-SomarBlack text-center">
-                        {t("login")}
+                        {isLoading ? t("loading") : t("login")}
                       </Text>
                     </TouchableOpacity>
                   </View>

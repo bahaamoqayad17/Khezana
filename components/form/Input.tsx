@@ -29,7 +29,8 @@ const Input = forwardRef<TextInput, IInputProps>((props, ref) => {
   const isSplitDesign =
     className.includes("border-0") || className.includes("bg-transparent");
 
-  let inputClasses = "w-full text-black dark:text-white";
+  // let inputClasses = "w-full text-black dark:text-white";
+  let inputClasses = "w-full text-black";
 
   if (!isSplitDesign) {
     // Add background and border only if not in split design

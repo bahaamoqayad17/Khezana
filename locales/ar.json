@@ -305,5 +305,9 @@
     "choose_payment_method": "اختر طريقة الدفع",
     "send_withdrawal_request": "إرسال طلب سحب الأرباح",
     "important_information": "معلومات مهمة",
-    "no_notifications": "لا يوجد اشعارات"
+    "no_notifications": "لا يوجد اشعارات",
+    "login_success": "تم تسجيل الدخول بنجاح",
+    "register_success": "تم التسجيل بنجاح",
+    "login_error": "كلمة المرور أو البريد الإلكتروني غير صحيحة",
+    "register_error": "هذا الحساب موجود بالفعل"
 }

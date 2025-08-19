@@ -1,8 +1,9 @@
 import ReceivingNotifications from "@/components/ReceivingNotifications";
 import SplashScreenComponent from "@/components/SplashScreen";
+import { toastConfig } from "@/components/ToastConfig";
 import UpdateGuard from "@/components/UpdateGuard";
 import "@/global.css";
-import { useColorScheme } from "@/hooks/useColorScheme";
+
 import ar from "@/locales/ar.json";
 import en from "@/locales/en.json";
 import fr from "@/locales/fr.json";
@@ -17,6 +18,7 @@ import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
 import { I18nManager } from "react-native";
 import "react-native-reanimated";
+import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
 
 // Prevent auto-hide and make the splash screen transparent
@@ -26,7 +28,6 @@ I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [isAppReady, setIsAppReady] = useState(false);
   const [loaded] = useFonts({
     SomarBlack: require("@/assets/fonts/Somar_Black.ttf"),
@@ -112,6 +113,7 @@ export default function RootLayout() {
           {/* </ConnectionGuard> */}
         </UpdateGuard>
         <StatusBar style="auto" />
+        <Toast config={toastConfig} />
       </ThemeProvider>
     </Provider>
   );

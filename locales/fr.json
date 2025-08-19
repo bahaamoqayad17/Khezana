@@ -297,5 +297,9 @@
     "choose_payment_method": "Choisir la Méthode de Paiement",
     "send_withdrawal_request": "Envoyer la Demande de Retrait",
     "important_information": "Informations Importantes",
-    "no_notifications": "Aucune notification"
+    "no_notifications": "Aucune notification",
+    "login_success": "Connexion réussie",
+    "register_success": "Inscription réussie",
+    "login_error": "Email ou mot de passe invalide",
+    "register_error": "Ce compte existe déjà"
 }

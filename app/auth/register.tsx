@@ -19,6 +19,10 @@ import OAuth from "@/components/OAuth";
 import LockIcon from "@/icons/Lock";
 import MailIcon from "@/icons/Mail";
 import NameIcon from "@/icons/Name";
+import axios from "@/utils/axios";
+import getPushToken from "@/utils/PushToken";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Validation schema
 const RegisterSchema = Yup.object().shape({
@@ -41,14 +45,39 @@ const Register = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async (values: RegisterFormValues) => {
+    const expo_push_token = await getPushToken();
+    setIsLoading(true);
     try {
-      console.log("Register values:", values);
+      const response = await axios.post("/register", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        expo_push_token,
+      });
 
-      router.replace("/interests");
+      await AsyncStorage.setItem("token", response.data.access_token);
+      await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
+
+      showSuccessToast({
+        title: t("register_success"),
+        duration: 3000,
+      });
+
+      setTimeout(() => {
+        router.replace("/interests");
+      }, 1000);
     } catch (error) {
+      showErrorToast({
+        title: t("register_error"),
+        duration: 3000,
+      });
+
       console.error("Register error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,7 +133,7 @@ const Register = () => {
               }) => (
                 <View className="space-y-6 mt-10">
                   {/* Name Field */}
-                  <View className="mt-10">
+                  <View className="mt-4">
                     <FieldWrap
                       firstSuffix={<NameIcon />}
                       isValid={!errors.name}
@@ -131,7 +160,7 @@ const Register = () => {
                       {errors.name && touched.name ? t(errors.name) : ""}
                     </Validation>
                   </View>
-                  <View className="mt-10">
+                  <View className="mt-4">
                     <FieldWrap
                       firstSuffix={<MailIcon />}
                       isValid={!errors.email}
@@ -164,7 +193,7 @@ const Register = () => {
                   </View>
 
                   {/* Password Field */}
-                  <View className="mt-10">
+                  <View className="mt-4">
                     <FieldWrap
                       firstSuffix={<LockIcon />}
                       lastSuffix={
@@ -210,7 +239,7 @@ const Register = () => {
                   </View>
 
                   {/* Confirm Password Field */}
-                  <View className="mt-10">
+                  <View className="mt-4">
                     <FieldWrap
                       firstSuffix={<LockIcon />}
                       lastSuffix={
@@ -264,13 +293,14 @@ const Register = () => {
                   </View>
 
                   {/* Register Button */}
-                  <View className="mt-8">
+                  <View className="mt-10">
                     <TouchableOpacity
                       onPress={() => handleSubmit()}
-                      className="bg-secondary rounded-xl p-4 w-full mt-10"
+                      className="bg-secondary rounded-xl p-4 w-full"
+                      disabled={isLoading}
                     >
                       <Text className="text-white font-SomarBlack text-center">
-                        {t("register")}
+                        {isLoading ? t("loading") : t("register")}
                       </Text>
                     </TouchableOpacity>
                   </View>
