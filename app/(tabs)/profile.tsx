@@ -66,6 +66,7 @@ export default function Profile() {
       title: t("technical_support"),
       subtitle: "",
       hasEdit: false,
+      onPress: () => router.push("/technical-support"),
     },
     {
       id: "terms",

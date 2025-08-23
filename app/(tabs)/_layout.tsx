@@ -63,6 +63,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MenuIcon color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          href: null, // This hides the tab from the tab bar
+        }}
+      />
+      <Tabs.Screen
+        name="books_category"
+        options={{
+          href: null, // This hides the tab from the tab bar
+        }}
+      />
     </Tabs>
   );
 }

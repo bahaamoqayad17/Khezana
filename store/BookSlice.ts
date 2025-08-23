@@ -81,7 +81,6 @@ const BookSlice = createSlice({
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("action.payload", action.payload);
         state.book = action.payload;
       });
   },

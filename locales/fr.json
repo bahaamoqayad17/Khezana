@@ -301,5 +301,18 @@
     "login_success": "Connexion réussie",
     "register_success": "Inscription réussie",
     "login_error": "Email ou mot de passe invalide",
-    "register_error": "Ce compte existe déjà"
+    "register_error": "Ce compte existe déjà",
+    "buy_now": "Acheter maintenant",
+    "cart": "Panier",
+    "gift_book": "Donner un livre",
+    "gift_book_description": "Donnez ce livre en cadeau à quelqu'un",
+    "recipient_email": "Email du destinataire",
+    "personal_message": "Message personnel",
+    "write_message": "Écrivez votre message...",
+    "sending": "Envoi en cours...",
+    "send_gift": "Envoyer un cadeau",
+    "have_read": "Lu",
+    "unread": "Non lu",
+    "write_your_message": "Écrivez votre message ici",
+    "how_can_we_help": "Comment pouvons-nous vous aider ?"
 }

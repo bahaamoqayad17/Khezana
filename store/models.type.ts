@@ -20,6 +20,14 @@ export interface Subscription {
   created_at: string;
   updated_at: string;
   is_user_subscribed: boolean;
+  features: {
+    id: number;
+    subscription_id: number;
+    text: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+  }[];
 }
 
 export interface Notification {
@@ -116,6 +124,9 @@ export interface Book {
   publisher: Publisher | null;
   author: Author | null;
   description: string;
+  in_cart?: boolean;
+  is_purchased?: boolean;
+  can_read?: boolean;
   created_at: string;
   updated_at: string;
 }

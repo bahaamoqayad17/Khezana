@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import React, { ReactNode, useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
 import UnAuthorized from "./UnAuthorized";
 
 type Props = {
@@ -23,31 +23,27 @@ export default function AuthGuard({ children }: Props) {
 
         if (!token) {
           setIsAuthorized(false);
+          router.replace("/auth/login");
           return;
         }
 
         const decoded: DecodedToken = jwtDecode(token);
         const now = Math.floor(Date.now() / 1000);
+
         if (decoded.exp < now) {
           await AsyncStorage.removeItem("token");
           setIsAuthorized(false);
+          router.replace("/auth/login");
         }
       } catch (err) {
         console.error("Auth check failed:", err);
         setIsAuthorized(false);
+        router.replace("/auth/login");
       } finally {
         setChecking(false);
       }
     })();
   }, []);
 
-  if (checking) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
-
-  return isAuthorized ? <>{children}</> : <UnAuthorized />;
+  return !isAuthorized ? <>{children}</> : <UnAuthorized />;
 }

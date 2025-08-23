@@ -55,7 +55,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <View className="flex-row items-center justify-between mb-4">
         {/* Notification Icon */}
         <TouchableOpacity
-          onPress={() => router.push("/epub-reader")}
+          // onPress={() => router.push("/epub-reader")}
+          onPress={() => router.push("/subscriptions")}
           className="p-2"
         >
           <View className="flex-row items-center gap-2">
@@ -72,17 +73,15 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         </Text>
 
         {/* Shopping Cart Icon */}
-        <TouchableOpacity onPress={handleCartPress} className="p-2">
-          <View className="flex-row items-center gap-2">
-            <TouchableOpacity onPress={handleCartPress}>
-              <CartIcon />
-            </TouchableOpacity>
+        <View className="flex-row items-center gap-2">
+          <TouchableOpacity onPress={() => router.push("/(tabs)/cart")}>
+            <CartIcon />
+          </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => router.push("/notifications")}>
-              <NotificationIcon />
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/notifications")}>
+            <NotificationIcon />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Search Bar */}

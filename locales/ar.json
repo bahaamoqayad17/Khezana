@@ -309,5 +309,18 @@
     "login_success": "تم تسجيل الدخول بنجاح",
     "register_success": "تم التسجيل بنجاح",
     "login_error": "كلمة المرور أو البريد الإلكتروني غير صحيحة",
-    "register_error": "هذا الحساب موجود بالفعل"
+    "register_error": "هذا الحساب موجود بالفعل",
+    "buy_now": "شراء الآن",
+    "cart": "السلة",
+    "gift_book": "إرسال كتاب",
+    "gift_book_description": "أرسل هذا الكتاب كهدية لشخص ما",
+    "recipient_email": "البريد الإلكتروني للمستلم",
+    "personal_message": "الرسالة الشخصية",
+    "write_message": "أكتب رسالتك هنا",
+    "sending": "جاري الإرسال",
+    "send_gift": "إرسال كتاب",
+    "have_read": "مقروء",
+    "unread": "غير مقروء",
+    "write_your_message": "اكتب رسالتك هنا",
+    "how_can_we_help": "كيف يمكننا مساعدتك؟"
 }

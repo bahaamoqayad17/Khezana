@@ -6,6 +6,7 @@ import ViewAllIcon from "@/icons/ViewAll";
 import { fetchHomePage } from "@/store/BookSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Book } from "@/store/models.type";
+import { router } from "expo-router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -26,7 +27,12 @@ export default function HomeScreen() {
   }, []);
 
   if (loading || !home) {
-    return <HomeSkeleton />;
+    return (
+      <>
+        <Header title="" />
+        <HomeSkeleton />
+      </>
+    );
   }
 
   if (error) {
@@ -49,6 +55,7 @@ export default function HomeScreen() {
                 key={index}
                 className="px-4 py-2 border border-primary rounded-xl mr-3"
                 style={{ backgroundColor: "#FFFBFB" }}
+                onPress={() => router.push(`/books_category?id=${category.id}`)}
               >
                 <Text className="text-tertiary text-lg font-SomarRegular font-bold">
                   {category.name}

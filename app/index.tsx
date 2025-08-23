@@ -4,7 +4,9 @@ import OnBoarding3 from "@/components/onboarding/OnBoarding-3";
 import OnBoarding4 from "@/components/onboarding/OnBoarding-4";
 import OnBoarding5 from "@/components/onboarding/OnBoarding-5";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import { useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
@@ -19,6 +21,16 @@ export default function Index() {
   const skipToEnd = () => {
     setStep(5); // Skip to the last step or navigate to main app
   };
+
+  useLayoutEffect(() => {
+    const auth = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        router.replace("/(tabs)");
+      }
+    };
+    auth();
+  }, []);
 
   const steps = [
     <OnBoarding1 key="onboarding1" />,

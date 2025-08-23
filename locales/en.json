@@ -316,5 +316,18 @@
     "login_success": "Login successful",
     "register_success": "Register successful",
     "login_error": "Invalid email or password",
-    "register_error": "This account already exists"
+    "register_error": "This account already exists",
+    "buy_now": "Buy Now",
+    "cart": "Cart",
+    "gift_book": "Gift Book",
+    "gift_book_description": "Send this book as a gift to someone special",
+    "recipient_email": "Recipient Email",
+    "personal_message": "Personal Message",
+    "write_message": "Write your message...",
+    "sending": "Sending...",
+    "send_gift": "Send Gift",
+    "have_read": "Have Read",
+    "unread": "Unread",
+    "write_your_message": "Write your message here",
+    "how_can_we_help": "How can we help you?"
 }

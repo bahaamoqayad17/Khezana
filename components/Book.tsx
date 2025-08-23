@@ -1,24 +1,34 @@
+import DeleteCartIcon from "@/icons/DeleteCart";
+import GiftIcon from "@/icons/Gift";
+import InCartIcon from "@/icons/InCart";
 import ListenedIcon from "@/icons/Listened";
 import PagesIcon from "@/icons/Pages";
+import { removeFromCart } from "@/store/CartSlice";
+import { useAppDispatch } from "@/store/hooks";
 import { Book } from "@/store/models.type";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import GiftBookModal from "./modals/GiftBookModal";
 
-interface BookComponentProps {
-  book: Book;
-}
-
-export default function BookComponent({ book }: BookComponentProps) {
+export default function BookComponent({ book }: { book: Book }) {
   const { t } = useTranslation();
-
+  const pathname = usePathname();
+  const [showGiftModal, setShowGiftModal] = useState(false);
+  const dispatch = useAppDispatch();
+  const handleGift = async (email: string, message: string) => {
+    console.log("Gifting book:", book.title, "to:", email, "message:", message);
+    // TODO: Implement actual gift API call
+    // You can add your gift API logic here
+  };
   return (
     <TouchableOpacity
       className="rounded-xl p-4 flex-row gap-2 mb-4"
       onPress={() => router.push(`/books/${book.id}`)}
       style={{
         borderWidth: 1,
-        borderColor: "#E7E7E7",
+        borderColor: "#F5ECDF",
       }}
     >
       {/* Book Cover */}
@@ -40,27 +50,66 @@ export default function BookComponent({ book }: BookComponentProps) {
 
         {/* Author */}
         <Text className="text-sm text-secondary font-SomarMedium mb-3">
-          {t("author")}: {book.author}
+          {t("author")}: {book.author?.author_name || "Unknown"}
         </Text>
 
         {/* Book Stats */}
-        <View className="flex-row gap-2 items-center">
+        <View className="flex-row items-center justify-between">
           {/* Minutes (estimated reading time) */}
           <View className="flex-row items-center gap-1">
-            <ListenedIcon />
-            <Text className="text-xs text-secondary font-SomarMedium">
-              {Math.ceil(book.pages * 2)} {t("minute")}
-            </Text>
+            <View className="flex-row items-center gap-1">
+              <ListenedIcon />
+              <Text className="text-xs text-secondary font-SomarMedium">
+                {Math.ceil(book.pages * 2)} {t("minute")}
+              </Text>
+            </View>
+            {/* Pages */}
+            <View className="flex-row items-center gap-1">
+              <PagesIcon />
+              <Text className="text-xs text-secondary font-SomarMedium">
+                {book.pages} {t("page")}
+              </Text>
+            </View>
           </View>
-          {/* Pages */}
-          <View className="flex-row items-center gap-1">
-            <PagesIcon />
-            <Text className="text-xs text-secondary font-SomarMedium">
-              {book.pages} {t("page")}
+
+          {pathname === "/books" && (
+            <TouchableOpacity onPress={() => setShowGiftModal(true)}>
+              <GiftIcon />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View className="flex-row items-center justify-between">
+          {pathname === "/cart" && (
+            <Text className="text-xl text-primary font-SomarMedium">
+              {book.price} {t("dzd")}
             </Text>
-          </View>
+          )}
         </View>
       </View>
+
+      {/* show delete and in cart icons when the page is cart */}
+      {pathname === "/cart" && (
+        <View className="items-center justify-between">
+          <TouchableOpacity
+            onPress={() => dispatch(removeFromCart(book.id))}
+            className="flex-row items-center gap-2"
+          >
+            <DeleteCartIcon />
+          </TouchableOpacity>
+          <View className="flex-row items-center gap-2">
+            <InCartIcon />
+          </View>
+        </View>
+      )}
+
+      {/* Gift Modal */}
+      <GiftBookModal
+        visible={showGiftModal}
+        onClose={() => setShowGiftModal(false)}
+        book={book}
+        onGift={handleGift}
+      />
     </TouchableOpacity>
   );
 }
