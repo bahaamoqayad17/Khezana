@@ -52,9 +52,9 @@ export default function PublicUserProfile({ user }: { user: User }) {
             {/* User Image */}
             <Image
               source={{
-                uri: user?.profile_image
-                  ? `${process.env.EXPO_PUBLIC_API_URL}storage/${user.profile_image}`
-                  : "https://via.placeholder.com/120x120/E0E0E0/999999?text=User",
+                uri: user?.user_image_url?.startsWith("http")
+                  ? user?.user_image_url
+                  : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.user_image_url}`,
               }}
               className="rounded-full shadow-lg"
               style={{ width: 120, height: 120 }}
@@ -64,7 +64,7 @@ export default function PublicUserProfile({ user }: { user: User }) {
             {/* User Name */}
             <View className="items-center gap-2">
               <Text className="text-3xl font-SomarBold text-black">
-                {user.name}
+                {user.user_name}
               </Text>
 
               <TrophyIcon />
@@ -306,7 +306,7 @@ export default function PublicUserProfile({ user }: { user: User }) {
                   {t("brief")}
                 </Text>
                 <Text className="text-gray-700 font-SomarMedium leading-6">
-                  {user?.bio}
+                  {user?.user_bio}
                 </Text>
               </View>
 

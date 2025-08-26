@@ -29,23 +29,25 @@ export default function PostCard({ post }: PostCardProps) {
       {/* Header with user info */}
       <View className={`flex-row items-center mb-3`}>
         <View className="w-10 h-10 rounded-full bg-purple-500 items-center justify-center mr-3">
-          {post.user.profile_image ? (
+          {post.author.user_image_url ? (
             <Image
               source={{
-                uri: `${process.env.EXPO_PUBLIC_API_URL}${post.user.profile_image}`,
+                uri: post.author.user_image_url.startsWith("http")
+                  ? post.author.user_image_url
+                  : `${process.env.EXPO_PUBLIC_API_URL}storage/${post.author.user_image_url}`,
               }}
               className="w-10 h-10 rounded-full"
             />
           ) : (
             <Text className="text-white font-medium text-sm">
-              {post.user.name.charAt(0).toUpperCase()}
+              {post.author.user_name.charAt(0).toUpperCase()}
             </Text>
           )}
         </View>
 
         <View className="flex-1">
           <Text className={`font-medium text-gray-900 text-md font-SomarBold`}>
-            {post.user.name}
+            {post.author.user_name}
           </Text>
           {/* <Text className={`text-gray-500 text-xs`}>
             {formatDate(post.created_at)}
@@ -59,12 +61,14 @@ export default function PostCard({ post }: PostCardProps) {
 
       {/* Post content */}
       <View className="mb-4">
-        {post.title && (
+        {post.post_title && (
           <Text className={`font-semibold text-gray-900 text-base mb-2`}>
-            {post.title}
+            {post.post_title}
           </Text>
         )}
-        <Text className={`text-gray-700 text-sm leading-5`}>{post.body}</Text>
+        <Text className={`text-gray-700 text-sm leading-5`}>
+          {post.post_body}
+        </Text>
       </View>
 
       <View
@@ -81,19 +85,19 @@ export default function PostCard({ post }: PostCardProps) {
       >
         <TouchableOpacity className={`flex-row items-center gap-2`}>
           <Text className="text-gray font-SomarRegular text-md">
-            {post.likes_count}
+            {post.post_likes_count}
           </Text>
           <LikeIcon />
         </TouchableOpacity>
         <TouchableOpacity
           className={`flex-row items-center gap-2`}
           onPress={() => {
-            dispatch(fetchPostComments(post.id));
+            dispatch(fetchPostComments(post.post_id));
             setCommentModalVisible(true);
           }}
         >
           <Text className="text-gray font-SomarRegular text-md">
-            {post.comments_count}
+            {post.post_comments_count}
           </Text>
           <CommentIcon />
         </TouchableOpacity>

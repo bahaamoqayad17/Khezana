@@ -33,47 +33,6 @@ export default function BookDetails() {
   const [activeTab, setActiveTab] = useState<"reviews" | "about">("about");
   const [userRating, setUserRating] = useState(0);
 
-  // Mock data for related books and reviews
-  const relatedBooks = [
-    { id: 1, title: "أليس في بلاد العجائب", image: "alice.jpg" },
-    { id: 2, title: "الأسود الصغير", image: "lion.jpg" },
-  ];
-
-  const reviews = [
-    {
-      id: 1,
-      user: "محمد",
-      rating: 2,
-      comment: "",
-      date: "منذ يومين",
-      avatar: "م",
-      avatarColor: "bg-orange-100",
-      textColor: "text-orange-600",
-    },
-    {
-      id: 2,
-      user: "عيسى",
-      rating: 5,
-      comment:
-        "تطبيق ممتاز يحتوي على مكتبة ضخمة من الكتب باللغة العربية والانجليزية، وسهولة الاستخدام جعل أحبني، خيار القراءة بدون إنترنت أحبه به مئة لكل محب القراءة",
-      date: "منذ أسبوع",
-      avatar: "E",
-      avatarColor: "bg-blue-500",
-      textColor: "text-white",
-    },
-    {
-      id: 3,
-      user: "إبتسام",
-      rating: 5,
-      comment:
-        "التطبيق رائع من حيث التنوع وسرعة التحميل لكن أتمنى إضافة خاصية تميز الصفحات المهمة أو إضافة ملاحظات داخل الكتب. شكراً للمطورين",
-      date: "منذ شهر",
-      avatar: "E",
-      avatarColor: "bg-blue-500",
-      textColor: "text-white",
-    },
-  ];
-
   useEffect(() => {
     dispatch(fetchBook(id));
   }, [id, dispatch]);
@@ -106,7 +65,7 @@ export default function BookDetails() {
 
         <View className="flex-1 items-center justify-center">
           <Text className={`text-lg font-SomarBold text-primary text-center`}>
-            {book.title}
+            {book.book_title}
           </Text>
         </View>
 
@@ -127,7 +86,7 @@ export default function BookDetails() {
           <View className="items-center">
             <Image
               source={{
-                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.image}`,
+                uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.book_cover_image}`,
               }}
               className="rounded-lg shadow-lg"
               style={{ width: 150, height: 200 }}
@@ -135,7 +94,7 @@ export default function BookDetails() {
             />
 
             <Text className="text-lg font-SomarBold text-primary mt-4 text-center">
-              {book.title}
+              {book.book_title}
             </Text>
 
             {/* Book Stats */}
@@ -157,7 +116,7 @@ export default function BookDetails() {
                   {t("language")}
                 </Text>
                 <Text className="text-lg font-SomarRegular text-gray-200">
-                  {book.language}
+                  {book.book_language}
                 </Text>
               </View>
 
@@ -166,7 +125,7 @@ export default function BookDetails() {
                   {t("pages")}
                 </Text>
                 <Text className="text-lg font-SomarRegular text-gray-200">
-                  {book.pages}
+                  {book.book_page_count}
                 </Text>
               </View>
 
@@ -233,11 +192,11 @@ export default function BookDetails() {
               </Text>
               <View className="items-center">
                 <Text className="text-3xl font-SomarBold text-gray-800 mb-1">
-                  3.5
+                  {book.rating}
                 </Text>
                 <View className="bg-orange-100 px-3 py-1 rounded-full mb-2">
                   <Text className="text-orange-600 text-sm font-SomarMedium">
-                    +65 تقييم
+                    {t("rating")} +{book.number_of_ratings}
                   </Text>
                 </View>
               </View>
@@ -310,18 +269,16 @@ export default function BookDetails() {
                 </View>
               </View>
 
-              {reviews.map((review) => (
+              {book.reviews.map((review) => (
                 <View key={review.id} className="bg-white rounded-xl p-4">
                   <View className="flex-row items-start justify-between mb-3">
                     <View className="flex-row items-center">
                       <View
-                        className={`w-10 h-10 ${review.avatarColor} rounded-full items-center justify-center mr-3`}
+                        className={`w-10 h-10 rounded-full items-center justify-center mr-3`}
                       >
-                        <Text className={`${review.textColor} font-SomarBold`}>
-                          {review.avatar}
-                        </Text>
+                        <Text className={`font-SomarBold`}>{review.user}</Text>
                       </View>
-                      <Text className="font-SomarBold text-gray-800 text-right">
+                      <Text className="font-SomarBold text-gray-800">
                         {review.user}
                       </Text>
                     </View>
@@ -337,13 +294,13 @@ export default function BookDetails() {
                     </View>
                   </View>
                   {review.comment ? (
-                    <Text className="text-gray-600 text-sm leading-6 text-right">
+                    <Text className="text-gray-600 text-sm leading-6">
                       {review.comment}
                     </Text>
                   ) : (
                     <View className="bg-gray-50 rounded-lg p-3 mb-2">
-                      <Text className="text-gray-400 text-sm text-right">
-                        أكتب تعليقا .....
+                      <Text className="text-gray-400 text-sm">
+                        {t("write_your_message")}
                       </Text>
                     </View>
                   )}
@@ -391,7 +348,9 @@ export default function BookDetails() {
                 <TouchableOpacity
                   className="book-details-card"
                   onPress={() =>
-                    router.push(`/categories/${book.category?.id}`)
+                    router.push(
+                      `/books_category?id=${book.category?.category_id}&name=${book.category?.category_name}`
+                    )
                   }
                 >
                   <View className="w-12 h-12 bg-amber-600 rounded-xl items-center justify-center mb-3">
@@ -423,7 +382,7 @@ export default function BookDetails() {
 
               <View className="">
                 <Text className="text-gray-600 font-SomarBold leading-7">
-                  {book.description}
+                  {book.book_description}
                 </Text>
               </View>
             </View>
@@ -436,22 +395,22 @@ export default function BookDetails() {
                 {t("related_books")}
               </Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {relatedBooks.map((relatedBook) => (
+                {book.related_books.map((relatedBook) => (
                   <TouchableOpacity
-                    key={relatedBook.id}
+                    key={relatedBook.book_id}
                     className="mr-4 items-center"
                     style={{ width: 100 }}
                   >
                     <Image
                       source={{
-                        uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${relatedBook.image}`,
+                        uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${relatedBook.book_cover_image}`,
                       }}
                       className="rounded-lg"
                       style={{ width: 80, height: 120 }}
                       resizeMode="cover"
                     />
                     <Text className="text-sm font-SomarMedium text-gray-700 mt-2 text-center">
-                      {relatedBook.title}
+                      {relatedBook.book_title}
                     </Text>
                   </TouchableOpacity>
                 ))}

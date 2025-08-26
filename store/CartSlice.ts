@@ -35,10 +35,15 @@ export const userBooks = createAsyncThunk("cart/userBooks", async () => {
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (bookId: number) => {
-    const response = await axios.post("/user/add/cart", { book_id: bookId });
+    try {
+      const response = await axios.post("/user/add/cart", { book_id: bookId });
 
-    console.log("addToCart", response.data);
-    return response.data;
+      console.log("addToCart", response.data);
+      return response.data;
+    } catch (error) {
+      console.log("addToCart", JSON.stringify(error));
+      return error;
+    }
   }
 );
 
@@ -47,7 +52,7 @@ export const removeFromCart = createAsyncThunk(
   async (bookId: number) => {
     try {
       const response = await axios.post(`/user/delete/cart`, {
-        book_id: bookId,
+        cart_item_id: bookId,
       });
 
       console.log("removeFromCart", response.data);

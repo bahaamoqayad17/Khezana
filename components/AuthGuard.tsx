@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import React, { ReactNode, useEffect, useState } from "react";
 import UnAuthorized from "./UnAuthorized";
@@ -23,7 +22,6 @@ export default function AuthGuard({ children }: Props) {
 
         if (!token) {
           setIsAuthorized(false);
-          router.replace("/auth/login");
           return;
         }
 
@@ -33,12 +31,10 @@ export default function AuthGuard({ children }: Props) {
         if (decoded.exp < now) {
           await AsyncStorage.removeItem("token");
           setIsAuthorized(false);
-          router.replace("/auth/login");
         }
       } catch (err) {
         console.error("Auth check failed:", err);
         setIsAuthorized(false);
-        router.replace("/auth/login");
       } finally {
         setChecking(false);
       }

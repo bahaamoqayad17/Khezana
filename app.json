@@ -14,6 +14,7 @@
       "backgroundColor": "#00000000"
     },
     "ios": {
+      "bundleIdentifier": "com.khaznz",
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleLocalizations": [
@@ -49,6 +50,12 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.1046301485171-pm017hje6ape9g3aitfs8dpp7hdpnh1m.apps.googleusercontent.com"
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",

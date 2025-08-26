@@ -33,11 +33,11 @@ export default function UserProfile() {
 
   // User data state (for optimistic updates)
   const [userData, setUserData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    gender: user?.gender || t("male"),
-    country: user?.country || "فلسطين",
-    profile_image: user?.profile_image || "",
+    name: user?.user_name || "",
+    email: user?.user_email || "",
+    gender: user?.user_gender || t("male"),
+    country: user?.user_country || "فلسطين",
+    profile_image: user?.user_image_url || "",
   });
   const profileFields = [
     {
@@ -121,26 +121,25 @@ export default function UserProfile() {
         {/* Profile Avatar Section */}
         <View className="bg-lightPrimary rounded-2xl mb-6 p-4 items-center borderize">
           <View className="relative">
-            <View
-              className="w-24 rounded-full bg-gray-200 border-4 border-white shadow-sm overflow-hidden"
-              style={{
-                height: 80,
-              }}
-            >
-              {user?.profile_image ? (
-                <Image
-                  source={{
-                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`,
-                  }}
-                  className="w-full h-full"
-                  resizeMode="cover"
-                />
-              ) : (
-                <View className="w-full h-full bg-gray-300 items-center justify-center">
-                  <Ionicons name="person" size={40} color="#9CA3AF" />
-                </View>
-              )}
-            </View>
+            {userData?.profile_image ? (
+              <Image
+                source={{
+                  uri: userData?.profile_image?.startsWith("http")
+                    ? userData?.profile_image
+                    : `${process.env.EXPO_PUBLIC_API_URL}storage/${userData?.profile_image}`,
+                }}
+                style={{ width: 82, height: 82, borderRadius: 50 }}
+                resizeMode="cover"
+                onError={(e) =>
+                  console.log("image error:", e.nativeEvent.error)
+                }
+              />
+            ) : (
+              <View className="w-full h-full bg-gray-300 items-center justify-center">
+                <Ionicons name="person" size={40} color="#9CA3AF" />
+              </View>
+            )}
+
             <TouchableOpacity
               onPress={() => setPhotoModalVisible(true)}
               className="absolute bottom-0 -right-1 w-8 h-8 bg-orange-500 rounded-full items-center justify-center border-2 border-white"

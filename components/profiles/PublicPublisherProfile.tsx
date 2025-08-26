@@ -8,7 +8,7 @@ import TelegramIcon from "@/icons/Telegram";
 import UserFacebookIcon from "@/icons/UserFacebook";
 import WhatsappIcon from "@/icons/Whatsapp";
 import YoutubeIcon from "@/icons/Youtube";
-import { Author, Publisher, User } from "@/store/models.type";
+import { User } from "@/store/models.type";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
@@ -26,13 +26,36 @@ import {
 export default function PublicPublisherProfile({ user }: { user: User }) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<"brief" | "contact">("brief");
+  const isAuthor = useMemo(() => user.author?.author_id !== undefined, [user]);
 
-  const isAuthor = useMemo(() => user.type === "author", [user]);
-
-  const userData: Author | Publisher | null = useMemo(
-    () => (isAuthor ? user?.author : user?.publisher),
-    [user, isAuthor]
-  );
+  const userData = useMemo(() => {
+    if (user.author?.author_id) {
+      return {
+        name: user.author.author_name,
+        image: user.author.author_image,
+        description: user.author.author_description,
+        books: user.author.books,
+        fb: user.author.social_links.author_facebook,
+        instagram: user.author.social_links.author_instagram,
+        whatsapp: user.author.social_links.author_whatsapp,
+        telegram: user.author.social_links.author_telegram,
+        yt: user.author.social_links.author_youtube,
+        is_verified: user.author.is_verified,
+      };
+    }
+    return {
+      name: user.publisher?.publisher_name,
+      image: user.publisher?.publisher_image,
+      description: user.publisher?.publisher_description,
+      books: user.publisher?.books,
+      fb: user.publisher?.social_links?.publisher_facebook,
+      instagram: user.publisher?.social_links?.publisher_instagram,
+      whatsapp: user.publisher?.social_links?.publisher_whatsapp,
+      telegram: user.publisher?.social_links?.publisher_telegram,
+      yt: user.publisher?.social_links?.publisher_youtube,
+      is_verified: user.publisher?.is_verified,
+    };
+  }, [user]);
 
   if (!userData) {
     return (
@@ -82,7 +105,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
             {/* Publisher Name */}
             <View className="mt-4 text-center flex-row items-center justify-center gap-2">
               <Text className="text-xl font-SomarBold text-primary">
-                {userData?.publisher_name || userData?.author_name}
+                {userData?.name}
               </Text>
 
               {userData?.is_verified &&
@@ -200,7 +223,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
                 {t("brief")}
               </Text>
               <Text className="text-gray-600 font-SomarMedium leading-6">
-                {userData?.desc}
+                {userData?.description}
               </Text>
             </View>
 
@@ -211,7 +234,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
               </Text>
               {userData?.books && userData.books.length > 0 ? (
                 userData.books.map((book) => (
-                  <BookComponent key={book.id} book={book} />
+                  <BookComponent key={book.book_id} book={book} />
                 ))
               ) : (
                 <View className="bg-white rounded-xl p-8 items-center">
@@ -235,7 +258,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
               <View className="flex-row justify-center gap-4">
                 {userData?.fb && (
                   <TouchableOpacity
-                    onPress={() => Linking.openURL(userData.fb)}
+                    onPress={() => Linking.openURL(userData?.fb)}
                     className="w-12 h-12 rounded-full items-center justify-center"
                   >
                     <UserFacebookIcon />
@@ -243,7 +266,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
                 )}
                 {userData?.instagram && (
                   <TouchableOpacity
-                    onPress={() => Linking.openURL(userData.instagram)}
+                    onPress={() => Linking.openURL(userData?.instagram)}
                     className="w-12 h-12 rounded-full items-center justify-center"
                   >
                     <InstagramIcon />
@@ -251,7 +274,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
                 )}
                 {userData?.whatsapp && (
                   <TouchableOpacity
-                    onPress={() => Linking.openURL(userData.whatsapp)}
+                    onPress={() => Linking.openURL(userData?.whatsapp)}
                     className="w-12 h-12 rounded-full items-center justify-center"
                   >
                     <WhatsappIcon />
@@ -259,7 +282,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
                 )}
                 {userData?.telegram && (
                   <TouchableOpacity
-                    onPress={() => Linking.openURL(userData.telegram)}
+                    onPress={() => Linking.openURL(userData?.telegram)}
                     className="w-12 h-12 rounded-full items-center justify-center"
                   >
                     <TelegramIcon />
@@ -267,7 +290,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
                 )}
                 {userData?.yt && (
                   <TouchableOpacity
-                    onPress={() => Linking.openURL(userData.yt)}
+                    onPress={() => Linking.openURL(userData?.yt)}
                     className="w-12 h-12 rounded-full items-center justify-center"
                   >
                     <YoutubeIcon />
@@ -283,7 +306,7 @@ export default function PublicPublisherProfile({ user }: { user: User }) {
               </Text>
               {userData?.books && userData.books.length > 0 ? (
                 userData.books.map((book) => (
-                  <BookComponent key={book.id} book={book} />
+                  <BookComponent key={book.book_id} book={book} />
                 ))
               ) : (
                 <View className="bg-white rounded-xl p-8 items-center">

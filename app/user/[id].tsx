@@ -1,22 +1,33 @@
+import PublicPublisherProfile from "@/components/profiles/PublicPublisherProfile";
 import PublicUserProfile from "@/components/profiles/PublicUserProfile";
+import SelfUserProfile from "@/components/profiles/SelfUserProfile";
 import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
-import { fetchUserProfile } from "@/store/UserSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { User } from "@/store/models.type";
+import { fetchUserProfile } from "@/store/UserSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView, Text, View } from "react-native";
 
 export default function UserDetails() {
   const { t } = useTranslation();
   const params = useLocalSearchParams();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const id = params.id as string;
   const { user, loading } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserProfile(Number(5)));
-    // dispatch(fetchUserProfile(Number(id)));
+    dispatch(fetchUserProfile(Number(id)));
+    const fetchCurrentUser = async () => {
+      const user = await AsyncStorage.getItem("user");
+      if (user) {
+        setCurrentUser(JSON.parse(user));
+      }
+    };
+    fetchCurrentUser();
   }, [id, dispatch]);
 
   if (loading) {
@@ -37,13 +48,21 @@ export default function UserDetails() {
     <SafeAreaView className="flex-1 bg-white pb-10">
       {/* Header */}
 
-      <PublicUserProfile user={user} />
-
-      {/* {user.type === "user" && <SelfUserProfile user={user} />}
-
-      {(user.type === "publisher" || user.type === "author") && (
-        <PublicPublisherProfile user={user} />
-      )} */}
+      {user.author || user.publisher ? (
+        <>
+          {currentUser?.user_id === user.user_id ? null : (
+            <PublicPublisherProfile user={user} />
+          )}
+        </>
+      ) : (
+        <>
+          {currentUser?.user_id === user.user_id ? (
+            <SelfUserProfile user={user} />
+          ) : (
+            <PublicUserProfile user={user} />
+          )}
+        </>
+      )}
     </SafeAreaView>
   );
 }

@@ -50,7 +50,7 @@ export default function Community() {
         {!loading && !error && posts.length > 0 && (
           <View className="py-2 mt-10">
             {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post.post_id} post={post} />
             ))}
           </View>
         )}

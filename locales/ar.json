@@ -322,5 +322,8 @@
     "have_read": "مقروء",
     "unread": "غير مقروء",
     "write_your_message": "اكتب رسالتك هنا",
-    "how_can_we_help": "كيف يمكننا مساعدتك؟"
+    "how_can_we_help": "كيف يمكننا مساعدتك؟",
+    "logout": "تسجيل الخروج",
+    "logout_success": "تم تسجيل الخروج بنجاح",
+    "coming_soon": "هذه الخاصية قيد التطوير"
 }

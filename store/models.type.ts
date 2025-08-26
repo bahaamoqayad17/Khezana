@@ -1,10 +1,8 @@
 export interface Category {
-  id: number;
-  name?: string;
+  category_id: number;
   category_name: string;
-  category_description: string;
+  category_icon: string | null;
   order: number;
-  category_image_url: string;
   created_at: string;
   updated_at: string;
 }
@@ -43,41 +41,37 @@ export interface Notification {
 }
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  profile_image: string | null;
-  country: string | null;
-  bio: string | null;
-  gender: string | null;
-  email_verified_at: string | null;
-  device_token: string | null;
-  fcm_token: string | null;
-  is_login: number;
-  is_active: boolean;
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  user_image_url: string | null;
+  user_country: string | null;
+  user_bio: string | null;
+  user_gender: string | null;
+  user_expo_push_token: string | null;
+  user_joined_at: string | null;
   is_verified: boolean;
   created_at: string | null;
-  updated_at: string;
-  is_user_subscribed: boolean;
-  type: string;
+  updated_at: string | null;
   author: Author | null;
   publisher: Publisher | null;
   interests?: { [key: string]: string } | null;
+  is_subscribed: boolean;
 }
 
 export interface Post {
-  id: number;
-  user_id: number;
-  title: string;
-  body: string;
-  status: string;
-  likes_count?: number;
-  comments_count?: number;
-  is_liked: boolean;
-  rejection_note: string | null;
-  created_at: string;
-  updated_at: string;
-  user: User;
+  post_id: number;
+  post_title: string;
+  post_body: string;
+  post_image_url: string;
+  post_status: string;
+  post_rejection_note: string;
+  post_created_at: string;
+  author: User;
+  post_comments_count: number;
+  post_likes_count: number;
+  post_is_saved: boolean;
+  post_is_liked: boolean;
 }
 
 export interface Comment {
@@ -108,39 +102,40 @@ export interface Review {
 }
 
 export interface Book {
-  id: number;
-  title: string;
-  image?: string;
-  cover_image?: string;
+  book_id: number;
+  book_title: string;
+  book_cover_image?: string;
   rating: number;
   number_of_ratings: number;
-  reviews: Review[];
-  relatedBooks: Book[];
-  language: string;
-  pages: number;
+  related_books: Book[];
+  book_language: string;
+  book_page_count: number;
   reads_count: number;
-  price: number;
+  book_price: number;
   category: Category | null;
   publisher: Publisher | null;
   author: Author | null;
-  description: string;
-  in_cart?: boolean;
-  is_purchased?: boolean;
-  can_read?: boolean;
-  created_at: string;
-  updated_at: string;
+  book_description: string;
+  book_in_cart?: boolean;
+  book_is_purchased?: boolean;
+  book_can_read?: boolean;
+  book_created_at: string;
+  book_updated_at: string;
+  reviews: Review[];
 }
 
 export interface Publisher {
-  id: number;
+  publisher_id: number;
   publisher_name: string;
-  image: string;
-  desc: string;
-  fb: string;
-  yt: string;
-  telegram: string;
-  whatsapp: string;
-  instagram: string;
+  publisher_image: string;
+  publisher_description: string;
+  social_links: {
+    publisher_facebook: string;
+    publisher_youtube: string;
+    publisher_telegram: string;
+    publisher_whatsapp: string;
+    publisher_instagram: string;
+  };
   book_count: number;
   total_reads: number;
   user_id: number;
@@ -149,15 +144,17 @@ export interface Publisher {
 }
 
 export interface Author {
-  id: number;
+  author_id: number;
   author_name: string;
-  image: string;
-  desc: string;
-  fb: string;
-  yt: string;
-  telegram: string;
-  whatsapp: string;
-  instagram: string;
+  author_image: string;
+  author_description: string;
+  social_links: {
+    author_facebook: string;
+    author_youtube: string;
+    author_telegram: string;
+    author_whatsapp: string;
+    author_instagram: string;
+  };
   user_id: number;
   book_count: number;
   total_reads: number;

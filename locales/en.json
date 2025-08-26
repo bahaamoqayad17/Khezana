@@ -329,5 +329,8 @@
     "have_read": "Have Read",
     "unread": "Unread",
     "write_your_message": "Write your message here",
-    "how_can_we_help": "How can we help you?"
+    "how_can_we_help": "How can we help you?",
+    "logout": "Logout",
+    "logout_success": "Logout successful",
+    "coming_soon": "This feature is under development"
 }

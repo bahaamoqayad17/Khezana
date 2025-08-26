@@ -98,29 +98,29 @@ export default function Categories() {
             <View className="flex-row flex-wrap justify-between">
               {categories.map((category) => (
                 <TouchableOpacity
-                  key={category.id}
+                  key={category.category_id}
                   onPress={() =>
-                    handleCategoryPress(category.id, category.category_name)
+                    handleCategoryPress(
+                      category.category_id,
+                      category.category_name
+                    )
                   }
                   className="bg-white border border-gray-200 rounded-2xl p-4 mb-4 shadow-sm"
                   style={{ width: cardWidth }}
                   activeOpacity={0.7}
                 >
                   <View className="items-center">
-                    {console.log(
-                      `${process.env.EXPO_PUBLIC_API_URL}${category.category_image_url}`
-                    )}
                     <View className="w-16 h-16 mb-3 rounded-2xl overflow-hidden bg-gray-100">
                       <Image
                         source={{
-                          uri: `${process.env.EXPO_PUBLIC_API_URL}${category.category_image_url}`,
+                          uri: `${process.env.EXPO_PUBLIC_API_URL}${category.category_icon}`,
                         }}
                         className="w-full h-full"
                         resizeMode="cover"
                         onError={() => {
                           console.log(
                             "Failed to load image:",
-                            category.category_image_url
+                            category.category_icon
                           );
                         }}
                       />

@@ -55,10 +55,14 @@ export default function HomeScreen() {
                 key={index}
                 className="px-4 py-2 border border-primary rounded-xl mr-3"
                 style={{ backgroundColor: "#FFFBFB" }}
-                onPress={() => router.push(`/books_category?id=${category.id}`)}
+                onPress={() =>
+                  router.push(
+                    `/books_category?id=${category.category_id}&name=${category.category_name}`
+                  )
+                }
               >
                 <Text className="text-tertiary text-lg font-SomarRegular font-bold">
-                  {category.name}
+                  {category.category_name}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -67,7 +71,9 @@ export default function HomeScreen() {
           {home.categories_with?.map((item, index) => (
             <View key={index}>
               <View className="flex-row justify-between items-center mt-10">
-                <Text className="font-SomarBold text-2xl">{item.name}</Text>
+                <Text className="font-SomarBold text-2xl">
+                  {item.category_name}
+                </Text>
                 <TouchableOpacity
                   className="flex-row items-center gap-2"
                   onPress={() => console.log("pressed")}

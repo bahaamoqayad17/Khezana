@@ -9,7 +9,7 @@ import { SafeAreaView, Text, View } from "react-native";
 
 export default function BooksCategory() {
   const { t } = useTranslation();
-  const { id } = useLocalSearchParams();
+  const { id, name } = useLocalSearchParams();
   const dispatch = useAppDispatch();
   const { books_categories, loading } = useAppSelector(
     (state) => state.categories
@@ -35,7 +35,7 @@ export default function BooksCategory() {
 
   return (
     <SafeAreaView>
-      <Header title={""} />
+      <Header title={name as string} />
       <View>
         <Text>Book Categories</Text>
       </View>

@@ -6,7 +6,8 @@ import ShareIcon from "@/icons/Share";
 import TrophyIcon from "@/icons/Trophy";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchUserProfile } from "@/store/UserSlice";
-import { Ionicons } from "@expo/vector-icons";
+import { showInfoToast } from "@/utils/toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,12 +27,30 @@ export default function Profile() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserProfile(1));
+    const fetchUser = async () => {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        dispatch(fetchUserProfile(JSON.parse(userData).user_id));
+      }
+    };
+    fetchUser();
   }, [dispatch]);
 
   if (loading) {
     return <UserProfileSkeleton />;
   }
+
+  const signOut = () => {
+    AsyncStorage.removeItem("token");
+    AsyncStorage.removeItem("user");
+    showInfoToast({
+      title: t("logout_success"),
+      duration: 3000,
+    });
+    setTimeout(() => {
+      router.replace("/auth/login");
+    }, 1000);
+  };
 
   const menuItems = [
     {
@@ -75,11 +94,18 @@ export default function Profile() {
       subtitle: "",
       hasEdit: false,
     },
+    {
+      id: "logout",
+      title: t("logout"),
+      onPress: () => signOut(),
+      subtitle: "",
+      hasEdit: false,
+    },
   ];
 
   const handleShare = () => {
-    const url = `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`;
-    const message = t("share_message") + " " + user?.name;
+    const url = `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.user_image_url}`;
+    const message = t("share_message") + " " + user?.user_name;
     const title = t("share_title");
 
     Share.share({
@@ -103,28 +129,25 @@ export default function Profile() {
         <View className="pt-8 pb-6">
           {/* Avatar */}
           <View className="items-center mb-4">
-            <View className="w-24 h-24 rounded-full bg-gray-200 border-4 p-4 border-white shadow-sm overflow-hidden">
-              {user?.profile_image ? (
-                <Image
-                  source={{
-                    uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.profile_image}`,
-                  }}
-                  // className="w-full h-full"
-                  resizeMode="cover"
-                />
-              ) : (
-                <View className="bg-gray-300 items-center justify-center">
-                  <Ionicons name="person" size={48} color="#9CA3AF" />
-                </View>
-              )}
-            </View>
+            {/* <View className="rounded-full border-4 p-4 border-white shadow-sm overflow-hidden"> */}
+            <Image
+              source={{
+                uri: user?.user_image_url?.startsWith("http")
+                  ? user?.user_image_url
+                  : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.user_image_url}`,
+              }}
+              style={{ width: 96, height: 96, borderRadius: 50 }}
+              resizeMode="cover"
+              onError={(e) => console.log("image error:", e.nativeEvent.error)}
+            />
+            {/* </View> */}
           </View>
 
           {/* Name and Streak */}
           <View className="items-center mb-6">
             <View className="flex-row items-center mb-2">
               <Text className="text-3xl font-SomarBold text-black">
-                {user?.name}
+                {user?.user_name}
               </Text>
               {/* <SmallFireIcon />
               <Text className="text-md font-SomarRegular text-gray">

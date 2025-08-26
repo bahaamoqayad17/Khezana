@@ -24,7 +24,7 @@ export const fetchUserProfile = createAsyncThunk(
   "user/fetchUserProfile",
   async (userId: number) => {
     const response = await axios.get(`/users/${userId}/profile`);
-    return response.data as User;
+    return response.data.data as User;
   }
 );
 
