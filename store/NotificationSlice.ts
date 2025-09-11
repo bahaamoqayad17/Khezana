@@ -7,12 +7,14 @@ interface NotificationState {
   notifications: Notification[];
   loading: boolean;
   error: string | null;
+  popup: any;
 }
 
 const initialState: NotificationState = {
   notifications: [],
   loading: false,
   error: null,
+  popup: null,
 };
 
 // Async thunk to fetch notifications
@@ -20,9 +22,23 @@ export const fetchNotifications = createAsyncThunk(
   "notifications/fetchNotifications",
   async () => {
     try {
-      const response = await axios.get("/notifications");
+      const response = await axios.get("notifications");
 
       return response.data.notifications as Notification[];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+// Async thunk to fetch notifications
+export const fetcPoPUp = createAsyncThunk(
+  "notifications/fetchPoPUp",
+  async () => {
+    try {
+      const response = await axios.get("pop-up-notification/latest");
+      console.log({ response: response.data });
+
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +77,16 @@ const NotificationSlice = createSlice({
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch notifications";
+      });
+
+    builder
+      .addCase(fetcPoPUp.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetcPoPUp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.popup = action.payload;
       });
   },
 });

@@ -317,5 +317,18 @@
     "how_can_we_help": "Comment pouvons-nous vous aider ?",
     "logout": "Déconnexion",
     "logout_success": "Déconnexion réussie",
-    "coming_soon": "Cette fonctionnalité est en cours de développement"
+    "coming_soon": "Cette fonctionnalité est en cours de développement",
+    "name_updated": "Nom mis à jour avec succès",
+    "email_updated": "Email mis à jour avec succès",
+    "gender_updated": "Sexe mis à jour avec succès",
+    "country_updated": "Pays mis à jour avec succès",
+    "photo_updated": "Photo de profil mise à jour avec succès",
+    "report": "Signaler",
+    "suggest_book": "Suggestion de livre",
+    "book_name": "Nom du livre",
+    "enter_book_name": "Entrer le nom du livre",
+    "enter_author_name": "Entrer le nom de l'auteur",
+    "suggest_book_success": "Suggestion de livre envoyée avec succès",
+    "report_success": "Signalement envoyé avec succès",
+    "contact_us_success": "Message envoyé avec succès"
 }

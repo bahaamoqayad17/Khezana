@@ -1,6 +1,6 @@
 import axios from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Category } from "./models.type";
+import { Book, Category } from "./models.type";
 
 // Define the state
 interface CategoryState {
@@ -31,7 +31,7 @@ export const fetchBooksCategories = createAsyncThunk(
   async (id: string) => {
     const response = await axios.get(`/categories/${id}/books`);
 
-    return response.data;
+    return response.data.data as Book[];
   }
 );
 

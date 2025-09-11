@@ -1,12 +1,14 @@
-import PlainTitle from "@/components/PlainTitle";
 import EditEmailModal from "@/components/modals/EditEmailModal";
 import EditGenderModal from "@/components/modals/EditGenderModal";
 import EditNameModal from "@/components/modals/EditNameModal";
 import EditPhotoModal from "@/components/modals/EditPhotoModal";
 import EditStateModal from "@/components/modals/EditStateModal";
+import PlainTitle from "@/components/PlainTitle";
 import CameraIcon from "@/icons/Camera";
 import EditIcon from "@/icons/Edit";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import axios from "@/utils/axios";
+import { showSuccessToast } from "@/utils/toast";
 import { Ionicons } from "@expo/vector-icons";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import React, { useState } from "react";
@@ -23,7 +25,7 @@ import {
 export default function UserProfile() {
   const { t } = useTranslation();
   const { user } = useAppSelector((state) => state.user);
-
+  const dispatch = useAppDispatch();
   // Modal states
   const [nameModalVisible, setNameModalVisible] = useState(false);
   const [emailModalVisible, setEmailModalVisible] = useState(false);
@@ -35,10 +37,11 @@ export default function UserProfile() {
   const [userData, setUserData] = useState({
     name: user?.user_name || "",
     email: user?.user_email || "",
-    gender: user?.user_gender || t("male"),
-    country: user?.user_country || "فلسطين",
+    gender: user?.user_gender || "",
+    country: user?.user_country || "",
     profile_image: user?.user_image_url || "",
   });
+
   const profileFields = [
     {
       id: "name",
@@ -75,29 +78,43 @@ export default function UserProfile() {
     setUserData((prev) => ({ ...prev, name: newName }));
     // TODO: API call to update name
     console.log("Saving new name:", newName);
+    showSuccessToast({
+      duration: 3000,
+      title: t("name_updated"),
+    });
   };
 
   const handleSaveEmail = (newEmail: string) => {
     setUserData((prev) => ({ ...prev, email: newEmail }));
     // TODO: API call to update email
     console.log("Saving new email:", newEmail);
+    showSuccessToast({
+      duration: 3000,
+      title: t("email_updated"),
+    });
   };
 
   const handleSaveGender = (newGender: string) => {
     setUserData((prev) => ({ ...prev, gender: newGender }));
     // TODO: API call to update gender
     console.log("Saving new gender:", newGender);
+    showSuccessToast({
+      duration: 3000,
+      title: t("gender_updated"),
+    });
   };
 
   const handleSaveState = (newState: string) => {
     setUserData((prev) => ({ ...prev, country: newState }));
     // TODO: API call to update state
     console.log("Saving new state:", newState);
+    showSuccessToast({
+      duration: 3000,
+      title: t("country_updated"),
+    });
   };
 
   const handleSelectPhoto = async () => {
-    // handleImageUpload();
-
     const result = await launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
@@ -106,10 +123,31 @@ export default function UserProfile() {
 
     if (!result.canceled) {
       const uri = result.assets[0].uri;
-      console.log(uri);
-      // TODO: Update user profile image
+      const fileName = uri.split("/").pop() || "image.jpg";
+      const fileType = "image/jpeg";
+
+      const formData = new FormData();
+
+      // Create the file object properly for FormData
+      const imageFile = {
+        uri: uri,
+        type: fileType,
+        name: fileName,
+      } as any;
+
+      formData.append("profile_image", imageFile);
+
+      await axios.post(`auth/update`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setUserData((prev) => ({ ...prev, profile_image: uri }));
+      showSuccessToast({
+        duration: 3000,
+        title: t("photo_updated"),
+      });
     }
   };
 
@@ -178,6 +216,39 @@ export default function UserProfile() {
               </View>
             </View>
           ))}
+          <Text className="text-black text-xl font-SomarBold mb-4">
+            {t("my_interests")}
+          </Text>
+          <View className="flex-row flex-wrap gap-2">
+            {user?.interests &&
+              Object.keys(user.interests).length > 0 &&
+              Object.entries(user.interests).map(([key, interest], index) => {
+                // Define colors array for cycling through different colors
+                const colors = [
+                  "#EF4444", // Red
+                  "#F97316", // Orange
+                  "#10B981", // Green
+                  "#6366F1", // Purple
+                  "#06B6D4", // Cyan
+                  "#8B5CF6", // Violet
+                  "#EC4899", // Pink
+                ];
+
+                return (
+                  <TouchableOpacity
+                    key={key}
+                    className="px-4 py-2 rounded-full"
+                    style={{
+                      backgroundColor: colors[index % colors.length],
+                    }}
+                  >
+                    <Text className="text-white font-SomarMedium text-sm">
+                      {String(interest)}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
         </View>
       </ScrollView>
 

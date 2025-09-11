@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TextInput, View } from "react-native";
 
 interface EditEmailModalProps {
   visible: boolean;
@@ -64,10 +64,11 @@ export default function EditEmailModal({
               placeholderTextColor="#9CA3AF"
               keyboardType="email-address"
               autoCapitalize="none"
+              editable={false}
             />
           </View>
           {/* Buttons */}
-          <View className="flex-row gap-2">
+          {/* <View className="flex-row gap-2">
             <TouchableOpacity
               onPress={handleSave}
               className="flex-1 bg-secondary rounded-xl py-3"
@@ -88,7 +89,7 @@ export default function EditEmailModal({
                 {t("cancel")}
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
     </Modal>

@@ -17,15 +17,24 @@ export default function BookComponent({ book }: { book: Book }) {
   const pathname = usePathname();
   const [showGiftModal, setShowGiftModal] = useState(false);
   const dispatch = useAppDispatch();
+
   const handleGift = async (email: string, message: string) => {
-    console.log("Gifting book:", book.title, "to:", email, "message:", message);
+    console.log(
+      "Gifting book:",
+      book.book_title,
+      "to:",
+      email,
+      "message:",
+      message
+    );
     // TODO: Implement actual gift API call
     // You can add your gift API logic here
   };
+
   return (
     <TouchableOpacity
       className="rounded-xl p-4 flex-row gap-2 mb-4"
-      onPress={() => router.push(`/books/${book.id}`)}
+      onPress={() => router.push(`/books/${book.book_id}`)}
       style={{
         borderWidth: 1,
         borderColor: "#F5ECDF",
@@ -34,7 +43,7 @@ export default function BookComponent({ book }: { book: Book }) {
       {/* Book Cover */}
       <Image
         source={{
-          uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.image}`,
+          uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.book_cover_image}`,
         }}
         className="rounded-lg"
         style={{ width: 80, height: 100 }}
@@ -45,7 +54,7 @@ export default function BookComponent({ book }: { book: Book }) {
       <View className="flex-1 justify-between">
         {/* Book Title */}
         <Text className="text-lg font-SomarRegular text-secondary mb-2 leading-6">
-          {book.title}
+          {book.book_title}
         </Text>
 
         {/* Author */}
@@ -60,14 +69,14 @@ export default function BookComponent({ book }: { book: Book }) {
             <View className="flex-row items-center gap-1">
               <ListenedIcon />
               <Text className="text-xs text-secondary font-SomarMedium">
-                {Math.ceil(book.pages * 2)} {t("minute")}
+                {Math.ceil(book.book_page_count * 2)} {t("minute")}
               </Text>
             </View>
             {/* Pages */}
             <View className="flex-row items-center gap-1">
               <PagesIcon />
               <Text className="text-xs text-secondary font-SomarMedium">
-                {book.pages} {t("page")}
+                {book.book_page_count} {t("page")}
               </Text>
             </View>
           </View>
@@ -82,7 +91,7 @@ export default function BookComponent({ book }: { book: Book }) {
         <View className="flex-row items-center justify-between">
           {pathname === "/cart" && (
             <Text className="text-xl text-primary font-SomarMedium">
-              {book.price} {t("dzd")}
+              {book.book_price} {t("dzd")}
             </Text>
           )}
         </View>
@@ -92,7 +101,7 @@ export default function BookComponent({ book }: { book: Book }) {
       {pathname === "/cart" && (
         <View className="items-center justify-between">
           <TouchableOpacity
-            onPress={() => dispatch(removeFromCart(book.id))}
+            onPress={() => dispatch(removeFromCart(book.book_id))}
             className="flex-row items-center gap-2"
           >
             <DeleteCartIcon />

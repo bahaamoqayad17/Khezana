@@ -82,23 +82,42 @@ export default function BookDetails() {
 
       <ScrollView className="flex-1">
         {/* Book Cover and Info */}
-        <View className="px-4 py-6">
-          <View className="items-center">
+        <View className="px-4 pb-10">
+          <View
+            className="items-center justify-center relative"
+            style={{ height: 250 }}
+          >
+            {/* Background Image */}
             <Image
               source={{
                 uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.book_cover_image}`,
               }}
-              className="rounded-lg shadow-lg"
-              style={{ width: 150, height: 200 }}
+              className="absolute inset-0 w-full h-full rounded-lg"
+              style={{ width: "100%", height: "100%", opacity: 0.1 }}
               resizeMode="cover"
             />
 
-            <Text className="text-lg font-SomarBold text-primary mt-4 text-center">
+            {/* Foreground Content */}
+            <View className="relative z-10 items-center justify-center">
+              <Image
+                source={{
+                  uri: `${process.env.EXPO_PUBLIC_API_URL}storage/${book.book_cover_image}`,
+                }}
+                className="rounded-lg shadow-lg"
+                style={{ width: 150, height: 200 }}
+                resizeMode="cover"
+              />
+            </View>
+          </View>
+
+          {/* Title and Stats Section */}
+          <View className="items-center mt-10">
+            <Text className="text-lg font-SomarBold text-primary mb-6 text-center">
               {book.book_title}
             </Text>
 
             {/* Book Stats */}
-            <View className="flex-row justify-between w-full mt-10 px-4">
+            <View className="flex-row justify-between w-full px-4">
               <View className="items-center">
                 <Text className="text-sm text-primary font-SomarRegular">
                   {t("rating")}
@@ -142,7 +161,7 @@ export default function BookDetails() {
         </View>
 
         {/* Tabs */}
-        <View className="px-4 mb-4 mt-4">
+        <View className="px-4 mb-4">
           <View className="flex-row justify-center">
             {/* General Categories Tab */}
             <TouchableOpacity
@@ -269,8 +288,8 @@ export default function BookDetails() {
                 </View>
               </View>
 
-              {book.reviews.map((review) => (
-                <View key={review.id} className="bg-white rounded-xl p-4">
+              {book?.reviews?.map((review, index) => (
+                <View key={index} className="bg-white rounded-xl p-4">
                   <View className="flex-row items-start justify-between mb-3">
                     <View className="flex-row items-center">
                       <View
@@ -395,7 +414,7 @@ export default function BookDetails() {
                 {t("related_books")}
               </Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {book.related_books.map((relatedBook) => (
+                {book?.related_books?.map((relatedBook) => (
                   <TouchableOpacity
                     key={relatedBook.book_id}
                     className="mr-4 items-center"

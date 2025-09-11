@@ -14,7 +14,7 @@ export default function Cart() {
   const { cart, loading, error } = useAppSelector((state) => state.cart);
 
   useEffect(() => {
-    if (cart.userCart.length === 0) {
+    if (cart?.userCart?.length === 0) {
       dispatch(fetchCart());
     }
   }, [dispatch]);
@@ -30,25 +30,15 @@ export default function Cart() {
     );
   }
 
+  console.log({ cart: cart?.userCart });
+
   return (
     <AuthGuard>
       <SafeAreaView>
         <Header title={t("cart")} />
-        {cart.userCart.map((item: any, index: number) => (
+        {cart?.userCart?.map((item: any, index: number) => (
           <View key={index} className="mx-4">
-            <BookComponent
-              book={{
-                id: item.id,
-                title: item.book_title,
-                rating: item.book_rating,
-                number_of_ratings: item.book_number_of_ratings,
-                image: item.book_image_url,
-                price: item.book_price,
-                description: item.book_description,
-                pages: item.book_number_pages,
-                author: item.author_id,
-              }}
-            />
+            <BookComponent book={item} />
           </View>
         ))}
 

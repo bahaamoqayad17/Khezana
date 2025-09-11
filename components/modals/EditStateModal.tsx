@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/store/hooks";
+import { UpdateProfile } from "@/store/UserSlice";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +21,7 @@ export default function EditStateModal({
   const { t } = useTranslation();
   const [selectedState, setSelectedState] = useState(currentState);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
   const stateOptions = [
     { value: "palestine", label: "فلسطين" },
     { value: "jordan", label: "الأردن" },
@@ -34,6 +36,7 @@ export default function EditStateModal({
   ];
 
   const handleSave = () => {
+    dispatch(UpdateProfile({ country: selectedState }));
     onSave(selectedState);
     onClose();
   };

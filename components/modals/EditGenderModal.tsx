@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/store/hooks";
+import { UpdateProfile } from "@/store/UserSlice";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,13 +21,14 @@ export default function EditGenderModal({
   const { t } = useTranslation();
   const [selectedGender, setSelectedGender] = useState(currentGender);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
   const genderOptions = [
     { value: "male", label: t("male") },
     { value: "female", label: t("female") },
   ];
 
   const handleSave = () => {
+    dispatch(UpdateProfile({ gender: selectedGender }));
     onSave(selectedGender);
     onClose();
   };

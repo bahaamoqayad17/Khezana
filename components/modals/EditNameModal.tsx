@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/store/hooks";
+import { UpdateProfile } from "@/store/UserSlice";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,8 +20,10 @@ export default function EditNameModal({
 }: EditNameModalProps) {
   const { t } = useTranslation();
   const [name, setName] = useState(currentName);
+  const dispatch = useAppDispatch();
 
   const handleSave = () => {
+    dispatch(UpdateProfile({ name: name }));
     onSave(name);
     onClose();
   };

@@ -14,6 +14,7 @@ import {
 import CategorySkeleton from "@/components/skeletons/CategorySkeleton";
 import { fetchCategories } from "@/store/CategorySlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 const cardWidth = (width - 48) / 3; // 3 columns with padding
@@ -45,7 +46,7 @@ export default function Categories() {
 
       {/* Tabs */}
       <View className="px-4 mb-4">
-        <View className="flex-row justify-center border-b border-gray-200">
+        <View className="flex-row justify-center">
           {/* General Categories Tab */}
           <TouchableOpacity
             className="flex-1 items-center py-3 relative"
@@ -100,27 +101,31 @@ export default function Categories() {
                 <TouchableOpacity
                   key={category.category_id}
                   onPress={() =>
-                    handleCategoryPress(
-                      category.category_id,
-                      category.category_name
+                    router.push(
+                      `/books_category?id=${category.category_id}&name=${category.category_name}`
                     )
                   }
-                  className="bg-white border border-gray-200 rounded-2xl p-4 mb-4 shadow-sm"
-                  style={{ width: cardWidth }}
+                  className="bg-white rounded-2xl p-4 mb-4 shadow-sm"
+                  style={{
+                    width: cardWidth,
+                    borderWidth: 1,
+                    borderColor: "#EBD7BD",
+                    backgroundColor: "#FFFBFB",
+                  }}
                   activeOpacity={0.7}
                 >
                   <View className="items-center">
                     <View className="w-16 h-16 mb-3 rounded-2xl overflow-hidden bg-gray-100">
                       <Image
                         source={{
-                          uri: `${process.env.EXPO_PUBLIC_API_URL}${category.category_icon}`,
+                          uri: `${process.env.EXPO_PUBLIC_API_URL}${category.category_image_url}`,
                         }}
                         className="w-full h-full"
                         resizeMode="cover"
                         onError={() => {
                           console.log(
                             "Failed to load image:",
-                            category.category_icon
+                            category.category_image_url
                           );
                         }}
                       />

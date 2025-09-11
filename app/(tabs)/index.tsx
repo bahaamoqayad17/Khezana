@@ -4,6 +4,7 @@ import SliderCarousel from "@/components/Slider";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import ViewAllIcon from "@/icons/ViewAll";
 import { fetchHomePage } from "@/store/BookSlice";
+import { fetcPoPUp } from "@/store/NotificationSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Book } from "@/store/models.type";
 import { router } from "expo-router";
@@ -21,9 +22,13 @@ export default function HomeScreen() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { home, loading, error } = useAppSelector((state) => state.books);
+  const { popup } = useAppSelector((state) => state.notifications);
 
   useEffect(() => {
     dispatch(fetchHomePage());
+    if (!popup) {
+      dispatch(fetcPoPUp());
+    }
   }, []);
 
   if (loading || !home) {
@@ -38,6 +43,9 @@ export default function HomeScreen() {
   if (error) {
     return <Text>{error}</Text>;
   }
+
+  console.log({ popup });
+  console.log(home);
 
   return (
     <SafeAreaView className="flex-1 pb-10">
@@ -76,7 +84,11 @@ export default function HomeScreen() {
                 </Text>
                 <TouchableOpacity
                   className="flex-row items-center gap-2"
-                  onPress={() => console.log("pressed")}
+                  onPress={() =>
+                    router.push(
+                      `/books_category?id=${item.category_id}&name=${item.category_name}`
+                    )
+                  }
                 >
                   <Text className="font-SomarBold text-primary">
                     {t("view_all")}

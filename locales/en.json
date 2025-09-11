@@ -332,5 +332,18 @@
     "how_can_we_help": "How can we help you?",
     "logout": "Logout",
     "logout_success": "Logout successful",
-    "coming_soon": "This feature is under development"
+    "coming_soon": "This feature is under development",
+    "name_updated": "Name updated successfully",
+    "email_updated": "Email updated successfully",
+    "gender_updated": "Gender updated successfully",
+    "country_updated": "Country updated successfully",
+    "photo_updated": "Photo updated successfully",
+    "report": "Report",
+    "suggest_book": "Suggest Book",
+    "book_name": "Book Name",
+    "enter_book_name": "Enter book name",
+    "enter_author_name": "Enter author name",
+    "suggest_book_success": "Book suggestion sent successfully",
+    "report_success": "Report sent successfully",
+    "contact_us_success": "Message sent successfully"
 }

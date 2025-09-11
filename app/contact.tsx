@@ -1,4 +1,6 @@
 import PlainTitle from "@/components/PlainTitle";
+import axios from "@/utils/axios";
+import { showInfoToast, showSuccessToast } from "@/utils/toast";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,17 +16,57 @@ import {
 export default function Contact() {
   const { t } = useTranslation();
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     email: "",
-    phone: "",
     address: "",
-    subject: "",
-    message: "",
+    type: "other", // Default value
+    title: "",
+    desc: "",
   });
 
-  const handleSubmit = () => {
-    // Handle form submission
-    console.log("Form submitted:", form);
+  const handleSubmit = async () => {
+    try {
+      await axios.post(`/contact-us`, {
+        full_name: form.name,
+        email: form.email,
+        address: form.address,
+        type: form.type,
+        title: form.title,
+        desc: form.desc,
+      });
+
+      setForm({
+        name: "",
+        email: "",
+        address: "",
+        type: "other",
+        title: "",
+        desc: "",
+      });
+
+      if (form.type === "suggest") {
+        showInfoToast({
+          duration: 3000,
+          title: t("suggest_book_success"),
+        });
+      }
+
+      if (form.type === "other") {
+        showSuccessToast({
+          duration: 3000,
+          title: t("contact_us_success"),
+        });
+      }
+
+      if (form.type === "report") {
+        showInfoToast({
+          duration: 3000,
+          title: t("report_success"),
+        });
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
   };
 
   return (
@@ -112,7 +154,7 @@ export default function Contact() {
 
         {/* Form Section */}
         <View className="px-6">
-          {/* Full Name */}
+          {/* Type Selection */}
           <View className="mb-4">
             <Text
               className="text-base font-SomarBold mb-2"
@@ -120,99 +162,139 @@ export default function Contact() {
                 color: "#767676",
               }}
             >
-              {t("full_name")}
+              {t("type")}
             </Text>
-            <TextInput
-              className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_full_name")}
-              placeholderTextColor="#9CA3AF"
-              style={{
-                borderColor: "#E7E7E7",
-                borderWidth: 1,
-                backgroundColor: "#FFFBFB",
-              }}
-              value={form.fullName}
-              onChangeText={(text) => setForm({ ...form, fullName: text })}
-              textAlign="right"
-            />
-          </View>
+            <View className="flex-row gap-2">
+              <TouchableOpacity
+                className={`flex-1 py-3 px-4 rounded-lg border ${
+                  form.type === "other"
+                    ? "bg-secondary border-secondary"
+                    : "bg-white border-gray-300"
+                }`}
+                onPress={() => setForm({ ...form, type: "other" })}
+              >
+                <Text
+                  className={`text-center font-SomarMedium ${
+                    form.type === "other" ? "text-white" : "text-gray-700"
+                  }`}
+                >
+                  {t("contact_us")}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className={`flex-1 py-3 px-4 rounded-lg border ${
+                  form.type === "suggest"
+                    ? "bg-secondary border-secondary"
+                    : "bg-white border-gray-300"
+                }`}
+                onPress={() => setForm({ ...form, type: "suggest" })}
+              >
+                <Text
+                  className={`text-center font-SomarMedium ${
+                    form.type === "suggest" ? "text-white" : "text-gray-700"
+                  }`}
+                >
+                  {t("suggest_book")}
+                </Text>
+              </TouchableOpacity>
 
-          {/* Email */}
-          <View className="mb-4">
-            <Text
-              className="text-base font-SomarBold mb-2"
-              style={{
-                color: "#767676",
-              }}
-            >
-              {t("email")}
-            </Text>
-            <TextInput
-              className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_email")}
-              placeholderTextColor="#9CA3AF"
-              style={{
-                borderColor: "#E7E7E7",
-                borderWidth: 1,
-                backgroundColor: "#FFFBFB",
-              }}
-              value={form.email}
-              onChangeText={(text) => setForm({ ...form, email: text })}
-              keyboardType="email-address"
-              textAlign="right"
-            />
+              <TouchableOpacity
+                className={`flex-1 py-3 px-4 rounded-lg border ${
+                  form.type === "report"
+                    ? "bg-secondary border-secondary"
+                    : "bg-white border-gray-300"
+                }`}
+                onPress={() => setForm({ ...form, type: "report" })}
+              >
+                <Text
+                  className={`text-center font-SomarMedium ${
+                    form.type === "report" ? "text-white" : "text-gray-700"
+                  }`}
+                >
+                  {t("report")}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
+          {form.type === "other" && (
+            <>
+              {/* Full Name */}
+              <View className="mb-4">
+                <Text
+                  className="text-base font-SomarBold mb-2"
+                  style={{
+                    color: "#767676",
+                  }}
+                >
+                  {t("full_name")}
+                </Text>
+                <TextInput
+                  className="rounded-lg px-4 py-3 font-SomarMedium"
+                  placeholder={t("enter_full_name")}
+                  placeholderTextColor="#9CA3AF"
+                  style={{
+                    borderColor: "#E7E7E7",
+                    borderWidth: 1,
+                    backgroundColor: "#FFFBFB",
+                  }}
+                  value={form.name}
+                  onChangeText={(text) => setForm({ ...form, name: text })}
+                  textAlign="right"
+                />
+              </View>
 
-          {/* Phone */}
-          <View className="mb-4">
-            <Text
-              className="text-base font-SomarBold mb-2"
-              style={{
-                color: "#767676",
-              }}
-            >
-              {t("phone")}
-            </Text>
-            <TextInput
-              className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_phone")}
-              placeholderTextColor="#9CA3AF"
-              value={form.phone}
-              style={{
-                borderColor: "#E7E7E7",
-                borderWidth: 1,
-                backgroundColor: "#FFFBFB",
-              }}
-              onChangeText={(text) => setForm({ ...form, phone: text })}
-              keyboardType="phone-pad"
-              textAlign="right"
-            />
-          </View>
+              {/* Email */}
+              <View className="mb-4">
+                <Text
+                  className="text-base font-SomarBold mb-2"
+                  style={{
+                    color: "#767676",
+                  }}
+                >
+                  {t("email")}
+                </Text>
+                <TextInput
+                  className="rounded-lg px-4 py-3 font-SomarMedium"
+                  placeholder={t("enter_email")}
+                  placeholderTextColor="#9CA3AF"
+                  style={{
+                    borderColor: "#E7E7E7",
+                    borderWidth: 1,
+                    backgroundColor: "#FFFBFB",
+                  }}
+                  value={form.email}
+                  onChangeText={(text) => setForm({ ...form, email: text })}
+                  keyboardType="email-address"
+                  textAlign="right"
+                />
+              </View>
 
-          {/* Address */}
-          <View className="mb-4">
-            <Text
-              className="text-base font-SomarBold mb-2"
-              style={{
-                color: "#767676",
-              }}
-            >
-              {t("address")}
-            </Text>
-            <TextInput
-              className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_address")}
-              placeholderTextColor="#9CA3AF"
-              value={form.address}
-              style={{
-                borderColor: "#E7E7E7",
-                borderWidth: 1,
-                backgroundColor: "#FFFBFB",
-              }}
-              onChangeText={(text) => setForm({ ...form, address: text })}
-              textAlign="right"
-            />
-          </View>
+              {/* Address */}
+              <View className="mb-4">
+                <Text
+                  className="text-base font-SomarBold mb-2"
+                  style={{
+                    color: "#767676",
+                  }}
+                >
+                  {t("address")}
+                </Text>
+                <TextInput
+                  className="rounded-lg px-4 py-3 font-SomarMedium"
+                  placeholder={t("enter_address")}
+                  placeholderTextColor="#9CA3AF"
+                  value={form.address}
+                  style={{
+                    borderColor: "#E7E7E7",
+                    borderWidth: 1,
+                    backgroundColor: "#FFFBFB",
+                  }}
+                  onChangeText={(text) => setForm({ ...form, address: text })}
+                  textAlign="right"
+                />
+              </View>
+            </>
+          )}
 
           {/* Subject */}
           <View className="mb-4">
@@ -222,19 +304,23 @@ export default function Contact() {
                 color: "#767676",
               }}
             >
-              {t("subject")}
+              {form.type === "suggest" ? t("book_name") : t("subject")}
             </Text>
             <TextInput
               className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_subject")}
+              placeholder={
+                form.type === "suggest"
+                  ? t("enter_book_name")
+                  : t("enter_subject")
+              }
               placeholderTextColor="#9CA3AF"
-              value={form.subject}
+              value={form.title}
               style={{
                 borderColor: "#E7E7E7",
                 borderWidth: 1,
                 backgroundColor: "#FFFBFB",
               }}
-              onChangeText={(text) => setForm({ ...form, subject: text })}
+              onChangeText={(text) => setForm({ ...form, title: text })}
               textAlign="right"
             />
           </View>
@@ -247,20 +333,24 @@ export default function Contact() {
                 color: "#767676",
               }}
             >
-              {t("message")}
+              {form.type === "suggest" ? t("author_name") : t("message")}
             </Text>
             <TextInput
               className="rounded-lg px-4 py-3 font-SomarMedium"
-              placeholder={t("enter_message")}
+              placeholder={
+                form.type === "suggest"
+                  ? t("enter_author_name")
+                  : t("enter_message")
+              }
               placeholderTextColor="#9CA3AF"
-              value={form.message}
+              value={form.desc}
               style={{
                 borderColor: "#E7E7E7",
                 borderWidth: 1,
                 minHeight: 100,
                 backgroundColor: "#FFFBFB",
               }}
-              onChangeText={(text) => setForm({ ...form, message: text })}
+              onChangeText={(text) => setForm({ ...form, desc: text })}
               multiline
               numberOfLines={4}
               textAlignVertical="top"

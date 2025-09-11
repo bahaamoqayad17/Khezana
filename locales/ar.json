@@ -325,5 +325,18 @@
     "how_can_we_help": "كيف يمكننا مساعدتك؟",
     "logout": "تسجيل الخروج",
     "logout_success": "تم تسجيل الخروج بنجاح",
-    "coming_soon": "هذه الخاصية قيد التطوير"
+    "coming_soon": "هذه الخاصية قيد التطوير",
+    "name_updated": "تم تحديث الاسم بنجاح",
+    "email_updated": "تم تحديث البريد الإلكتروني بنجاح",
+    "gender_updated": "تم تحديث الجنس بنجاح",
+    "country_updated": "تم تحديث الدولة بنجاح",
+    "photo_updated": "تم تحديث الصورة الشخصية بنجاح",
+    "report": "إبلاغ",
+    "suggest_book": "اقترح كتاب",
+    "book_name": "اسم الكتاب",
+    "enter_book_name": "أدخل اسم الكتاب",
+    "enter_author_name": "أدخل اسم المؤلف",
+    "suggest_book_success": "تم إرسال اقتراح الكتاب بنجاح",
+    "report_success": "تم إرسال الإبلاغ بنجاح",
+    "contact_us_success": "تم إرسال رسالتك بنجاح"
 }

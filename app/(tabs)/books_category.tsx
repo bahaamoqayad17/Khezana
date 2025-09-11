@@ -1,3 +1,4 @@
+import BookComponent from "@/components/Book";
 import Header from "@/components/Header";
 import BookSkeleton from "@/components/skeletons/BookSkeleton";
 import { fetchBooksCategories } from "@/store/CategorySlice";
@@ -5,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
 export default function BooksCategory() {
   const { t } = useTranslation();
@@ -30,14 +31,13 @@ export default function BooksCategory() {
     );
   }
 
-  console.log("id", id);
-  console.log(books_categories);
-
   return (
     <SafeAreaView>
       <Header title={name as string} />
-      <View>
-        <Text>Book Categories</Text>
+      <View className="mx-4">
+        {books_categories.map((book) => (
+          <BookComponent key={book.book_id} book={book} />
+        ))}
       </View>
     </SafeAreaView>
   );

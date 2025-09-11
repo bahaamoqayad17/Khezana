@@ -59,7 +59,7 @@ export default function EditPhotoModal({
           </View>
 
           {/* Buttons */}
-          <View className="flex-row space-x-3">
+          {/* <View className="flex-row space-x-3">
             <TouchableOpacity
               onPress={onClose}
               className="flex-1 bg-gray-100 rounded-xl py-3 mr-2"
@@ -76,7 +76,7 @@ export default function EditPhotoModal({
                 {t("confirm")}
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
     </Modal>
