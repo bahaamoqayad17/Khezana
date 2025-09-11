@@ -44,9 +44,6 @@ export default function HomeScreen() {
     return <Text>{error}</Text>;
   }
 
-  console.log({ popup });
-  console.log(home);
-
   return (
     <SafeAreaView className="flex-1 pb-10">
       <Header title="" />

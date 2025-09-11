@@ -115,6 +115,8 @@ export default function Profile() {
     });
   };
 
+  console.log({ user });
+
   return (
     <SafeAreaView className="flex-1">
       {/* Header */}

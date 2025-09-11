@@ -1,6 +1,6 @@
 import axios from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Book, Category, Slider } from "./models.type";
+import { Book, Category, Review, Slider } from "./models.type";
 
 // Define the state
 interface HomePage {
@@ -40,10 +40,36 @@ export const fetchHomePage = createAsyncThunk(
 export const fetchBook = createAsyncThunk(
   "books/fetchBook",
   async (id: string) => {
-    // const response = await axios.get(`/book/details/${id}`);
-    const response = await axios.get(`/book/details/${id}`);
+    try {
+      const response = await axios.get(`/book/details/${id}`);
 
-    return response.data as Book;
+      return response.data as Book;
+    } catch (error) {
+      console.log("fetchBook", JSON.stringify(error));
+      return error;
+    }
+  }
+);
+
+export const addReview = createAsyncThunk(
+  "books/addReview",
+  async ({
+    book_id,
+    rating,
+    comment,
+  }: {
+    book_id: number;
+    rating: number;
+    comment: string;
+  }) => {
+    const response = await axios.post("rating/book", {
+      book_id,
+      rating,
+      comment,
+    });
+
+    console.log("addReview", response.data);
+    return response.data as Review;
   }
 );
 
@@ -82,6 +108,14 @@ const BookSlice = createSlice({
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.loading = false;
         state.book = action.payload;
+      })
+      .addCase(addReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.book.reviews.push(action.payload);
       });
   },
 });

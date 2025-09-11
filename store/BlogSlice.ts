@@ -29,11 +29,20 @@ export const fetchPosts = createAsyncThunk("blog/fetchPosts", async () => {
 export const fetchPostComments = createAsyncThunk(
   "blog/fetchPostComments",
   async (postId: number) => {
-    console.log(postId);
-
     const response = await axios.get(`/posts/${postId}/comments`);
 
     return response.data as Comment[];
+  }
+);
+
+export const addComment = createAsyncThunk(
+  "blog/addComment",
+  async ({ postId, comment }: { postId: number; comment: string }) => {
+    const response = await axios.post("/comments", {
+      post_id: postId,
+      comment,
+    });
+    return response.data as Comment;
   }
 );
 
@@ -75,6 +84,15 @@ const BlogSlice = createSlice({
       .addCase(fetchPostComments.rejected, (state, action) => {
         state.loadingComments = false;
         state.error = action.error.message || "Failed to fetch posts";
+      });
+    builder
+      .addCase(addComment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.comments.push(action.payload);
       });
   },
 });

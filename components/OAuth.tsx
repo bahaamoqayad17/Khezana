@@ -44,11 +44,7 @@ const OAuth = () => {
   const [activeProvider, setActiveProvider] = useState<string | null>(null);
 
   // Handle OAuth login with backend
-  const handleOAuthLogin = async (
-    provider: string,
-    access_token: string,
-    userData?: OAuthUserData
-  ) => {
+  const handleOAuthLogin = async (provider: string, access_token: string) => {
     try {
       setLoading(true);
       setActiveProvider(provider);

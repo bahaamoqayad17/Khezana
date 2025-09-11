@@ -8,7 +8,7 @@ import ReadIcon from "@/icons/Read";
 import ReviewIcon from "@/icons/Review";
 import SaveIcon from "@/icons/Save";
 import ShareIcon from "@/icons/Share";
-import { fetchBook } from "@/store/BookSlice";
+import { addReview, fetchBook } from "@/store/BookSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -32,6 +32,7 @@ export default function BookDetails() {
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<"reviews" | "about">("about");
   const [userRating, setUserRating] = useState(0);
+  const [review, setReview] = useState("");
 
   useEffect(() => {
     dispatch(fetchBook(id));
@@ -231,42 +232,36 @@ export default function BookDetails() {
                 <View className="items-center justify-center gap-2">
                   <TouchableOpacity className="bg-blue-500 w-12 h-12 rounded-full items-center justify-center">
                     <Text className="text-white font-SomarBold text-sm">
-                      أنت
+                      {t("you")}
                     </Text>
                   </TouchableOpacity>
                 </View>
 
                 <View className="flex-1">
-                  <View className="flex-row items-center justify-between mb-3">
-                    <View className="flex-row items-center">
-                      <Text className="font-SomarBold text-gray-800 text-right mr-3">
-                        محمد
-                      </Text>
-                    </View>
-                    <View className="flex-row">
-                      {[...Array(5)].map((_, i) => (
-                        <TouchableOpacity
-                          key={i}
-                          onPress={() => setUserRating(i + 1)}
-                        >
-                          <Ionicons
-                            name="star"
-                            size={16}
-                            color={i < userRating ? "#F4A261" : "#E5E5E5"}
-                            style={{ marginLeft: 2 }}
-                          />
-                        </TouchableOpacity>
-                      ))}
-                    </View>
+                  <View className="flex-row justify-end mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() => setUserRating(i + 1)}
+                      >
+                        <Ionicons
+                          name="star"
+                          size={16}
+                          color={i < userRating ? "#F4A261" : "#E5E5E5"}
+                          style={{ marginLeft: 2 }}
+                        />
+                      </TouchableOpacity>
+                    ))}
                   </View>
 
                   <TextInput
                     placeholder={t("add_comment")}
                     placeholderTextColor="#9CA3AF"
-                    className="bg-gray-50 rounded-lg p-4 pr-16 font-SomarMedium relative flex-1"
+                    className="rounded-lg p-4 pr-16 font-SomarMedium relative flex-1 text-black"
                     multiline
                     numberOfLines={5}
                     textAlign="right"
+                    onChangeText={(v) => setReview(v)}
                     style={{
                       borderColor: "#E5E5E5",
                       borderWidth: 1,
@@ -280,7 +275,15 @@ export default function BookDetails() {
                       bottom: 10,
                     }}
                     onPress={() => {
-                      console.log("add review");
+                      dispatch(
+                        addReview({
+                          book_id: book.book_id,
+                          comment: review,
+                          rating: userRating,
+                        })
+                      );
+                      setReview("");
+                      setUserRating(0);
                     }}
                   >
                     <AddReviewIcon />
@@ -295,10 +298,21 @@ export default function BookDetails() {
                       <View
                         className={`w-10 h-10 rounded-full items-center justify-center mr-3`}
                       >
-                        <Text className={`font-SomarBold`}>{review.user}</Text>
+                        <Image
+                          source={{
+                            uri: review.user.user_image_url?.startsWith("http")
+                              ? review.user.user_image_url
+                              : `${process.env.EXPO_PUBLIC_API_URL}storage/${review.user.user_image_url}`,
+                          }}
+                          className="rounded-full"
+                          style={{ width: 40, height: 40 }}
+                          onError={(e) =>
+                            console.log("image error:", e.nativeEvent.error)
+                          }
+                        />
                       </View>
                       <Text className="font-SomarBold text-gray-800">
-                        {review.user}
+                        {review.user.user_name}
                       </Text>
                     </View>
                     <View className="flex-row">
@@ -313,7 +327,7 @@ export default function BookDetails() {
                     </View>
                   </View>
                   {review.comment ? (
-                    <Text className="text-gray-600 text-sm leading-6">
+                    <Text className="text-gray-600 text-sm leading-6 font-SomarMedium">
                       {review.comment}
                     </Text>
                   ) : (
