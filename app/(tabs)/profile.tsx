@@ -77,7 +77,9 @@ export default function Profile() {
     {
       id: "subscription",
       title: t("subscription"),
-      subtitle: "2024-03-08",
+      subtitle: user?.user_subscription_expiry_date
+        ? new Date(user?.user_subscription_expiry_date).toLocaleDateString()
+        : t("no_subscription"),
       hasEdit: false,
     },
     {
@@ -115,8 +117,6 @@ export default function Profile() {
     });
   };
 
-  console.log({ user });
-
   return (
     <SafeAreaView className="flex-1">
       {/* Header */}
@@ -134,9 +134,17 @@ export default function Profile() {
             {/* <View className="rounded-full border-4 p-4 border-white shadow-sm overflow-hidden"> */}
             <Image
               source={{
-                uri: user?.user_image_url?.startsWith("http")
-                  ? user?.user_image_url
-                  : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.user_image_url}`,
+                uri: user?.author
+                  ? user?.author?.author_image?.startsWith("http")
+                    ? user?.author?.author_image
+                    : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.author?.author_image}`
+                  : user?.publisher
+                    ? user?.publisher?.publisher_image?.startsWith("http")
+                      ? user?.publisher?.publisher_image
+                      : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.publisher?.publisher_image}`
+                    : user?.user_image_url?.startsWith("http")
+                      ? user?.user_image_url
+                      : `${process.env.EXPO_PUBLIC_API_URL}storage/${user?.user_image_url}`,
               }}
               style={{ width: 96, height: 96, borderRadius: 50 }}
               resizeMode="cover"
@@ -149,7 +157,11 @@ export default function Profile() {
           <View className="items-center mb-6">
             <View className="flex-row items-center mb-2">
               <Text className="text-3xl font-SomarBold text-black">
-                {user?.user_name}
+                {user?.author
+                  ? user?.author?.author_name
+                  : user?.publisher
+                    ? user?.publisher?.publisher_name
+                    : user?.user_name}
               </Text>
               {/* <SmallFireIcon />
               <Text className="text-md font-SomarRegular text-gray">

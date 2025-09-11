@@ -51,6 +51,8 @@ export interface User {
   user_gender: string | null;
   user_expo_push_token: string | null;
   user_joined_at: string | null;
+  user_is_subscribed: boolean;
+  user_subscription_expiry_date: string | null;
   is_verified: boolean;
   created_at: string | null;
   updated_at: string | null;
