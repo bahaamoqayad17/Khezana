@@ -89,6 +89,10 @@
     "male": "Male",
     "female": "Female",
     "cancel": "Cancel",
+    "join_over_million_readers": "Join over a million Arab readers",
+    "create_free_account_khezana": "Create a free account on Khezana",
+    "create_account": "Create Account",
+    "view_book": "View Book",
     "confirm": "Confirm",
     "choose": "Choose",
     "edit_name_title": "Do you want to change the name",
@@ -345,5 +349,15 @@
     "enter_author_name": "Enter author name",
     "suggest_book_success": "Book suggestion sent successfully",
     "report_success": "Report sent successfully",
-    "contact_us_success": "Message sent successfully"
+    "contact_us_success": "Message sent successfully",
+    "add_image_to_post": "Add image to post",
+    "post_published_successfully": "Post published successfully, wait for approval",
+    "failed_to_publish_post": "Failed to publish post",
+    "post_title": "Post Title",
+    "view_author": "View Author",
+    "view_publisher": "View Publisher",
+    "view_user": "View User",
+    "publishing": "Publishing",
+    "add_image": "Add Image",
+    "change_image": "Change Image"
 }

@@ -35,6 +35,40 @@ export const fetchPostComments = createAsyncThunk(
   }
 );
 
+export const addPost = createAsyncThunk(
+  "blog/addPost",
+  async ({
+    title,
+    body,
+    image,
+  }: {
+    title: string;
+    body: string;
+    image: any;
+  }) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("body", body);
+
+      if (image) {
+        formData.append("image", image);
+      }
+
+      const response = await axios.post("/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data as Post;
+    } catch (error) {
+      console.log("addPost", JSON.stringify(error));
+      return error;
+    }
+  }
+);
+
 export const addComment = createAsyncThunk(
   "blog/addComment",
   async ({ postId, comment }: { postId: number; comment: string }) => {

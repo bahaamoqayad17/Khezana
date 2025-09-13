@@ -8,6 +8,7 @@ interface NotificationState {
   loading: boolean;
   error: string | null;
   popup: any;
+  popup_shown: boolean;
 }
 
 const initialState: NotificationState = {
@@ -15,6 +16,7 @@ const initialState: NotificationState = {
   loading: false,
   error: null,
   popup: null,
+  popup_shown: false,
 };
 
 // Async thunk to fetch notifications
@@ -30,12 +32,14 @@ export const fetchNotifications = createAsyncThunk(
     }
   }
 );
+
 // Async thunk to fetch notifications
 export const fetcPoPUp = createAsyncThunk(
   "notifications/fetchPoPUp",
   async () => {
     try {
-      const response = await axios.get("pop-up-notification/latest");
+      const response = await axios.get("popups/latest");
+
       console.log({ response: response.data });
 
       return response.data;
@@ -63,6 +67,9 @@ const NotificationSlice = createSlice({
         notification.is_read = true;
       });
     },
+    closePopup: (state) => {
+      state.popup_shown = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -87,9 +94,11 @@ const NotificationSlice = createSlice({
       .addCase(fetcPoPUp.fulfilled, (state, action) => {
         state.loading = false;
         state.popup = action.payload;
+        // Don't set popup_shown to true here - let the user interaction do it
       });
   },
 });
 
-export const { markAsRead, markAllAsRead } = NotificationSlice.actions;
+export const { markAsRead, markAllAsRead, closePopup } =
+  NotificationSlice.actions;
 export default NotificationSlice.reducer;

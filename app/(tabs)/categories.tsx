@@ -99,7 +99,7 @@ export default function Categories() {
             <View className="flex-row flex-wrap justify-between">
               {categories.map((category) => (
                 <TouchableOpacity
-                  key={category.category_id}
+                  key={category.category_name}
                   onPress={() =>
                     router.push(
                       `/books_category?id=${category.category_id}&name=${category.category_name}`

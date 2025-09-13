@@ -98,6 +98,10 @@
     "male": "ذكر",
     "female": "أنثى",
     "cancel": "إلغاء",
+    "join_over_million_readers": "انضم لأكثر من مليون قارئ عربي",
+    "create_free_account_khezana": "أنشئ حساباً مجانياً على الخزانة",
+    "create_account": "إنشاء حساب",
+    "view_book": "عرض الكتاب",
     "confirm": "تأكيد",
     "choose": "اختر",
     "edit_name_title": "هل تريد تغيير الإسم",
@@ -338,5 +342,15 @@
     "enter_author_name": "أدخل اسم المؤلف",
     "suggest_book_success": "تم إرسال اقتراح الكتاب بنجاح",
     "report_success": "تم إرسال الإبلاغ بنجاح",
-    "contact_us_success": "تم إرسال رسالتك بنجاح"
+    "contact_us_success": "تم إرسال رسالتك بنجاح",
+    "add_image_to_post": "أضف صورة للمقال",
+    "post_published_successfully": "تم إرسال المقال بنجاح, انتظر الموافقة عليه",
+    "failed_to_publish_post": "فشل إرسال المقال",
+    "post_title": "عنوان المقال",
+    "view_author": "عرض المؤلف",
+    "view_publisher": "عرض الناشر",
+    "view_user": "عرض المستخدم",
+    "publishing": "جاري النشر",
+    "add_image": "أضف صورة",
+    "change_image": "تعديل الصورة"
 }

@@ -62,14 +62,19 @@ export const addReview = createAsyncThunk(
     rating: number;
     comment: string;
   }) => {
-    const response = await axios.post("rating/book", {
-      book_id,
-      rating,
-      comment,
-    });
+    try {
+      const response = await axios.post("rating/book", {
+        book_id,
+        rating,
+        comment,
+      });
 
-    console.log("addReview", response.data);
-    return response.data as Review;
+      console.log("addReview", response.data);
+      return response.data as Review;
+    } catch (error) {
+      console.log("addReview", JSON.stringify(error));
+      return error;
+    }
   }
 );
 
@@ -107,15 +112,13 @@ const BookSlice = createSlice({
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.loading = false;
-        state.book = action.payload;
+        state.book = action.payload as Book;
       })
       .addCase(addReview.pending, (state) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(addReview.fulfilled, (state, action) => {
-        state.loading = false;
-        state.book.reviews.push(action.payload);
+        state.book.reviews.push(action.payload as Review);
       });
   },
 });

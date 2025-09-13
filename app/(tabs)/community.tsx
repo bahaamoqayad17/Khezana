@@ -26,7 +26,7 @@ export default function Community() {
         <TextEditor />
 
         {loading && (
-          <View className="py-2">
+          <View className="py-4">
             <PostSkeleton />
             <PostSkeleton />
             <PostSkeleton />

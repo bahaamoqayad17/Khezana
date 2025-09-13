@@ -1,6 +1,7 @@
 import BookHome from "@/components/BookHome";
 import Header from "@/components/Header";
 import SliderCarousel from "@/components/Slider";
+import PopupModal from "@/components/modals/PopupModal";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import ViewAllIcon from "@/icons/ViewAll";
 import { fetchHomePage } from "@/store/BookSlice";
@@ -8,7 +9,7 @@ import { fetcPoPUp } from "@/store/NotificationSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Book } from "@/store/models.type";
 import { router } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   SafeAreaView,
@@ -22,14 +23,15 @@ export default function HomeScreen() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { home, loading, error } = useAppSelector((state) => state.books);
-  const { popup } = useAppSelector((state) => state.notifications);
+  const { popup_shown, popup } = useAppSelector((state) => state.notifications);
+  const [showPopUp, setshowPopUp] = useState(popup_shown);
 
   useEffect(() => {
     dispatch(fetchHomePage());
-    if (!popup) {
-      dispatch(fetcPoPUp());
-    }
-  }, []);
+
+    dispatch(fetcPoPUp());
+    setshowPopUp(true);
+  }, [dispatch]); // Intentionally not including popup_shown to prevent re-fetching
 
   if (loading || !home) {
     return (
@@ -110,6 +112,13 @@ export default function HomeScreen() {
           ))}
         </View>
       </ScrollView>
+
+      {/* Signup Popup Modal */}
+      <PopupModal
+        visible={showPopUp}
+        content={popup}
+        onClose={() => setshowPopUp(false)}
+      />
     </SafeAreaView>
   );
 }
