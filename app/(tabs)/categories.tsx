@@ -35,11 +35,6 @@ export default function Categories() {
     }
   }, [categories.length, dispatch]);
 
-  const handleCategoryPress = (categoryId: number, categoryName: string) => {
-    console.log("Category pressed:", categoryId, categoryName);
-    // TODO: Navigate to category details or books in this category
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Header title={t("categories")} />

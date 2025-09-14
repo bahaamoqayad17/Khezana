@@ -30,8 +30,6 @@ export default function Cart() {
     );
   }
 
-  console.log({ cart: cart?.userCart });
-
   return (
     <AuthGuard>
       <SafeAreaView>

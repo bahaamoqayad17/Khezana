@@ -29,9 +29,7 @@ interface CommentModalProps {
 
 export default function CommentModal({ visible, onClose }: CommentModalProps) {
   const { t } = useTranslation();
-  const { comments, loadingComments, error } = useAppSelector(
-    (state) => state.blog
-  );
+  const { comments } = useAppSelector((state) => state.blog);
 
   const [newComment, setNewComment] = useState("");
   const translateY = useRef(new Animated.Value(0)).current;
@@ -39,7 +37,6 @@ export default function CommentModal({ visible, onClose }: CommentModalProps) {
   const handleSubmitComment = () => {
     if (newComment.trim()) {
       // TODO: Implement API call to submit comment
-      console.log("Submitting comment:", newComment);
       setNewComment("");
     }
   };

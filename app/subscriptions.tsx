@@ -49,8 +49,6 @@ export default function Subscriptions() {
     // TODO: Navigate to subscription flow
   };
 
-  console.log(subscriptions);
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}

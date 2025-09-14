@@ -106,7 +106,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
   const handleSaveName = (newName: string) => {
     setUserData((prev) => ({ ...prev, name: newName }));
     // TODO: API call to update name
-    console.log("Saving new name:", newName);
     showSuccessToast({
       duration: 3000,
       title: t("name_updated"),
@@ -116,7 +115,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
   const handleSaveDescription = (newDescription: string) => {
     setUserData((prev) => ({ ...prev, description: newDescription }));
     // TODO: API call to update email
-    console.log("Saving new description:", newDescription);
     showSuccessToast({
       duration: 3000,
       title: t("description_updated"),
@@ -128,11 +126,7 @@ export default function AuthorProfile({ user }: { user: Author }) {
       ...prev,
       social_links: { ...prev.social_links, author_facebook: newFacebook },
     }));
-    // TODO: API call to update facebook
-    console.log("Saving new social links:", {
-      ...userData.social_links,
-      author_facebook: newFacebook,
-    });
+
     showSuccessToast({
       duration: 3000,
       title: t("facebook_updated"),
@@ -145,10 +139,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
       social_links: { ...prev.social_links, author_youtube: newYoutube },
     }));
     // TODO: API call to update youtube
-    console.log("Saving new social links:", {
-      ...userData.social_links,
-      author_youtube: newYoutube,
-    });
     showSuccessToast({
       duration: 3000,
       title: t("youtube_updated"),
@@ -161,10 +151,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
       social_links: { ...prev.social_links, author_telegram: newTelegram },
     }));
     // TODO: API call to update telegram
-    console.log("Saving new social links:", {
-      ...userData.social_links,
-      author_telegram: newTelegram,
-    });
     showSuccessToast({
       duration: 3000,
       title: t("telegram_updated"),
@@ -177,10 +163,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
       social_links: { ...prev.social_links, author_whatsapp: newWhatsapp },
     }));
     // TODO: API call to update whatsapp
-    console.log("Saving new social links:", {
-      ...userData.social_links,
-      author_whatsapp: newWhatsapp,
-    });
     showSuccessToast({
       duration: 3000,
       title: t("whatsapp_updated"),
@@ -193,10 +175,6 @@ export default function AuthorProfile({ user }: { user: Author }) {
       social_links: { ...prev.social_links, author_instagram: newInstagram },
     }));
     // TODO: API call to update instagram
-    console.log("Saving new social links:", {
-      ...userData.social_links,
-      author_instagram: newInstagram,
-    });
     showSuccessToast({
       duration: 3000,
       title: t("instagram_updated"),

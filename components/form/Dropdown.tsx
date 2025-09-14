@@ -1,12 +1,11 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 interface DropdownProps {
   label: string;
   placeholder: string;
-  options: string[];
+  options: string[] | { label: string; value: string }[];
   value?: string;
   onSelect: (value: string) => void;
   icon?: React.ReactNode;
@@ -20,7 +19,6 @@ export default function Dropdown({
   onSelect,
   icon,
 }: DropdownProps) {
-  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -57,20 +55,29 @@ export default function Dropdown({
       {/* Dropdown Options */}
       {isOpen && (
         <View className="bg-white border border-gray-200 rounded-xl mt-1 shadow-sm">
-          {options.map((option, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                onSelect(option);
-                setIsOpen(false);
-              }}
-              className={`p-4 ${
-                index !== options.length - 1 ? "border-b border-gray-100" : ""
-              }`}
-            >
-              <Text className="text-gray-800 font-SomarRegular">{option}</Text>
-            </TouchableOpacity>
-          ))}
+          {options.map((option, index) => {
+            const optionLabel =
+              typeof option === "string" ? option : option.label;
+            const optionValue =
+              typeof option === "string" ? option : option.value;
+
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  onSelect(optionValue);
+                  setIsOpen(false);
+                }}
+                className={`p-4 ${
+                  index !== options.length - 1 ? "border-b border-gray-100" : ""
+                }`}
+              >
+                <Text className="text-gray-800 font-SomarRegular">
+                  {optionLabel}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       )}
     </View>

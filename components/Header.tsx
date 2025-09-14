@@ -18,37 +18,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
 
-  const handleCartPress = () => {
-    console.log("Cart pressed");
-  };
-
-  const handleSearchChange = (text: string) => {
-    setSearchValue(text);
-    console.log("Search:", text);
-  };
-
-  const handleFilterPress = () => {
-    // Navigate to search page with current search query
-    router.push({
-      pathname: "/search",
-      params: {
-        q: searchValue,
-      },
-    });
-  };
-
-  const handleSearchSubmit = () => {
-    // Navigate to search page when user submits search
-    if (searchValue.trim()) {
-      router.push({
-        pathname: "/search",
-        params: {
-          q: searchValue.trim(),
-        },
-      });
-    }
-  };
-
   return (
     <View className="px-5 pt-20 pb-10">
       {/* Top Row - Title and Icons */}
@@ -87,12 +56,12 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       {/* Search Bar */}
       <FieldWrap
         firstSuffix={
-          <TouchableOpacity onPress={handleFilterPress}>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/search")}>
             <FilterIcon />
           </TouchableOpacity>
         }
         lastSuffix={
-          <TouchableOpacity onPress={handleSearchSubmit}>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/search")}>
             <SearchIcon />
           </TouchableOpacity>
         }
@@ -100,9 +69,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <Input
           name="search"
           value={searchValue}
-          onChangeText={handleSearchChange}
+          onChangeText={setSearchValue}
           placeholder={t("search_placeholder")}
-          onSubmitEditing={handleSearchSubmit}
+          onSubmitEditing={() => router.push("/(tabs)/search")}
           returnKeyType="search"
         />
       </FieldWrap>
