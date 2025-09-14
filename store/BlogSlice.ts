@@ -31,7 +31,7 @@ export const fetchPostComments = createAsyncThunk(
   async (postId: number) => {
     const response = await axios.get(`/posts/${postId}/comments`);
 
-    return response.data as Comment[];
+    return response.data.data as Comment[];
   }
 );
 
@@ -71,12 +71,19 @@ export const addPost = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   "blog/addComment",
-  async ({ postId, comment }: { postId: number; comment: string }) => {
-    const response = await axios.post("/comments", {
-      post_id: postId,
-      comment,
-    });
-    return response.data as Comment;
+  async ({ postId, body }: { postId: number; body: string }) => {
+    try {
+      const response = await axios.post(`/posts/${postId}/comments`, {
+        body,
+      });
+
+      console.log("addComment", JSON.stringify(response.data));
+
+      return response.data as Comment;
+    } catch (error) {
+      console.log("addComment", JSON.stringify(error));
+      return error;
+    }
   }
 );
 
@@ -126,7 +133,7 @@ const BlogSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.loading = false;
-        state.comments.push(action.payload);
+        state.comments.push(action.payload as Comment);
       });
   },
 });

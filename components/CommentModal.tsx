@@ -1,6 +1,8 @@
 import CloseIcon from "@/icons/Close";
 import SendIcon from "@/icons/Send";
-import { useAppSelector } from "@/store/hooks";
+import { addComment } from "@/store/BlogSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,25 +20,30 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import TimeFormater from "./TimeFormater";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 interface CommentModalProps {
   visible: boolean;
   onClose: () => void;
+  postId: number;
 }
 
-export default function CommentModal({ visible, onClose }: CommentModalProps) {
+export default function CommentModal({
+  visible,
+  onClose,
+  postId,
+}: CommentModalProps) {
   const { t } = useTranslation();
   const { comments } = useAppSelector((state) => state.blog);
-
+  const dispatch = useAppDispatch();
   const [newComment, setNewComment] = useState("");
   const translateY = useRef(new Animated.Value(0)).current;
 
   const handleSubmitComment = () => {
     if (newComment.trim()) {
-      // TODO: Implement API call to submit comment
+      dispatch(addComment({ postId: postId, body: newComment }));
+
       setNewComment("");
     }
   };
@@ -138,25 +145,34 @@ export default function CommentModal({ visible, onClose }: CommentModalProps) {
                           backgroundColor: "#FBF7F1",
                         }}
                       >
-                        <View className="w-8 h-8 rounded-full bg-purple-500 items-center justify-center">
-                          {comment.user.profile_image ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            router.push(`/user/${comment.user.user_id}`)
+                          }
+                          className="w-8 h-8 rounded-full bg-purple-500 items-center justify-center"
+                        >
+                          {comment.user.user_image_url ? (
                             <Image
                               source={{
-                                uri: `${process.env.EXPO_PUBLIC_API_URL}${comment.user.profile_image}`,
+                                uri: comment.user.user_image_url?.startsWith(
+                                  "http"
+                                )
+                                  ? comment.user.user_image_url
+                                  : `${process.env.EXPO_PUBLIC_API_URL}storage/${comment.user.user_image_url}`,
                               }}
                               className="w-8 h-8 rounded-full"
                             />
                           ) : (
                             <Text className="text-white font-medium text-xs">
-                              {comment.user.name.charAt(0).toUpperCase()}
+                              {comment.user.user_name.charAt(0).toUpperCase()}
                             </Text>
                           )}
-                        </View>
+                        </TouchableOpacity>
 
                         <View className="flex-1">
                           <View className="bg-gray-100 rounded-lg p-3">
                             <Text className="font-SomarBold text-gray-900 text-lg mb-1">
-                              {comment.user.name}
+                              {comment.user.user_name}
                             </Text>
                             <Text className="text-gray-700 font-SomarRegular text-sm leading-5">
                               {comment.body}
@@ -166,7 +182,7 @@ export default function CommentModal({ visible, onClose }: CommentModalProps) {
 
                         <View className="self-start">
                           <Text className="text-gray-500 font-SomarRegular text-xs">
-                            <TimeFormater timestamp={comment.created_at} />
+                            {comment.created_at}
                           </Text>
                         </View>
                       </View>
@@ -190,9 +206,7 @@ export default function CommentModal({ visible, onClose }: CommentModalProps) {
                     <TouchableOpacity
                       onPress={handleSubmitComment}
                       disabled={!newComment.trim()}
-                      className={`ml-2 px-3 py-1 rounded-full ${
-                        newComment.trim() ? "bg-blue-500" : "bg-gray-300"
-                      }`}
+                      className={`py-1 rounded-full`}
                     >
                       <SendIcon />
                     </TouchableOpacity>

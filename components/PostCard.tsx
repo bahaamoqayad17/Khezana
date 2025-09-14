@@ -4,16 +4,13 @@ import SharePostIcon from "@/icons/SharePost";
 import { fetchPostComments } from "@/store/BlogSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { Post } from "@/store/models.type";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import CommentModal from "./CommentModal";
 
-interface PostCardProps {
-  post: Post;
-}
-
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({ post }: { post: Post }) {
   const { t } = useTranslation();
   const [commentModalVisible, setCommentModalVisible] = useState(false);
   const dispatch = useAppDispatch();
@@ -28,7 +25,10 @@ export default function PostCard({ post }: PostCardProps) {
     >
       {/* Header with user info */}
       <View className={`flex-row items-center mb-3`}>
-        <View className="w-10 h-10 rounded-full bg-purple-500 items-center justify-center mr-3">
+        <TouchableOpacity
+          onPress={() => router.push(`/user/${post.author.user_id}`)}
+          className="w-10 h-10 rounded-full bg-purple-500 items-center justify-center mr-3"
+        >
           {post.author.user_image_url ? (
             <Image
               source={{
@@ -43,7 +43,7 @@ export default function PostCard({ post }: PostCardProps) {
               {post.author.user_name.charAt(0).toUpperCase()}
             </Text>
           )}
-        </View>
+        </TouchableOpacity>
 
         <View className="flex-1">
           <Text className={`font-medium text-gray-900 text-md font-SomarBold`}>
@@ -112,6 +112,7 @@ export default function PostCard({ post }: PostCardProps) {
       <CommentModal
         visible={commentModalVisible}
         onClose={() => setCommentModalVisible(false)}
+        postId={post.post_id}
       />
     </View>
   );
